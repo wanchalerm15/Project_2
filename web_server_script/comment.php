@@ -54,6 +54,7 @@ if ($_REQUEST['load_comment'] == 1) {
         <?php
     }
 }
+/*-----------------------------------------DELETE Comment --------------------------------------------*/
 if ($_REQUEST['delete_comment'] == 1) {
     $comment_id = $_REQUEST['comment_id'];
     $query = mysql_query("SELECT comment_delete FROM comment WHERE comment_id=$comment_id");
