@@ -41,7 +41,7 @@ INDEX
                     <li><a href="?manage=employee">จัดการระบบพนักงาน</a></li>
                     <li><a href="?manage=member">จัดการระบบลูกค้าสมาชิก</a></li>
                     <li><a href="?manage=order">จัดการระบบสั่งซื้อสินค้า</a></li>
-                    <li><a href="">จัดการระบบแสดงความเห็น</a></li>
+                    <li><a href="?manage=comment">จัดการระบบแสดงความเห็น</a></li>
                     <li><a href="">แก้ไขเว็บไซด์</a></li>
                 </ul>
             </div>
@@ -60,6 +60,9 @@ INDEX
             <?php } elseif ($_GET["manage"] == "order") { ?>
                 <!------------------------------ order -------------------------------------------->
                 <?php include './order_manage.php'; ?>
+            <?php } elseif ($_GET["manage"] == "comment") { ?>
+                <!------------------------------ order -------------------------------------------->
+                <?php include './comment_manage.php'; ?>
             <?php } else { ?>
                 <!------------------------------ category -------------------------------------------->
                 <?php include './category_manage.php'; ?>

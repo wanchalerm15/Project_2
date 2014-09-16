@@ -166,3 +166,14 @@ function delete_comment(comment_id) {
         });
     }
 }
+function delete_commect_cascade(comment_id) {
+    if (confirm("คุณต้องการลบความเห็นนี้จริงหรือ !")) {
+        $.get("web_server_script/comment.php?delete_commect_cascade=1", {comment_id: comment_id}, function(data) {
+            if (data) {
+                alert(data);
+            } else {
+                $("#comment-" + comment_id).fadeOut();
+            }
+        });
+    }
+}

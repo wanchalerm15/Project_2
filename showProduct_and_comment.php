@@ -138,7 +138,7 @@ INDEX
                                         </a>
                                     <?php } ?>
                                 <?php } else { ?>
-                                <span style="color: #f00;">สินค้าหมด !</span>
+                                    <span style="color: #f00;">สินค้าหมด !</span>
                                 <?php } ?>
                             </div>
                             <!---------------------------------------------- comment -------------------------------------------->
@@ -209,7 +209,7 @@ INDEX
                     </div>
                 </div>
             </div>
-            <div id="artical" class="container" style="margin-top: 15px;">
+            <div id="artical" class="container bottom_main" style="margin-top: 15px;">
                 <div class="inner_border">
                     <h3 class="topic bg_img" style="margin-bottom: -15px;">
                         ความเห็นต่อสินค้าเครื่องดนตรีชิ้นนี้
@@ -220,31 +220,39 @@ INDEX
                         $resultComment = mysql_query($query);
                         ?>
                         <?php while ($comment = @mysql_fetch_array($resultComment)) { ?>
-                            <h3 class="topic" style="margin: 20px 0 3px 0;">
-                                <?= $comment['comment_topic'] ?>
-                            </h3>
-                            <div class="inner-w border-inner">
-                                <pre><?= trim($comment['comment_detail']); ?></pre>
-                            </div>
-                            <div id="date_peple_delete_com">
+                            <div id="comment-<?= $comment['comment_id'] ?>">
+                                <h3 class="topic" style="margin: 20px 0 3px 0;">
+                                    <?= $comment['comment_topic'] ?>
+                                </h3>
                                 <div class="inner-w border-inner">
-                                    โดย : <?= trim($comment['comment_peple']); ?>
+                                    <pre><?= trim($comment['comment_detail']); ?></pre>
                                 </div>
-                                <div class="inner-w border-inner">
-                                    วันที่โพส : <?= trim($comment['comment_date']); ?>
+                                <div id="date_peple_delete_com">
+                                    <div class="inner-w border-inner">
+                                        โดย : <?= trim($comment['comment_peple']); ?>
+                                    </div>
+                                    <div class="inner-w border-inner">
+                                        วันที่โพส : <?= trim($comment['comment_date']); ?>
+                                    </div>
+                                    <div class="inner-w border-inner">
+                                        <a onclick="delete_comment(<?= $comment['comment_id'] ?>)">แจ้งลบ</a> : 
+                                        <span class="delete_comment" id="comment_del-<?= $comment['comment_id'] ?>">
+                                            <?= trim($comment['comment_delete']); ?>
+                                        </span>
+                                    </div>
+                                    <?php if (!empty($admin_id_session) || !empty($employee_id_session)) { ?>
+                                        <div class="inner-w border-inner">
+                                            <a onclick="delete_commect_cascade(<?= $comment['comment_id'] ?>)">ลบความเห็นนี้</a>
+                                        </div>
+                                    <?php } ?>
+                                    <script>
+                                        $(document).ready(function() {
+                                            if ($("#comment_del-<?= $comment['comment_id'] ?>").text() != 0) {
+                                                $("#comment_del-<?= $comment['comment_id'] ?>").addClass("red");
+                                            }
+                                        });
+                                    </script>
                                 </div>
-                                <div class="inner-w border-inner">
-                                    <a onclick="delete_comment(<?= $comment['comment_id'] ?>)">แจ้งลบ</a> : 
-                                    <span class="delete_comment" id="comment_del-<?= $comment['comment_id'] ?>">
-                                        <?= trim($comment['comment_delete']); ?>
-                                    </span>
-                                </div>
-                                <script>
-                                    $(document).ready(function() {
-                                        if ($("#comment_del-<?= $comment['comment_id'] ?>").text() != 0) {
-                                            $("#comment_del-<?= $comment['comment_id'] ?>").addClass("red");
-                                        }
-                                    });</script>
                             </div>
                         <?php } ?>
                     </div>

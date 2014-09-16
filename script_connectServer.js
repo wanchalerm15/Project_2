@@ -793,3 +793,27 @@ function show_member_receive_order(member_id) {
 }
 
 /*----------------------------------------------------------------------------- /order*/
+
+/*----------------------------------------------------------------------------- comment*/
+function delete_comment_arrlay() {
+    var delete_check_data = Array();
+    $(":checkbox.delete_check:checked").each(function(index) {
+        delete_check_data[index] = $(this).val();
+    });
+    $.ajax({
+        url: "web_server_script/comment.php",
+        data: {delete_array: delete_check_data, delete_comment_arrlay: 1},
+        type: 'POST',
+        beforeSend: function(xhr) {
+
+        },
+        success: function(data, textStatus, jqXHR) {
+            if (!data) {
+                location.reload();
+            } else {
+                $("#top").removeAttr("class").addClass("warning-error").html(data);
+            }
+        }
+    });
+}
+/*----------------------------------------------------------------------------- /comment*/

@@ -142,7 +142,7 @@ INDEX
                     </div>
                 <?php } ?>
                 <!---------------- search --------------------------------------------------------------------->
-                <div class="inner_border" style="margin-top: 10px;" id="search_BeforeShop">
+                <div class="inner_border" style="margin-top: 10px;margin-bottom: 10px;" id="search_BeforeShop">
                     <h3 class="topic bg_img">
                         <img src="images/search-file.png">
                         ค้นหาสินค้าเครื่องดนตรี
@@ -208,7 +208,7 @@ INDEX
                 </div>
                 <div style="clear: both;"></div>
                 <!----------------------------------------------- Product show ------------------------------------->
-                <div class="inner_border" style="margin-top: 10px;" id="show_product_sell">
+                <div class="inner_border bottom_main" style="margin-top: 10px;" id="show_product_sell">
                     <h3 class="topic bg_img" style="text-align: left;">
                         สินค้าเครื่องดนตรี <span class="hideTosmartPhoe"><?= $WEB_ENG_NAME ?></span>
                         <div class="inner cast_shoping">
