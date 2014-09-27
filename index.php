@@ -12,11 +12,19 @@ INDEX
         <title>หน้าแรก - เว็บไซด์ขายเครื่องดนตรีออนไลน์</title>
         <link rel="stylesheet" type="text/css" href="web_design_script/Website_selling_musical_intrusment_CSS.css">
         <link rel="stylesheet" type="text/css" href="web_design_script/SmartPhone_Design_Musical_intrusment.css">
-        <script type="text/javascript" src="web_design_script/jquery.min.js"></script>
-        <script type="text/javascript" src="web_design_script/jqFancyTransitions.1.7.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="scripts_camera/camera.css">
+        <script type='text/javascript' src='web_design_script/jquery.min.js'></script>
+        <script type='text/javascript' src='scripts_camera/jquery.min.js'></script>
+        <script type='text/javascript' src='scripts_camera/jquery.mobile.customized.min.js'></script>
+        <script type='text/javascript' src='scripts_camera/jquery.easing.1.3.js'></script> 
+        <script type='text/javascript' src='scripts_camera/camera.min.js'></script> 
         <script>
-            $(document).ready(function() {
-                //alert($(window).width());
+            jQuery(function () {
+                jQuery('#camera_wrap_1').camera({
+                    height: '400px',
+                    loader: 'bar',
+                    pagination: true
+                });
             });
         </script>
         <style>
@@ -179,23 +187,33 @@ INDEX
             </div>
             <div id="artical" class="container before_shop-mainContainer" style="margin-top:5px;">
                 <!----------------------------------------------- IMG Slide show ------------------------------------->
-                <div class="imgslide">
-                    <div id="image_slide" class="show_imgsrc">
-                        <?php
-                        $query = "select product_image,product_name from product order by product_id desc limit 0,10";
-                        $result = mysql_query($query);
-                        while (list($product_image, $product_name) = mysql_fetch_row($result)) {
-                            if ($product_image != "") {
-                                $product_image = explode(",", $product_image);
-                                if ($product_image[0] != "") {
-                                    ?>
-                                    <img src="image_product/<?= $product_image[0] ?>"
-                                         alt="สินค้ามาใหม่ <a href='image_product/<?= $product_image[0] ?>' class='titleSlideIMG'><?= $product_name ?></a>" />
-                                         <?php
-                                     }
-                                 }
-                             }
-                             ?>
+                <div class="frame_img">
+                    <div class="img_slide">
+                        <div class="camera_wrap pattern_4 camera_beige_skin" id="camera_wrap_1">
+                            <?php
+                            $query = "select product_image,product_name,product_id from product order by product_id desc limit 0,10";
+                            $result = mysql_query($query);
+                            while (list($product_image, $product_name, $id) = mysql_fetch_row($result)) {
+                                if ($product_image != "") {
+                                    $product_image = explode(",", $product_image);
+                                    if ($product_image[0] != "") {
+                                        ?>
+                                        <div data-thumb="image_product/thumbnail/thumbnails_<?= $product_image[0] ?>" data-src = "image_product/<?= $product_image[0] ?>">
+                                            <div class = "camera_caption fadeFromBottom">
+                                                สินค้าเครื่องดนตรีมาใหม่ 
+                                                <em>
+                                                    <a href="showProduct_and_comment.php?product_id=<?= $id ?>" class="new_product">
+                                                        <u><?= $product_name ?></u>
+                                                    </a>
+                                                </em>
+                                            </div>
+                                        </div>
+                                        <?php
+                                    }
+                                }
+                            }
+                            ?>
+                        </div>
                     </div>
                 </div>
                 <!----------------------------------------------- /IMG Slide show ------------------------------------->
@@ -257,14 +275,6 @@ INDEX
                 <!----------------------------------------------- Product show ------------------------------------->
             </div>
         </div>
-        <script>
-            $(document).ready(function() {
-                $('#image_slide').jqFancyTransitions({
-                    width: $("#artical.container.before_shop-mainContainer").width() - 20,
-                    height: 400, links: false, navigation: true, delay: 3000
-                });
-            });
-        </script>
         <?php require './footer.php'; ?>
         <script type="text/javascript" src="script_connectServer.js"></script>
         <script type="text/javascript" src="script_before_shop.js"></script>

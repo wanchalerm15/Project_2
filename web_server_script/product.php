@@ -167,24 +167,32 @@ if ($_REQUEST['show_edit_product'] == 1) {
         </p>
         <p>
             <span>ภาพสินค้าเครื่องดนตรี : </span>
-            <span style="color: red;font-size: 13px;">ดูภาพ[ คลิ๊กซ้าย ] | ลบภาพ[ คลิ๊กขวา ]</span>
+            <span style="color: red;font-size: 13px;">ดูภาพ[ คลิ๊กที่รูป ]</span>
         </p>
-        <p>
+        <div>
             <span></span>
             <span class="show_img_product">
                 <?php
                 $img = explode(",", $product['product_image']);
                 for ($index = 0; $index < count($img); $index++) {
                     if (trim($img[$index] == "")) {
-                        echo "<img src='images/no_data.jpg' class='img_product'> ";
+                        ?>
+                        <img src='images/no_data.jpg' class='img_product'>
+                        <?php
                     } else {
-                        echo "<img src='image_product/thumbnail/thumbnails_$img[$index]' id='$productId - delete_product'"
-                        . " class='img_edis_product' title='$img[$index]'> ";
+                        ?>
+                        <div style="position: relative;display: inline-block;" id="proPic-<?= $index ?>">
+                            <img src='image_product/thumbnail/thumbnails_<?= $img[$index] ?>' class='img_edis_product' title='<?= $img[$index] ?>'>
+                            <span id="deletePorpic" title='ลบภาพนี้' onclick="deleteProduct_img('<?= $img[$index] ?>',<?= $productId ?>,<?= $index ?>)">
+                                &times;
+                            </span>
+                        </div>
+                        <?php
                     }
                 }
                 ?>
             </span>
-        </p>
+        </div>
         <p>
             <span></span>
             <span>
@@ -194,7 +202,7 @@ if ($_REQUEST['show_edit_product'] == 1) {
         <div class="show_sound_product">
             <p>
                 <span>เสียงสินค้าเครื่องดนตรี : </span>
-                <span style="color: red;font-size: 13px;">ฟังเสียง[ คลิ๊กซ้าย ] | ลบเสียง[ คลิ๊กขวา ] 
+                <span>
                     <?php if (trim($product['product_sound']) != "") { ?>
                         [ <a href="sound_product/<?= $product['product_sound']; ?>" class="sound_to_load" target="_blank">
                             <?= $product['product_sound']; ?></a> ]
@@ -247,26 +255,22 @@ if ($_REQUEST['show_edit_product'] == 1) {
         </p>
     </form>
     <script>
-        $(function() {
+        $(function () {
             $(".warning-unline").css("display", "none");
-            $("#edit_product .button.subbt").click(function() {
+            $("#edit_product .button.subbt").click(function () {
                 edit_product_main($("#edit_product").serialize());
                 return false;
             });
-            $("#edit_product .button.del").click(function() {
+            $("#edit_product .button.del").click(function () {
                 delete_product($("#edit_product").serialize());
                 return false;
             });
-            $("#edit_product .button.rst").click(function() {
+            $("#edit_product .button.rst").click(function () {
                 location.reload();
             });
-            $("img.img_edis_product").each(function() {
-                $(this).on("mousedown", function(e) {
-                    if (e.which == 1) {
-                        showProduct_img(this);
-                    } else {
-                        deleteProduct_img(this);
-                    }
+            $("img.img_edis_product").each(function () {
+                $(this).click(function () {
+                    showProduct_img(this);
                 });
             });
         });
@@ -366,20 +370,22 @@ if ($_REQUEST['show_img_product'] == 1) {
         if (trim($img[$index] == "")) {
             echo "<img src='images/no_data.jpg' class='img_product'> ";
         } else {
-            echo "<img src='image_product/thumbnail/thumbnails_$img[$index]' id='$productId - delete_product'"
-            . " class='img_edis_product' title='$img[$index]'> ";
+            ?>
+            <div style="position: relative;display: inline-block;" id="proPic-<?= $index ?>">
+                <img src='image_product/thumbnail/thumbnails_<?= $img[$index] ?>' class='img_edis_product' title='<?= $img[$index] ?>'>
+                <span id="deletePorpic" title='ลบภาพนี้' onclick="deleteProduct_img('<?= $img[$index] ?>',<?= $productId ?>,<?= $index ?>)">
+                    &times;
+                </span>
+            </div>
+            <?php
         }
     }
     ?>
     <script>
-        $(function() {
-            $("img.img_edis_product").each(function() {
-                $(this).on("mousedown", function(e) {
-                    if (e.which == 1) {
-                        showProduct_img(this);
-                    } else {
-                        deleteProduct_img(this);
-                    }
+        $(function () {
+            $("img.img_edis_product").each(function () {
+                $(this).click(function () {
+                    showProduct_img(this);
                 });
             });
         });

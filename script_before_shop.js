@@ -1,19 +1,19 @@
 /*------------------------------------------------------------------------------ product */
-$(document).ready(function() {
-    $(window).resize(function() {
-        if ($(".sidebarMenu").height() <= $('.imgslide').height()) {
+$(document).ready(function () {
+    $(window).resize(function () {
+        if ($(".sidebarMenu").height() <= $('.frame_img').height()) {
             if ($(window).width() > 640) {
-                $(".sidebarMenu").css("height", $('.imgslide').height() + 55 + "px");
-            } else {
-                $(".sidebarMenu").css("height", "auto");
+                $(".sidebarMenu").css("height", $('.frame_img').height() + 70 + "px");
             }
         }
     });
-    if ($(".sidebarMenu").height() <= $('.imgslide').height()) {
+    if ($(".sidebarMenu").height() <= $('.frame_img').height()) {
         if ($(window).width() > 640) {
-            $(".sidebarMenu").css("height", $('.imgslide').height() + 55 + "px");
+            $(".sidebarMenu").css("height", $('.frame_img').height() + 70 + "px");
         }
     }
+    /*------------------------- warning close -*/
+    $(".warning span.close").attr("title", "ปิดการแจ้งแตือนนี้").html("&times;");
 });
 function setsizeIMG(id) {
     if ($(id).width() > $("#img_product").width()) {
@@ -23,7 +23,7 @@ function setsizeIMG(id) {
     }
 }
 function session_add_product(pro_id) {
-    $.get("web_server_script/order.php", {add_product: pro_id}, function(data) {
+    $.get("web_server_script/order.php", {add_product: pro_id}, function (data) {
         if (data.error == 1) {
             alert("! สินค้านี้มีในตระกร้าแล้ว");
         }
@@ -48,7 +48,7 @@ function update_orderUnit(id, data_orderUpdate, data_indexUpdate, product_id) {
             data_indexUpdate: data_indexUpdate,
             product_id: product_id,
             update_orderUnit: 1
-        }, function(data) {
+        }, function (data) {
             if (data) {
                 alert(data);
             } else {
@@ -59,7 +59,7 @@ function update_orderUnit(id, data_orderUpdate, data_indexUpdate, product_id) {
 }
 function remove_Order(index_unit) {
     if (confirm('ต้องการสินค้านี้ออกจริงหรือ !')) {
-        $.get("web_server_script/order.php", {index_unit: index_unit, remove_Order: 1}, function(data) {
+        $.get("web_server_script/order.php", {index_unit: index_unit, remove_Order: 1}, function (data) {
             if (data) {
                 alert(data);
             } else {
@@ -69,7 +69,7 @@ function remove_Order(index_unit) {
     }
 }
 function clear_session() {
-    $.get("web_server_script/order.php?clear_session=1", function() {
+    $.get("web_server_script/order.php?clear_session=1", function () {
         location.reload();
     });
 }
@@ -80,7 +80,7 @@ function add_order(member_id, price_all, tax) {
         tax: tax,
         add_order: 1
     },
-    function(data) {
+    function (data) {
         if (data) {
             $(".warning-inline").show().text(data);
         } else {
@@ -94,7 +94,7 @@ function update_member_to_pays(member_id, form_id) {
         url: "web_server_script/order.php?update_member_to_pays=1",
         type: 'POST',
         data: data,
-        success: function(data, textStatus, jqXHR) {
+        success: function (data, textStatus, jqXHR) {
             if (data) {
                 $(".warning-inline").show().text(data);
             } else {
@@ -110,7 +110,7 @@ function order_pays_step2(id, order_id) {
         url: "web_server_script/order.php?order_pays_step2=1",
         type: 'POST',
         data: data,
-        success: function(data, textStatus, jqXHR) {
+        success: function (data, textStatus, jqXHR) {
             if (data) {
                 $(".warning-inline.errorstep2").show().text(data);
             } else {
@@ -136,11 +136,11 @@ function add_comment(form_id, product_id) {
         url: "web_server_script/comment.php?add_comment=1",
         type: 'POST',
         data: data,
-        success: function(data, textStatus, jqXHR) {
+        success: function (data, textStatus, jqXHR) {
             if (data) {
                 $("#comment_error").show().html(data);
             } else {
-                $("#comment .text").each(function() {
+                $("#comment .text").each(function () {
                     $(this).val("");
                 });
                 var doc = document.getElementById("wysiwygcomment_detail").contentWindow.document;
@@ -159,7 +159,7 @@ function load_comment(product_id) {
 }
 function delete_comment(comment_id) {
     if (confirm("คุณต้องการแจ้งลบความเห็นนี้จริงหรือ !")) {
-        $.get("web_server_script/comment.php?delete_comment=1", {comment_id: comment_id}, function(data) {
+        $.get("web_server_script/comment.php?delete_comment=1", {comment_id: comment_id}, function (data) {
             if (data) {
                 $("#comment_del-" + comment_id).html(data).addClass("red");
             }
@@ -168,7 +168,7 @@ function delete_comment(comment_id) {
 }
 function delete_commect_cascade(comment_id) {
     if (confirm("คุณต้องการลบความเห็นนี้จริงหรือ !")) {
-        $.get("web_server_script/comment.php?delete_commect_cascade=1", {comment_id: comment_id}, function(data) {
+        $.get("web_server_script/comment.php?delete_commect_cascade=1", {comment_id: comment_id}, function (data) {
             if (data) {
                 alert(data);
             } else {
