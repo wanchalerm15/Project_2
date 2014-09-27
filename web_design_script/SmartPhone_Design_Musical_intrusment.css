@@ -167,10 +167,10 @@
         width: 88%;
     }
     /*------------------product edit------------------------*/
-    #edit_product p,#edit_product div{
+    #edit_product p{
         text-align: center;
     }
-    #edit_product p span:first-child,#edit_product div span:first-child{
+    #edit_product p span:first-child{
         width: 100%;
         padding: 0;margin: 0;
         margin-bottom: 5px;
@@ -190,7 +190,7 @@
         width: 95%;
     }
     #edit_product img.img_edis_product{
-        width: 100%;
+        width: 30%;
     }
     /*------------------------------------------Before Shop --------------------------------------*/
     /*---------------------- index.php--------------------*/

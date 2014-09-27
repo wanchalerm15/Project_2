@@ -1,6 +1,7 @@
-<?php
+﻿<?php
 session_start();
 include './connect_DB.php';
+/*---------------------------------------------------*/
 if ($_REQUEST['add_comment'] == 1) {
     $comment_peple = $_REQUEST['comment_peple'];
     $comment_topic = $_REQUEST['comment_topic'];
@@ -53,6 +54,7 @@ if ($_REQUEST['load_comment'] == 1) {
         <?php
     }
 }
+/*-----------------------------------------DELETE Comment --------------------------------------------*/
 if ($_REQUEST['delete_comment'] == 1) {
     $comment_id = $_REQUEST['comment_id'];
     $query = mysql_query("SELECT comment_delete FROM comment WHERE comment_id=$comment_id");

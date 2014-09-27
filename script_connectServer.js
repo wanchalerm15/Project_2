@@ -1,14 +1,14 @@
 set_data = 0;
 time = 0;
 var data = "กำลังโหลด";
-$(function () {
+$(function() {
     $(".warning-unline").css("display", "none");
     $(".warning-inline").css("display", "none");
-    $(".warning-inline").click(function () {
+    $(".warning-inline").click(function() {
         warning_inlineClose();
     });
     /*------------------------------set checkbox---------------------------*/
-    $("#checkAll_data").click(function () {
+    $("#checkAll_data").click(function() {
         var delete_check = document.getElementsByClassName('delete_check');
         if ($("#checkAll_data").html() == 'เลือกทั้งหมด') {
             for (i = 0; i < delete_check.length; i++) {
@@ -32,7 +32,7 @@ $(function () {
 
     /*----------------------------set dialog-------------------------------*/
     $("#dialog,#dialog2").click(dialog_eixt);
-    $("*").keyup(function (e) {
+    $("*").keyup(function(e) {
         if (e.keyCode == 27) {
             $("#dialog,#dialog2").hide();
         }
@@ -68,7 +68,7 @@ function change_row_Aftershop(id, url) {
     location = "?manage=" + url + "&row=" + $(id).val() + "#top";
 }
 function check_add_reg(id, table, where, data, text, select) {
-    $.post("web_server_script/employee.php", {table: table, where: where, data: data, text: text, select: select, check_add_reg: 1}, function (data) {
+    $.post("web_server_script/employee.php", {table: table, where: where, data: data, text: text, select: select, check_add_reg: 1}, function(data) {
         if (data) {
             $(id).removeAttr("class").addClass("warning-error").html(data);
         } else {
@@ -77,7 +77,7 @@ function check_add_reg(id, table, where, data, text, select) {
     });
 }
 function check_code(id, table, where, data, text, select) {
-    $.post("web_server_script/employee.php", {table: table, where: where, data: data, text: text, select: select, check_code: 1}, function (data) {
+    $.post("web_server_script/employee.php", {table: table, where: where, data: data, text: text, select: select, check_code: 1}, function(data) {
         if (data) {
             $(id).removeAttr("class").addClass("warning-error").html(data);
         } else {
@@ -93,7 +93,7 @@ function show_table_category(category_id, start_row, end_row) {
         end_row: end_row,
         show_table_category: 1
     },
-    function (data) {
+    function(data) {
         if (data) {
             $("#show_table_category").html(data);
             if (category_id != 0) {
@@ -112,10 +112,10 @@ function add_category() {
         url: "web_server_script/category.php",
         data: data,
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             if (data) {
                 $('#add_category_error').removeAttr('class').addClass('warning-error').html(data);
             } else {
@@ -128,17 +128,17 @@ function add_category() {
 /*------------------------------------------------------------------------------ delete category */
 function delete_category_arrlay() {
     var delete_check_data = Array();
-    $(":checkbox.delete_check:checked").each(function (index) {
+    $(":checkbox.delete_check:checked").each(function(index) {
         delete_check_data[index] = $(this).val();
     });
     $.ajax({
         url: "web_server_script/category.php",
         data: {delete_array: delete_check_data, delete_category_arrlay: 1},
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             if (!data) {
                 location.reload();
             } else {
@@ -153,10 +153,10 @@ function delete_category(category_id) {
             url: "web_server_script/category.php",
             data: {category_id: category_id, delete_category: 1},
             type: 'GET',
-            beforeSend: function (xhr) {
+            beforeSend: function(xhr) {
 
             },
-            success: function (data, textStatus, jqXHR) {
+            success: function(data, textStatus, jqXHR) {
                 if (data) {
                     $('#top').removeAttr('class').addClass('warning-error').html(data);
                 } else {
@@ -185,10 +185,10 @@ function update_category(category_id, width, position, start_row, end_row) {
             show_update_category: 1
         },
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             $("#dialog .in-dialog").html(data);
         }
     });
@@ -198,34 +198,16 @@ function update_category(category_id, width, position, start_row, end_row) {
 /*---------------------------------------------------------------------------------------------- employee */
 
 /*------------------------------------------------- delete array employee */
-function edit_employee_mySelf(from_seririze) {
-    var data = $(from_seririze).serialize();
-    $.ajax({
-        url: "./web_server_script/signin.php?edit_employee_mySelf=1",
-        data: data,
-        type: 'POST',
-        success: function (error) {
-            if (error) {
-                $("#member_myselfError").removeAttr('class').addClass('warning-error').html(error);
-                alert(error);
-            } else {
-                $("#member_myselfError").removeAttr('class').addClass("warning-ok").html("แก้ไขข้อมูลสำเร็จ");
-                alert("สำเร็จ");
-                $("meta.refrest").html("<meta http-equiv=\"refresh\" content=\"2\">");
-            }
-        }
-    });
-}
 function delete_employee() {
     if (confirm("คุณต้องการลบรายการนี้จริงหรือ!")) {
         $.ajax({
             url: "web_server_script/employee.php",
             data: {employee_id_hidden: $("#employee_id_hidden").val(), delete_employee: 1},
             type: 'GET',
-            beforeSend: function (xhr) {
+            beforeSend: function(xhr) {
 
             },
-            success: function (data, textStatus, jqXHR) {
+            success: function(data, textStatus, jqXHR) {
                 if (data) {
                     $("#dialog_emp_error").removeAttr("class").addClass("warning-error").html(data);
                 } else {
@@ -238,17 +220,17 @@ function delete_employee() {
 
 function delete_employee_arrlay() {
     var delete_check_data = Array();
-    $(":checkbox.delete_check:checked").each(function (index) {
+    $(":checkbox.delete_check:checked").each(function(index) {
         delete_check_data[index] = $(this).val();
     });
     $.ajax({
         url: "web_server_script/employee.php",
         data: {delete_array: delete_check_data, delete_employee_arrlay: 1},
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             if (!data) {
                 location.reload();
             } else {
@@ -263,10 +245,10 @@ function add_employee() {
         url: "web_server_script/employee.php",
         data: $("#add_emplooyee").serialize() + "&add_employee=1",
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             if (data) {
                 $("#add_employee_error").removeAttr("class").addClass("warning-error").html(data);
             } else
@@ -290,10 +272,10 @@ function show_update_employee(employee_id, width, position, start_row, end_row) 
         url: "web_server_script/employee.php",
         data: {employee_id: employee_id, start_row: start_row, end_row: end_row, show_update_employee: 1},
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             $(".in-dialog").html(data);
         }
     });
@@ -308,10 +290,10 @@ function update_employee() {
         url: "web_server_script/employee.php",
         data: $("#update_dialog_employee").serialize() + "&update_employee=1&id_main=" + id_main,
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             if (data) {
                 $("#dialog_emp_error").removeAttr("class").addClass("warning-error").html(data);
             } else {
@@ -327,10 +309,10 @@ function show_table_employee(id, start_row, end_row) {
         url: "web_server_script/employee.php",
         data: {show_table_employee: 1, start_row: start_row, end_row: end_row},
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             $("#show_table_category").html(data);
             $("tr.employee_id_" + id).addClass("focus");
         }
@@ -345,7 +327,7 @@ function signin_member(from_check_signin) {
         url: "./web_server_script/signin.php?login_signin=1",
         data: data,
         type: 'POST',
-        success: function (error) {
+        success: function(error) {
             if (error) {
                 $("#error_signin").removeAttr('class').addClass('warning-error').html(error);
                 alert(error);
@@ -363,7 +345,7 @@ function edit_member_mySelf(from_seririze) {
         url: "./web_server_script/signin.php?edit_member_mySelf=1",
         data: data,
         type: 'POST',
-        success: function (error) {
+        success: function(error) {
             if (error) {
                 $("#member_myselfError").removeAttr('class').addClass('warning-error').html(error);
                 alert(error);
@@ -377,17 +359,17 @@ function edit_member_mySelf(from_seririze) {
 }
 function delete_member_arrlay() {
     var delete_check_data = Array();
-    $(":checkbox.delete_check:checked").each(function (index) {
+    $(":checkbox.delete_check:checked").each(function(index) {
         delete_check_data[index] = $(this).val();
     });
     $.ajax({
         url: "web_server_script/member.php",
         data: {delete_array: delete_check_data, delete_member_arrlay: 1},
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             if (!data) {
                 location.reload();
             } else {
@@ -403,9 +385,9 @@ function add_member() {
         url: "web_server_script/member.php",
         data: data,
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
-        }, success: function (data, textStatus, jqXHR) {
+        }, success: function(data, textStatus, jqXHR) {
             if (data) {
                 $("#add_member_error").removeAttr("class").addClass("warning-error").html(data);
             } else {
@@ -430,10 +412,10 @@ function show_update_member(member_id, width, position, start_row, end_row) {
         url: "web_server_script/member.php",
         data: {member_id: member_id, start_row: start_row, end_row: end_row, show_member_employee: 1},
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             $(".in-dialog").html(data);
         }
     });
@@ -445,10 +427,10 @@ function delete_member() {
             url: "web_server_script/member.php",
             data: {member_id_hidden: $("#member_id_hidden").val(), delete_member: 1},
             type: 'GET',
-            beforeSend: function (xhr) {
+            beforeSend: function(xhr) {
 
             },
-            success: function (data, textStatus, jqXHR) {
+            success: function(data, textStatus, jqXHR) {
                 if (data) {
                     $("#dialog_emp_error").removeAttr("class").addClass("warning-error").html(data);
                 } else {
@@ -468,10 +450,10 @@ function update_member() {
         url: "web_server_script/member.php",
         data: $("#update_dialog_employee").serialize() + "&update_member=1&id_main=" + id_main,
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             if (data) {
                 $("#dialog_emp_error").removeAttr("class").addClass("warning-error").html(data);
             } else {
@@ -487,10 +469,10 @@ function show_table_member(id, start_row, end_row) {
         url: "web_server_script/member.php",
         data: {show_table_member: 1, start_row: start_row, end_row: end_row},
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             $("#show_table_category").html(data);
             $("tr.member_id_" + id).addClass("focus");
         }
@@ -504,10 +486,10 @@ function add_product(data) {
         url: "web_server_script/product.php?add_product=1",
         data: data,
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             if (data) {
                 $("#add_product_error").removeAttr("class").addClass("warning-error").html(data);
             } else {
@@ -518,17 +500,17 @@ function add_product(data) {
 }
 function delete_product_array() {
     var delete_check_data = Array();
-    $(":checkbox.delete_check:checked").each(function (index) {
+    $(":checkbox.delete_check:checked").each(function(index) {
         delete_check_data[index] = $(this).val();
     });
     $.ajax({
         url: "web_server_script/product.php",
         data: {delete_array: delete_check_data, delete_product_array: 1},
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             if (!data) {
                 location.reload();
             } else {
@@ -547,29 +529,36 @@ function show_edit_product(product_name, product_id) {
         url: "web_server_script/product.php",
         data: {product_id: product_id, show_edit_product: 1},
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             $("#show_edit_product").show().html(data);
         }
     });
 }
-function deleteProduct_img(img_DEL, productId, remove_img) {
+function check_delete_show_productIMG(id) {
+    if (confirm("ต้องการลบภาพนี้หรือ !")) {
+        deleteProduct_img(id);
+    } else {
+        showProduct_img(id);
+    }
+}
+function deleteProduct_img(id) {
     if (confirm("ต้องการลบภาพนี้จริงหรือ !")) {
-        var product_id = $.trim(parseInt(productId));
-        var image_delete = $.trim(img_DEL);
+        var product_id = $.trim(parseInt($(id).attr("id")));
+        var image_delete = $.trim($(id).attr("title"));
         $.ajax({
             url: "web_server_script/product.php?deleteProduct_img=1",
             data: {product_id: product_id, image_delete: image_delete},
-            beforeSend: function (xhr) {
+            beforeSend: function(xhr) {
 
             },
-            success: function (data, textStatus, jqXHR) {
+            success: function(data, textStatus, jqXHR) {
                 if (data) {
                     $("#top").removeAttr("class").addClass("warning-error").html(data);
                 } else {
-                    $("#proPic-" + remove_img).fadeOut();
+                    $(id).fadeOut();
                 }
             }
         });
@@ -629,10 +618,10 @@ function show_img_product(product_id) {
         url: "web_server_script/product.php?show_img_product=1",
         data: {product_id: product_id},
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             $("span.show_img_product").html(data);
         }
     });
@@ -643,10 +632,10 @@ function deleteProduct_sound(proSound_name, product_id) {
         $.ajax({
             url: "web_server_script/product.php?deleteProduct_sound=1",
             data: {product_id: product_id, proSound_name: proSound_name},
-            beforeSend: function (xhr) {
+            beforeSend: function(xhr) {
 
             },
-            success: function (data, textStatus, jqXHR) {
+            success: function(data, textStatus, jqXHR) {
                 if (data) {
                     $(".warning-unline").fadeIn().html(data);
                 } else {
@@ -660,10 +649,10 @@ function showProduct_sound(product_id) {
     $.ajax({
         url: "web_server_script/product.php?showProduct_sound=1",
         data: {product_id: product_id},
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             if (data) {
                 $(".show_sound_product").html(data).fadeIn();
                 $(".warning-unline").css("display", "none");
@@ -687,10 +676,10 @@ function edit_product_main(data_inform) {
     $.ajax({
         url: "web_server_script/product.php?edit_product_main=1",
         data: data_inform,
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             if (data) {
                 $("#top").removeAttr("class").addClass("warning-error").html(data);
             } else {
@@ -704,10 +693,10 @@ function delete_product(data) {
         $.ajax({
             url: "web_server_script/product.php?delete_product=1",
             data: data,
-            beforeSend: function (xhr) {
+            beforeSend: function(xhr) {
 
             },
-            success: function (data, textStatus, jqXHR) {
+            success: function(data, textStatus, jqXHR) {
                 if (data) {
                     $("#top").removeAttr("class").addClass("warning-error").html(data);
                 } else {
@@ -721,17 +710,17 @@ function delete_product(data) {
 /*----------------------------------------------------------------------------- order*/
 function delete_order_arrlay() {
     var delete_check_data = Array();
-    $(":checkbox.delete_check:checked").each(function (index) {
+    $(":checkbox.delete_check:checked").each(function(index) {
         delete_check_data[index] = $(this).val();
     });
     $.ajax({
         url: "web_server_script/order.php",
         data: {delete_array: delete_check_data, delete_order_arrlay: 1},
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             if (!data) {
                 location.reload();
             } else {
@@ -747,11 +736,11 @@ function receive_order(order_id, member_id, order_status) {
         url: "web_server_script/order.php",
         data: {order_id: order_id, member_id: member_id, order_status: order_status, receive_order: 1},
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
-            $(".in-dialog").html(data).click(function (e) {
+        success: function(data, textStatus, jqXHR) {
+            $(".in-dialog").html(data).click(function(e) {
                 $("#dialog").css("display", "block");
                 e.stopPropagation();
             });
@@ -764,10 +753,10 @@ function receive_order_employee(form_id) {
         url: "web_server_script/order.php?receive_order_employee=1",
         data: data,
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             if (!data) {
                 location.reload();
             } else {
@@ -785,8 +774,8 @@ function show_employee_receive_order(emp_id, receive_date, status, order_id) {
         "top": ($(window).scrollTop() + 30) + "px", "width": "50%"
     });
     $(".in-dialog").load("web_server_script/order.php?show_employee_receive_order=1&employee_id=" + emp_id, {receive_date: receive_date, status: status, order_id: order_id},
-    function () {
-        $(this).click(function (e) {
+    function() {
+        $(this).click(function(e) {
             $("#dialog").css("display", "block");
             e.stopPropagation();
         });
@@ -795,8 +784,8 @@ function show_employee_receive_order(emp_id, receive_date, status, order_id) {
 function show_member_receive_order(member_id) {
     $("#dialog").fadeIn();
     $(".in-dialog").css({"top": "5%", "width": "50%"});
-    $(".in-dialog").load("web_server_script/order.php?show_member_receive_order=1&member_id=" + member_id, function () {
-        $(this).click(function (e) {
+    $(".in-dialog").load("web_server_script/order.php?show_member_receive_order=1&member_id=" + member_id, function() {
+        $(this).click(function(e) {
             $("#dialog").css("display", "block");
             e.stopPropagation();
         });
@@ -808,17 +797,17 @@ function show_member_receive_order(member_id) {
 /*----------------------------------------------------------------------------- comment*/
 function delete_comment_arrlay() {
     var delete_check_data = Array();
-    $(":checkbox.delete_check:checked").each(function (index) {
+    $(":checkbox.delete_check:checked").each(function(index) {
         delete_check_data[index] = $(this).val();
     });
     $.ajax({
         url: "web_server_script/comment.php",
         data: {delete_array: delete_check_data, delete_comment_arrlay: 1},
         type: 'POST',
-        beforeSend: function (xhr) {
+        beforeSend: function(xhr) {
 
         },
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             if (!data) {
                 location.reload();
             } else {
@@ -828,22 +817,3 @@ function delete_comment_arrlay() {
     });
 }
 /*----------------------------------------------------------------------------- /comment*/
-/*-----------------------------------------------------------------------------Admin Update*/
-function edit_admin_mySelf(from_seririze) {
-    var data = $(from_seririze).serialize();
-    $.ajax({
-        url: "./web_server_script/signin.php?edit_admin_mySelf=1",
-        data: data,
-        type: 'POST',
-        success: function (error) {
-            if (error) {
-                $("#member_myselfError").removeAttr('class').addClass('warning-error').html(error);
-                alert(error);
-            } else {
-                $("#member_myselfError").removeAttr('class').addClass("warning-ok").html("แก้ไขข้อมูลสำเร็จ");
-                alert("สำเร็จ");
-                $("meta.refrest").html("<meta http-equiv=\"refresh\" content=\"2\">");
-            }
-        }
-    });
-}
