@@ -23,7 +23,7 @@ INDEX
         <script type="text/javascript" src="web_design_script/jquery.min.js"></script>
         <script src="wysiwyg.js"></script>
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 //alert($(window).width());
             });</script>
     </head>
@@ -42,13 +42,6 @@ INDEX
                                 <?php $productIMG = explode(",", $product['product_image']); ?>
                                 <div id="showIMG">
                                     <span>
-                                        <!--
-                                        <a href="image_product/<?= $productIMG[0] ?>" id="destop"
-                                           class="cloud-zoom" rel="transparentImage: 'data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==', useWrapper: false, showTitle: true, zoomWidth:'300', zoomHeight:'400', adjustY:0, adjustX:10">
-                                            <img src="image_product/<?= $productIMG[0] ?>" title="รายละเอียดภาพ : <?= $product['product_name'] ?>" 
-                                                 onload="load_img_forShow(this)" />
-                                        </a>
-                                        -->
                                         <a href="image_product/<?= $productIMG[0] ?>" target="_blank" id="">
                                             <img src="image_product/<?= $productIMG[0] ?>" title="ดูรูปเต็ม คลิ๊ก!" onload="load_img_forShow(this);" />
                                         </a>
@@ -66,14 +59,14 @@ INDEX
                                 </div>
                             </div>
                             <script>
-                                $(document).ready(function() {
+                                $(document).ready(function () {
                                     if ($("#showIMG img").height() > $("#showIMG img").width()) {
                                         if ($("#showIMG img").height() >= 400) {
                                             $("#showIMG img").css({height: "400px", width: 'auto'});
                                         }
                                     }
-                                    $("#showTHUM img").each(function(index) {
-                                        $(this).click(function() {
+                                    $("#showTHUM img").each(function (index) {
+                                        $(this).click(function () {
                                             var src = "image_product/" + $(this).attr('title');
                                             var html_data = "<a href ='" + src + "' target='_blank'>";
                                             html_data += "<img src='" + src + "' title='ดูรูปเต็ม คลิ๊ก!' onload = 'load_img_forShow(this)' />";
@@ -179,16 +172,16 @@ INDEX
                                     <span class="warning-inline" id="comment_error"></span>
                                 </form>
                                 <script>
-                                    $(function() {
-                                        $("#comment").submit(function() {
-                                            $("#comment_peple").click(function() {
+                                    $(function () {
+                                        $("#comment").submit(function () {
+                                            $("#comment_peple").click(function () {
                                                 $(this).val('<?= $comment_peple ?>');
                                             });
                                             if ($.trim($("#comment_peple").val()) == "") {
                                                 $("#comment_peple").val('<?= $comment_peple ?>');
                                             }
                                             var error = "";
-                                            $("#comment .text").each(function() {
+                                            $("#comment .text").each(function () {
                                                 if ($(this).val() == "") {
                                                     error += "กรุณากรอกช่อง : " + $(this).attr('placeholder') + "<br />";
                                                 }
@@ -211,7 +204,7 @@ INDEX
             </div>
             <div id="artical" class="container bottom_main" style="margin-top: 15px;">
                 <div class="inner_border">
-                    <h3 class="topic bg_img" style="margin-bottom: -15px;">
+                    <h3 class="topic" style="margin-bottom: -15px;text-align: left;">
                         ความเห็นต่อสินค้าเครื่องดนตรีชิ้นนี้
                     </h3>
                     <div class="inner" id="comment_show">
@@ -246,7 +239,7 @@ INDEX
                                         </div>
                                     <?php } ?>
                                     <script>
-                                        $(document).ready(function() {
+                                        $(document).ready(function () {
                                             if ($("#comment_del-<?= $comment['comment_id'] ?>").text() != 0) {
                                                 $("#comment_del-<?= $comment['comment_id'] ?>").addClass("red");
                                             }

@@ -19,8 +19,9 @@ INDEX
         <link rel="stylesheet" type="text/css" href="web_design_script/Website_selling_musical_intrusment_CSS.css">
         <link rel="stylesheet" type="text/css" href="web_design_script/SmartPhone_Design_Musical_intrusment.css">
         <script type="text/javascript" src="web_design_script/jquery.min.js"></script>
+        <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 //alert($(window).width()+" - "+$(document).height());
             });
         </script>
@@ -42,7 +43,7 @@ INDEX
                     <li><a href="?manage=member">จัดการระบบลูกค้าสมาชิก</a></li>
                     <li><a href="?manage=order">จัดการระบบสั่งซื้อสินค้า</a></li>
                     <li><a href="?manage=comment">จัดการระบบแสดงความเห็น</a></li>
-                    <li><a href="">แก้ไขเว็บไซด์</a></li>
+                    <li><a href="?manage=config_web">แก้ไขร้านค้า</a></li>
                 </ul>
             </div>
             <?php if ($_GET["manage"] == "category") { ?>
@@ -63,6 +64,9 @@ INDEX
             <?php } elseif ($_GET["manage"] == "comment") { ?>
                 <!------------------------------ order -------------------------------------------->
                 <?php include './comment_manage.php'; ?>
+            <?php } elseif ($_GET["manage"] == "config_web") { ?>
+                <!------------------------------ order -------------------------------------------->
+                <?php include './config_web.php'; ?>
             <?php } else { ?>
                 <!------------------------------ category -------------------------------------------->
                 <?php include './category_manage.php'; ?>
