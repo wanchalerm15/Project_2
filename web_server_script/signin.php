@@ -42,3 +42,40 @@ if ($_REQUEST['edit_member_mySelf'] == 1) {
         mysql_query($query) or die("ERROR ! : " . mysql_error());
     }
 }
+
+if ($_REQUEST['edit_admin_mySelf'] == 1) {
+    if (isset($_POST["input_name"], $_POST["input_pass"], $_POST["input_id"], $_POST["input_address"], $_POST["input_tel"], $_POST["input_email"], $_POST["input_user"], $_POST["input_code"])) {
+        $input_name = $_POST["input_name"];
+        $input_user = trim($_POST["input_user"]);
+        $input_code = trim($_POST["input_code"]);
+        $input_pass = trim($_POST["input_pass"]);
+        $input_id = $_POST["input_id"];
+        $input_address = $_POST["input_address"];
+        $input_tel = $_POST["input_tel"];
+        $input_email = $_POST["input_email"];
+        $query = "UPDATE admin SET admin_pass='$input_pass',admin_name='$input_name',admin_address='$input_address'"
+                . ",admin_tel='$input_tel',admin_email='$input_email',date_input=NOW(),admin_user='$input_user',admin_identification='$input_code' "
+                . "WHERE admin_id=$input_id";
+        mysql_query($query) or die("Admin Insert ERROR ! : " . mysql_error());
+    } else {
+        echo "กรุณากรอกข้อมูลให้ครบ !";
+    }
+}
+
+if ($_REQUEST['edit_employee_mySelf'] == 1) {
+    if (isset($_POST["input_name"], $_POST["input_pass"], $_POST["input_id"], $_POST["input_address"], $_POST["input_tel"], $_POST["input_email"], $_POST["input_education"])) {
+        $input_name = $_POST["input_name"];
+        $input_education = trim($_POST["input_education"]);
+        $input_pass = trim($_POST["input_pass"]);
+        $input_id = $_POST["input_id"];
+        $input_address = $_POST["input_address"];
+        $input_tel = $_POST["input_tel"];
+        $input_email = $_POST["input_email"];
+        $query = "UPDATE employee SET employee_pass='$input_pass',employee_name='$input_name',employee_address='$input_address'"
+                . ",employee_tel='$input_tel',employee_email='$input_email',input_date=NOW(),employee_education='$input_education' "
+                . "WHERE employee_id=$input_id";
+        mysql_query($query) or die("Admin Insert ERROR ! : " . mysql_error());
+    } else {
+        echo "กรุณากรอกข้อมูลให้ครบ !";
+    }
+}

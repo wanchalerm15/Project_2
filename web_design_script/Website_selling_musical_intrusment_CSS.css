@@ -464,11 +464,21 @@ form.update_dialog_employee p{
 #edit_product p{
     margin-bottom: 5px;
 }
-#edit_product p span:first-child{
+#edit_product p span:first-child,#edit_product div span:first-child{
     display: inline-block;
     width: 200px;
     text-align: right;
 }
+#deletePorpic{
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    opacity: .6;
+    position: absolute;top: -2px;right: -2px;font-weight: bolder;
+    padding: 1px 3px;color: #F00;
+    border-radius: 0 0 10px 10px;
+    background-color: rgba(0,0,0,.65);
+}
+#deletePorpic:hover{opacity: 1;}
 #edit_product p.edit_product-bt{
     border-top: solid 1px #f0f0f0;
     padding-top: 5px;
@@ -549,6 +559,48 @@ img.img_editShow{
 .sent_product .text,.error_order .text{
     padding: 6px 0;
     width: 95%;
+}
+/*---------------------------------------------------------Config Web *******************************************************/
+ul.config_web_menu{
+    list-style: none;
+    border-bottom: solid 1px #e8e8e8;
+    padding-bottom: 10px;
+}
+ul.config_web_menu li{
+    display: inline-block;
+    background-color: #ccc596;
+    border-radius: 5px;
+}
+ul.config_web_menu li:hover{
+    background-color: #657102;
+}
+ul.config_web_menu li a:hover{color: #FFF;}
+ul.config_web_menu li a{
+    padding: 5px 7px;
+    display: block;
+    color: #633a10;
+}
+ul.config_web_menu span{
+    color: #e0e0e0;
+}
+.edit_web_name{
+    width: 70%;
+    display: block;
+    margin: auto;
+}
+.edit_web_name .text{
+    width: 98%;
+    margin: 5px 0;
+    color: #C00;
+    padding: 1%;
+    font-size: 14px;
+}
+.edit_web_name .btn{
+    text-align: right;
+}
+.edit_web_name .bt_black{
+    margin-top: 15px;
+    font-size: 14px;
 }
 /*-----------------------------------------------------  /After Shop  -----------------------------------------------------*/
 /*-----------------------------------------------------  Before Shop  -----------------------------------------------------*/
@@ -692,7 +744,7 @@ table.table_signin_beforeshop tr td h3 img{height: 20px;}
     text-align: left;
 }
 .category_nav li:hover{
-    background-color: #000;
+    background-color: #657102;
 }
 /*********************************cast */
 
@@ -828,68 +880,31 @@ h3.topic span.hideTosmartPhoe{
 .margin_top{
     margin-top: 5px !important;
 }
-/*--------------------------------------IMG slide ------------------------------------*/
-img.show_imageProduct{
-    display: block;
-    width: 100%;
-}
-.imgslide{
-    text-align: center;
-    padding: 5px;
-    background-color: #f2eede;
-    border-radius: 3px;
-    background-image: url(../images/bg_navB.jpg);
-}
-.imgslide .show_imgsrc{
-    box-shadow: 0 0 10px #000;
+/*--------------------------------------camera_wrap ------------------------------------*/
+.img_slide{
     margin: auto;
 }
-img.show_imageProduct:hover{
-    opacity: .9;
+.frame_img{
+    padding: 10px;background-color: #FFF;
+    height: 420px;
+    background-image: url(../images/bg_navB.jpg);
+    border-radius: 3px;
 }
-#ft-prev-image_slide,#ft-next-image_slide,#ft-title-image_slide{
-    opacity: .5 !important;
-    transition:all 0.2s ease-in-out;
-    color: #fff;
-    padding: 5px 10px;
-    background-color: #000 !important;
+.camera_wrap .camera_pag .camera_pag_ul li{
+    margin: 5px 1px 0 1px !important;
+    padding: 0 !important;
+    background: none !important;
+    background-color: rgba(0,0,0,.3) !important;
 }
-#ft-prev-image_slide{
-    border-radius: 0 10px 10px 0;
+.camera_wrap .camera_pag .camera_pag_ul li > span {
+    background-color: #000;
 }
-#ft-next-image_slide{
-    border-radius: 10px 0 0 10px;
+.new_product{
+    color: #FFF;
 }
-#ft-title-image_slide{
-    opacity: .7 !important;
-    text-align: left;
-    padding: 10px 0 10px 1%;
-    width: 99%;
-}
-#ft-prev-image_slide:hover,#ft-next-image_slide:hover,#ft-title-image_slide:hover{
-    opacity: .9 !important;
-}
-div#ft-buttons-image_slide{
-    margin: 5px auto;
-}
-.ft-button-image_slide{
-    opacity: .7;
-    color: #fff;
-    margin: 0 1px;
-    border-radius: 0 0 5px 5px;
-    padding: 2px 15px;
-    background-color: #000 !important;
-}
-.ft-button-image_slide:hover{
-    opacity: .9;
-}
-a.titleSlideIMG{
-    font-size: 20px;
-    color: #efefef !important;
-    text-decoration: underline;
-}
-a.titleSlideIMG:hover{
-    opacity: .9;
+.new_product:hover{color: #AF0;}
+.camera_commands{
+    display: none !important;
 }
 /*------------------------------------------------------- Order ---------------------------------------------------------------*/
 .tabale_order{
@@ -1266,6 +1281,7 @@ span.text-footer{
 /*-----------------------------------------------------  /footer  -----------------------------------------------------*/
 
 .warning-error,.warning,.warning-ok,.warning-problem{
+    position: relative;
     font-size: 14px;
     background-repeat: no-repeat;
     background-position: 100% 0%;
@@ -1273,7 +1289,13 @@ span.text-footer{
     color: #303030;
     padding: 10px 5px;
     margin: 5px 0;
-
+}
+span.close{
+    position: absolute;
+    top: 2px;right: 2px;
+    font-weight: bold;
+    color: #f00;
+    cursor: pointer;
 }
 .warning-unline,.warning-inline{
     display: none;
