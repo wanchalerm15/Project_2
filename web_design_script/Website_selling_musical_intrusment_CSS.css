@@ -602,6 +602,11 @@ ul.config_web_menu span{
     margin-top: 15px;
     font-size: 14px;
 }
+.iframe_ajax{
+    display: none;
+    width: 0;height: 0;
+    overflow: hidden;
+}
 /*-----------------------------------------------------  /After Shop  -----------------------------------------------------*/
 /*-----------------------------------------------------  Before Shop  -----------------------------------------------------*/
 #artical.container{

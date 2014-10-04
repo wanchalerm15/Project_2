@@ -14,8 +14,13 @@ INDEX
 <html>
     <head>
         <meta charset="UTF-8">
+        <?php
+        $query = "SELECT * FROM website where web_id=1";
+        $result = mysql_query($query);
+        $web = mysql_fetch_array($result);
+        ?>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>ระบบหลังร้าน - เว็บไซด์ขายเครื่องดนตรีออนไลน์</title>
+        <title>ระบบหลังร้าน - <?= $web['web_thai_name'] ?></title>
         <link rel="stylesheet" type="text/css" href="web_design_script/Website_selling_musical_intrusment_CSS.css">
         <link rel="stylesheet" type="text/css" href="web_design_script/SmartPhone_Design_Musical_intrusment.css">
         <script type="text/javascript" src="web_design_script/jquery.min.js"></script>

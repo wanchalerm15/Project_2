@@ -847,3 +847,89 @@ function edit_admin_mySelf(from_seririze) {
         }
     });
 }
+/*-----------------------------------------------------WEBSITE----------------------------------------------------------*/
+function update_web_name(form_id) {
+    var error = "";
+    $("#web_name .text").each(function () {
+        if ($.trim($(this).val()) == "") {
+            error += $(this).attr("data-web_name") + "เป็นค่าว่าง<br />";
+        }
+    });
+    if (error == "") {
+        $.ajax({
+            url: "web_server_script/website.php?update_web_name=1",
+            data: $(form_id).serialize(),
+            type: "POST",
+            beforeSend: function (xhr) {
+
+            },
+            success: function (data, textStatus, jqXHR) {
+                if (data) {
+                    alert(data);
+                } else {
+                    location.reload();
+                }
+            }
+        });
+    } else {
+        $("#web_name_error").fadeIn().html(error);
+    }
+}
+function update_numrow_tax(form_id) {
+    var error = "";
+    $("#web_name .text").each(function () {
+        if ($.trim($(this).val()) == "") {
+            error += $(this).attr("data-numrow_tax") + "เป็นค่าว่าง<br />";
+        }
+    });
+    if (error == "") {
+        $.ajax({
+            url: "web_server_script/website.php?update_numrow_tax=1",
+            data: $(form_id).serialize(),
+            type: "POST",
+            beforeSend: function (xhr) {
+
+            },
+            success: function (data, textStatus, jqXHR) {
+                if (data) {
+                    alert(data);
+                } else {
+                    location.reload();
+                }
+            }
+        });
+    } else {
+        $("#numrow_tax_error").fadeIn().html(error);
+    }
+}
+
+function update_how_to_pays(how_to_pays) {
+    if (how_to_pays == 1) {
+        location.reload();
+    } else {
+        $("#how_to_pays_error").fadeIn().html("ไม่สามารถแก้ไข หน้าเพจวิธีการสั่งซื้อ ได้ !");
+    }
+}
+function update_about_me(about_me) {
+    if (about_me == 1) {
+        location.reload();
+    } else {
+        $("#about_me_error").fadeIn().html("ไม่สามารถแก้ไข หน้าเพจวิธีการสั่งซื้อ ได้ !");
+    }
+}
+function update_contact_us(contact_us) {
+    if (contact_us == 1) {
+        location.reload();
+    } else {
+        $("#contact_us_error").fadeIn().html("ไม่สามารถแก้ไข หน้าเพจวิธีการสั่งซื้อ ได้ !");
+    }
+}
+function upload_img_logo(code, status) {
+    if (code) {
+        alert(status);
+        location.reload();
+    } else {
+        alert(status);
+    }
+}
+/*----------------------------------------------------- /WEBSITE----------------------------------------------------------*/

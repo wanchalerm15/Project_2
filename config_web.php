@@ -36,11 +36,13 @@
                     <b><u>แก้ไข ชื่อร้านค้า</u></b>
                 </p>
                 <br />
-                <form class="edit_web_name">
+                <form class="edit_web_name" onsubmit="update_web_name(this);
+                        return false;" id="web_name">
+                    <div class="warning-inline" id="web_name_error"></div>
                     <p><b>ชื่อเว็บไซด์ ภาษาไทย</b></p>
-                    <input type="text" value="<?= $WEB_THAI_NAME ?>" class="text"/>
+                    <input type="text" value="<?= $WEB_THAI_NAME ?>" name="web_thai_name" class="text" data-web_name="ชื่อเว็บไซด์ ภาษาไทย"/>
                     <p><b>ชื่อเว็บไซด์ อังกฤษ</b></p>
-                    <input type="text" value="<?= $WEB_ENG_NAME ?>" class="text"/>
+                    <input type="text" value="<?= $WEB_ENG_NAME ?>" name="web_eng_name" class="text" data-web_name="ชื่อเว็บไซด์ อังกฤษ"/>
                     <p class="btn">
                         <input type="submit" value="แก้ไข" class="bt_black"/>
                         <input type="reset" value="คืนค่าข้อความ" class="bt_black"/>
@@ -56,7 +58,8 @@
                     <b><u>แก้ไข โลโก้ร้านค้า</u></b>
                 </p>
                 <br />
-                <form class="edit_web_name" style="text-align: center;">
+                <form class="edit_web_name" style="text-align: center;" id="logo_web" target="how_to_pays_ifm"
+                      method="POST" enctype="multipart/form-data" action="web_server_script/website.php?logo_web=1">
                     <img src="<?= $WEB_LOGO ?>" />
                     <br /><br />
                     <p><u>เปลี่ยนภาพโลโก้ใหม่</u></p>
@@ -64,7 +67,7 @@
                     <button type="button" class="bt_black" onclick="$('#file_logo').click()">
                         <img src="images/upload.png" height="14px"/> อัพโหลดใหม่
                     </button>
-                    <input type="file" style="display: none;" id="file_logo" name="file_logo" />
+                    <input type="file" style="display: none;" id="file_logo" name="file_logo" onchange="$('#logo_web').submit()"/>
                 </form>
                 <br />
             </div>
@@ -76,11 +79,13 @@
                     <b><u>แก้ไข จำนวนแถวและภาษี</u></b>
                 </p>
                 <br />
-                <form class="edit_web_name">
+                <form class="edit_web_name" id="numrow_tax" onsubmit="update_numrow_tax(this);
+                        return false;">
+                    <div class="warning-inline" id="numrow_tax_error"></div>
                     <p><b>จำนวนแถวข้อมูลที่แสดง (แถว)</b></p>
-                    <input type="text" value="<?= $WEB_AFTERSHOP_NUMROW ?>" class="text"/>
+                    <input type="text" value="<?= $WEB_AFTERSHOP_NUMROW ?>" name="aftershop_numrow" class="text" data-numrow_tax="จำนวนแถวข้อมูลที่แสดง (แถว)"/>
                     <p><b>ภาษีของร้านค้า (%)</b></p>
-                    <input type="text" value="<?= $WEB_TAX ?>" class="text"/>
+                    <input type="text" value="<?= $WEB_TAX ?>" class="text" name="tax" data-numrow_tax="ภาษีของร้านค้า (%)"/>
                     <p class="btn">
                         <input type="submit" value="แก้ไข" class="bt_black"/>
                         <input type="reset" value="คืนค่าข้อความ" class="bt_black"/>
@@ -96,7 +101,9 @@
                     <b><u>แก้ไข หน้าเพจวิธีการสั่งซื้อ</u></b>
                 </p>
                 <br />
-                <form class="edit_web_name" style="width: 100%;">
+                <form class="edit_web_name" style="width: 100%;" 
+                      method="POST" action="web_server_script/website.php?how_to_pays=1" target="how_to_pays_ifm">
+                    <div class="warning-inline" id="how_to_pays_error"></div>
                     <textarea id="how_to_pays" name="how_to_pays" style="height: 432px;"><?= $WEB_HOW_TO_PAYS ?></textarea>
                     <p class="btn">
                         <input type="submit" value="แก้ไขหน้าเพจวิธีการสั่งซื้อ" class="bt_black"/>
@@ -117,7 +124,9 @@
                     <b><u>แก้ไข หน้าเพจเกี่ยวกับเรา</u></b>
                 </p>
                 <br />
-                <form class="edit_web_name" style="width: 100%;">
+                <form class="edit_web_name" style="width: 100%;" 
+                      method="POST" action="web_server_script/website.php?about_me=1" target="how_to_pays_ifm">
+                    <div class="warning-inline" id="about_me_error"></div>
                     <textarea id="about_me" name="about_me" style="height: 432px;"><?= $WEB_ABOUT_ME ?></textarea>
                     <p class="btn">
                         <input type="submit" value="แก้ไขหน้าเพจเกี่ยวกับเรา" class="bt_black"/>
@@ -138,7 +147,9 @@
                     <b><u>แก้ไข หน้าเพจติดต่อเรา</u></b>
                 </p>
                 <br />
-                <form class="edit_web_name" style="width: 100%;">
+                <form class="edit_web_name" style="width: 100%;" 
+                      method="POST" action="web_server_script/website.php?contact_us=1" target="how_to_pays_ifm">
+                    <div class="warning-inline" id="contact_us_error"></div>
                     <textarea id="contact_us" name="contact_us" style="height: 432px;"><?= $WEB_CONTACT_US ?></textarea>
                     <p class="btn">
                         <input type="submit" value="แก้ไขหน้าเพจติดต่อเรา" class="bt_black"/>
@@ -158,11 +169,13 @@
                     <b><u>แก้ไข ชื่อร้านค้า</u></b>
                 </p>
                 <br />
-                <form class="edit_web_name">
+                <form class="edit_web_name" onsubmit="update_web_name(this);
+                        return false;" id="web_name">
+                    <div class="warning-inline" id="web_name_error"></div>
                     <p><b>ชื่อเว็บไซด์ ภาษาไทย</b></p>
-                    <input type="text" value="<?= $WEB_THAI_NAME ?>" class="text"/>
+                    <input type="text" value="<?= $WEB_THAI_NAME ?>" name="web_thai_name" class="text" data-web_name="ชื่อเว็บไซด์ ภาษาไทย"/>
                     <p><b>ชื่อเว็บไซด์ อังกฤษ</b></p>
-                    <input type="text" value="<?= $WEB_ENG_NAME ?>" class="text"/>
+                    <input type="text" value="<?= $WEB_ENG_NAME ?>" name="web_eng_name" class="text" data-web_name="ชื่อเว็บไซด์ อังกฤษ"/>
                     <p class="btn">
                         <input type="submit" value="แก้ไข" class="bt_black"/>
                         <input type="reset" value="คืนค่าข้อความ" class="bt_black"/>
@@ -175,6 +188,7 @@
         <p class="disable" style="text-align: right;font-size: 14px;padding: 5px;">
             วันที่แก้ไขล่าสุด : <?= $WEB_DATE ?>
         </p>
+        <iframe id="how_to_pays_ifm" name="how_to_pays_ifm" class="iframe_ajax"></iframe>
     </div>
 </div>
 
