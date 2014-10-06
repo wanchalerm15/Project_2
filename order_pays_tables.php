@@ -75,7 +75,7 @@
     </tr>
     <tr class="product_tr_order">
         <td><p></p></td>
-        <td><p style="text-align: left;">ภาษี 5%</p></td>
+        <td><p style="text-align: left;">ภาษี <?= $WEB_TAX ?>%</p></td>
         <td><p></p></td>
         <td><p></p></td>
         <td><p><?= number_format($order['order_tax'], 2) ?></p></td>

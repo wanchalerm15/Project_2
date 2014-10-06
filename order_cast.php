@@ -20,7 +20,7 @@ INDEX
         <link rel="stylesheet" type="text/css" href="web_design_script/SmartPhone_Design_Musical_intrusment.css">
         <script type="text/javascript" src="web_design_script/jquery.min.js"></script>
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 //alert($(window).width());
             });
         </script>
@@ -73,10 +73,10 @@ INDEX
                                                             <a class="FFF_link" style="font-size: 12px;"
                                                                onclick="show_employee_receive_order(
                                                                <?= $receive_order['employee_id'] ?>,
-                                                              '<?= $receive_order['receive_date'] ?>',
+                                                                               '<?= $receive_order['receive_date'] ?>',
                                                                <?= $receive_order['receive_status'] ?>,
                                                                <?= $order['order_id'] ?>
-                                                                                   )">
+                                                                       )">
                                                                 พนักงานรับ ORDER เเล้ว
                                                             </a>
                                                         <?php } else { ?>
@@ -178,8 +178,8 @@ INDEX
                                                                            id="text_UpdateOrder-<?= $index ?>">
                                                                 </div>
                                                                 <script>
-                                                                    $(document).ready(function() {
-                                                                        $("#text_UpdateOrder-<?= $index ?>").keyup(function(e) {
+                                                                    $(document).ready(function () {
+                                                                        $("#text_UpdateOrder-<?= $index ?>").keyup(function (e) {
                                                                             if ($.isNumeric($(this).val())) {
                                                                                 if (e.keyCode == 13) {
                                                                                     update_orderUnit(this, $('#text_UpdateOrder-<?= $index ?>').val(),<?= $index ?>,<?= $row_product['product_id'] ?>);
@@ -207,7 +207,7 @@ INDEX
                                     ?>
                                     <tr>
                                         <?php
-                                        $tax = ($sumPriceALL * 5) / 100;
+                                        $tax = ($sumPriceALL * $WEB_TAX) / 100;
                                         $PriceAll_Tax = $sumPriceALL + $tax;
                                         ?>
                                         <td>รวม</td>
@@ -215,7 +215,7 @@ INDEX
                                         <td class="show_date"><?= number_format($sumPriceALL, 2) ?> บาท</td>
                                         <td><?= $sumUnit ?> ชิ้น</td>
                                         <td class="sum_priceAll">
-                                            ฿<?= number_format($PriceAll_Tax, 3) ?><sup> +ภาษี 5%</sup>
+                                            ฿<?= number_format($PriceAll_Tax, 3) ?><sup> +ภาษี <?= $WEB_TAX ?>%</sup>
                                         </td>
                                     </tr>
                                 </table>
@@ -228,7 +228,7 @@ INDEX
                                 <div class="confirm_order">
                                     ราคาที่ต้องชำระ รวมทั้งสิ้น <?= number_format($PriceAll_Tax, 3) ?> บาท
                                     <p>
-                                        [ ภาษีหัก ณ. ที่จ่าย 5% = <?= $tax ?> บาท ]
+                                        [ ภาษีหัก ณ. ที่จ่าย <?= $WEB_TAX ?>% = <?= $tax ?> บาท ]
                                     </p> 
                                 </div>
                             </div>
@@ -244,12 +244,12 @@ INDEX
                                 <div class="warning-inline"></div>
                             </div>
                             <script>
-                                $("button.OrClear").click(function() {
+                                $("button.OrClear").click(function () {
                                     if (confirm('คุณต้องการลบสิ้นค้าที่ซื้อทั้งหมดทิ้งจริงหรือ !')) {
                                         clear_session();
                                     }
                                 });
-                                $('#form_add_order').submit(function() {
+                                $('#form_add_order').submit(function () {
                                     if (confirm('คุณต้องการซื้อสินค้าในตระกร้านี้จริงหรือ !')) {
                                         add_order($('#member_id_session').val(), $('#sumPriceALL').val(), $('#tax').val());
                                     }
@@ -279,7 +279,7 @@ INDEX
         </div>
         <div style="margin-top: 30px;"></div>
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 if ($("#artical.container.order_main").height() < $(window).height()) {
                     $("#artical.container.order_sidebar").height($(window).height() - 140);
                 }

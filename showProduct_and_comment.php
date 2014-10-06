@@ -38,26 +38,38 @@ INDEX
                     </h3>
                     <div class="inner">
                         <div class="show_imgProduct">
-                            <div class="border-inner" style="text-align: center;">
-                                <?php $productIMG = explode(",", $product['product_image']); ?>
-                                <div id="showIMG">
-                                    <span>
-                                        <a href="image_product/<?= $productIMG[0] ?>" target="_blank" id="">
-                                            <img src="image_product/<?= $productIMG[0] ?>" title="ดูรูปเต็ม คลิ๊ก!" onload="load_img_forShow(this);" />
-                                        </a>
-                                    </span>
-                                    <p class="top"><?= $product['product_name'] ?></p>
-                                </div>
-                            </div>
-                            <div class="inner-w border-inner" style="margin-top: 7px;">
-                                <div id="showTHUM">
-                                    <?php foreach ($productIMG as $img) { ?>
+                            <?php $productIMG = explode(",", $product['product_image']); ?>
+                            <?php if (empty($productIMG[0])) { ?>
+                                <div class="border-inner" style="text-align: center;">
+                                    <div id="showIMG">
                                         <span>
-                                            <img src="image_product/thumbnail/thumbnails_<?= $img ?>" title="<?= $img ?>"/>
+                                            <a href="images/no_image.jpg" target="_blank" id="">
+                                                <img src="images/no_image.jpg" title="ไม่มีภาพ" onload="load_img_forShow(this);" />
+                                            </a>
                                         </span>
-                                    <?php } ?>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php } else { ?>
+                                <div class="border-inner" style="text-align: center;">
+                                    <div id="showIMG">
+                                        <span>
+                                            <a href="image_product/<?= $productIMG[0] ?>" target="_blank" id="">
+                                                <img src="image_product/<?= $productIMG[0] ?>" title="ดูรูปเต็ม คลิ๊ก!" onload="load_img_forShow(this);" />
+                                            </a>
+                                        </span>
+                                        <p class="top"><?= $product['product_name'] ?></p>
+                                    </div>
+                                </div>
+                                <div class="inner-w border-inner" style="margin-top: 7px;">
+                                    <div id="showTHUM">
+                                        <?php foreach ($productIMG as $img) { ?>
+                                            <span>
+                                                <img src="image_product/thumbnail/thumbnails_<?= $img ?>" title="<?= $img ?>"/>
+                                            </span>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            <?php } ?>
                             <script>
                                 $(document).ready(function () {
                                     if ($("#showIMG img").height() > $("#showIMG img").width()) {
@@ -114,6 +126,9 @@ INDEX
                                     list($category_name) = @mysql_fetch_row($quer)
                                     ?>
                                     <b>ประเภทสินค้า :</b> <?= $category_name ?>
+                                </p>
+                                <p>
+                                    <b>ค่าขนส่งสินค้า :</b> <?= $product['product_cost'] ?> บาท
                                 </p>
                                 <p>
                                     <b>นำเข้าสินค้าเมื่อ :</b> <?= $product['date_input'] ?>

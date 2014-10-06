@@ -1,6 +1,7 @@
 <?php
 include './web_server_script/edit_website.php';
 define(ORDER_ID, $_GET['ORDER']);
+$show_bankPays = 0;
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,7 +14,7 @@ define(ORDER_ID, $_GET['ORDER']);
         <script type="text/javascript" src="web_design_script/jquery.min.js"></script>
     </head>
     <body>
-        <div class="container" id="artical">
+        <div class="container" id="artical"  style="min-width: 800px;">
             <div class="inner_border">
                 <h3 class="topic">
                     รายการสั่งซื้อเลขที่ <?= ORDER_ID ?>
@@ -33,6 +34,9 @@ define(ORDER_ID, $_GET['ORDER']);
                                         list($member_id, $member_name, $member_address, $member_tel, $member_identification) = mysql_fetch_row($resultjoin);
                                         $result = mysql_query("select * from order_music where order_id=" . ORDER_ID);
                                         $order = mysql_fetch_array($result);
+                                        if ($order['order_pays'] == 2) {
+                                            $show_bankPays = $order['order_pays'];
+                                        }
                                         ?>
                                         <h4 style="text-decoration: underline;padding: 2px;">
                                             <?= $WEB_THAI_NAME ?> 
@@ -98,7 +102,7 @@ define(ORDER_ID, $_GET['ORDER']);
                                 </tr>
                                 <tr class="product_tr_order">
                                     <td><p></p></td>
-                                    <td><p style="text-align: left;">ภาษี 5%</p></td>
+                                    <td><p style="text-align: left;">ภาษี <?= $WEB_TAX ?>%</p></td>
                                     <td><p></p></td>
                                     <td><p></p></td>
                                     <td><p><?= number_format($order['order_tax'], 2) ?></p></td>
@@ -123,6 +127,14 @@ define(ORDER_ID, $_GET['ORDER']);
                             </table>
                         </div>
                     </div>
+                    <?php if ($show_bankPays == 2) { ?>
+                        <div class="inner-w border-inner" style="margin: 7px 0;text-align: center;">
+                            <p class="title">
+                                <b>คุณสามารถโอนเงินได้ที่บัญชีด้านล่างนี้</b>
+                            </p>
+                            <img src="images/bank_pays.jpg" style="display: block;margin: 7px auto;width: 50%;border: solid 1px #000;"/>
+                        </div>
+                    <?php } ?>
                     <div class="inner-w border-inner" style="margin: 7px 0;">
                         <div style="border: solid 1px #000;padding: 5px;">
                             <p class="warning">

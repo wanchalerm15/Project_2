@@ -15,7 +15,7 @@ INDEX
         <script type="text/javascript" src="web_design_script/jquery.min.js"></script>
         <script type="text/javascript" src="web_design_script/jqFancyTransitions.1.7.min.js"></script>
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 //alert($(window).width());
             });
         </script>
@@ -122,9 +122,16 @@ INDEX
                         $order_product_id = $orderDetail_array[$index2]['order_product_id'];
                         $unit_price = $orderDetail_array[$index2]['unit_price'];
                         $sub_priceall = $orderDetail_array[$index2]['sub_priceall'];
+
+                        $seletc_product_unit = mysql_query("select product_unit from product where product_id=$order_product_id");
+                        list($product_unit) = mysql_fetch_row($seletc_product_unit);
+                        $new_product_unit = $product_unit - $unit_price;
                         $query_orderDetail = "REPLACE INTO order_detail(order_id,product_id,unit_price) "
                                 . "VALUES($order_id,$order_product_id,$unit_price)";
+                        $query_updateUnitProduct = "UPDATE product SET product_unit=$new_product_unit WHERE product_id=$order_product_id";
+
                         mysql_query($query_orderDetail) or die("เพิ่มการสั่งซื้อสินค้ารหัส P$order_product_id ไม่ได้ :<br />" . mysql_error());
+                        mysql_query($query_updateUnitProduct) or die(mysql_error());
                     }
                     /* ------------------------------------------------------------- */
                     ?>
@@ -141,11 +148,11 @@ INDEX
                                 <div class="inner">
                                     <p>
                                         <input type="hidden" name="step" value="3">
-                                        <label><input type="radio" value="1" name="order_pays" checked=""> ชำระผ่าน PAYSBUY</label> 
+                                        <!--<label><input type="radio" value="1" name="order_pays" checked=""> ชำระผ่าน PAYSBUY</label> -->
                                         <label><input type="radio" value="2" name="order_pays"> โอนเงินเข้าบัญชีธนาคาร</label>     
                                         <label><input type="radio" value="3" name="order_pays"> ส่งพัสดุเก็บเงินปลายทาง</label>  
-                                        <label><input type="radio" value="4" name="order_pays"> ชำระผ่าน paypal</label>   
                                         <label><input type="radio" value="5" name="order_pays"> ชำระเงินและรับสินค้าที่ร้าน</label>  
+                                        <label><input type="radio" value="4" name="order_pays"> ชำระผ่าน paypal</label>   
                                     </p>
                                     <p style="margin-top: 5px;">
                                         <span class="bt_orderStep1">
@@ -174,6 +181,14 @@ INDEX
                                     <div class="inner-w border-inner">
                                         <?php require './order_pays_tables.php'; ?>
                                     </div>
+                                    <?php if ($_GET['order_pays'] == 2) { ?>
+                                        <div class="inner-w border-inner" style="margin: 7px 0;text-align: center;">
+                                            <p class="title">
+                                                <b>คุณสามารถโอนเงินได้ที่บัญชีด้านล่างนี้</b>
+                                            </p>
+                                            <img src="images/bank_pays.jpg" style="display: block;margin: 7px auto;width: 50%;border: solid 1px #000;"/>
+                                        </div>
+                                    <?php } ?>
                                     <div class="inner download_order" style="text-align: center;margin-top: 10px;">
                                         <a href="script_create/create_order/order_pdf.php?ORDER=<?= ORDER_ID ?>&MEMBER=<?= $member_id ?>"
                                            class="download_pdf" target="_blank">
@@ -219,9 +234,9 @@ INDEX
                             </div>
                         </div>
                     </div>
-                    <!------------------------------------------Paysbuy---------------------------------------------------------->
-                <?php } elseif ($_GET['step'] == 3 && $_GET['order_pays'] == 1) { ?>
-                    <?php clear_order(); ?>
+                    <!------------------------------------------Paysbuy
+                    <?php //} elseif ($_GET['step'] == 3 && $_GET['order_pays'] == 1) { ?>
+                    <?php //clear_order(); ?>
                     <div class="inner_border" style="margin-top: 5px;">
                         <h3 class="topic bg_img">
                             ซื้อสินค้าเครื่องดนตรี STEP 3
@@ -231,33 +246,34 @@ INDEX
                                 <div class="black_title">ชำระเงินผ่าน Paysbuy</div>
                                 <div id="show_order_paper" style="display: none;">
                                     <div class="inner-w border-inner">
-                                        <?php require './order_pays_tables.php'; ?>
+                    <?php //require './order_pays_tables.php'; ?>
                                     </div>
                                 </div>
                                 <div style="text-align: center;">
                                     <div class="warning" style="width: 80%;margin: 10px auto;">
                                         คลิ๊กปุ่มด้านล่างเพื่อชำระเงินผ่าน Paysbuy
                                     </div>
-                                    <!----------------------------------- PAYSBUY ------------------------------------------->
-                                    <Form method="post" action="https://www.paysbuy.com/paynow.aspx?lang=t"> 
-                                        <input type="Hidden" Name="psb" value="psb"/> 
-                                        <input Type="Hidden" Name="biz" value="wanchaloem.laokeut@googlemail.com"/>
-                                        <input Type="Hidden" Name="inv" value="<?= ORDER_ID ?>"/> 
-                                        <input Type="Hidden" Name="itm" value="<?= $WEB_THAI_NAME ?> [Order-<?= ORDER_ID ?>]"/> 
-                                        <input Type="Hidden" Name="amt" value="<?= $sumPriceALL_Tax ?>"/>
-                                        <Input Type="Hidden" Name="reqURL" value="http://localhost/Website_selling_musical_intrusment_PROJECT/reqURL.php">
-                                        <Input Type="Hidden" Name="postURL" value="http://localhost/Website_selling_musical_intrusment_PROJECT/postURL.php">
-                                        <input type="image" src="https://www.paysbuy.com/imgs/L_click2buy.gif" border="0" 
-                                               name="submit" alt="Make it easier,PaySbuy - it's fast,free and secure!"/> 
-                                    </Form>
-                                    <!----------------------------------------------------------------------------------->
-                                </div>
-                                <div class="black_title" style="margin: 0;margin-top: 10px;">
-                                    &nbsp;
-                                </div>
-                            </div>
-                        </div>
+                    <!----------------------------------- PAYSBUY --------------------
+                    <Form method="post" action="https://www.paysbuy.com/paynow.aspx?lang=t"> 
+                        <input type="Hidden" Name="psb" value="psb"/> 
+                        <input Type="Hidden" Name="biz" value="wanchaloem.laokeut@googlemail.com"/>
+                        <input Type="Hidden" Name="inv" value="<?= ORDER_ID ?>"/> 
+                        <input Type="Hidden" Name="itm" value="<?= $WEB_THAI_NAME ?> [Order-<?= ORDER_ID ?>]"/> 
+                        <input Type="Hidden" Name="amt" value="<?= $sumPriceALL_Tax ?>"/>
+                        <Input Type="Hidden" Name="reqURL" value="http://localhost/Website_selling_musical_intrusment_PROJECT/reqURL.php">
+                        <Input Type="Hidden" Name="postURL" value="http://localhost/Website_selling_musical_intrusment_PROJECT/postURL.php">
+                        <input type="image" src="https://www.paysbuy.com/imgs/L_click2buy.gif" border="0" 
+                               name="submit" alt="Make it easier,PaySbuy - it's fast,free and secure!"/> 
+                    </Form>
+                    <!---------------------------------------------------------
                     </div>
+                    <div class="black_title" style="margin: 0;margin-top: 10px;">
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+                    -->
                 <?php } elseif ($_GET['step'] == 3 && $_GET['order_pays'] == 4) { ?>
                     <?php clear_order(); ?>
                     <div class="inner_border" style="margin-top: 5px;">
@@ -339,10 +355,10 @@ INDEX
 <?php
 if (isset($_GET['status'])) {
     if ($_GET['status'] == 1) {
-        $update_orderDetail = "UPDATE order_music SET order_status=4,order_date=NOW() WHERE order_id=" . ORDER_ID;
+        $update_orderDetail = "UPDATE order_music SET order_status=3,order_date=NOW() WHERE order_id=" . ORDER_ID;
         mysql_query($update_orderDetail);
     } elseif ($_GET['status'] == 2) {
-        $update_orderDetail = "UPDATE order_music SET order_status=5,order_date=NOW() WHERE order_id=" . ORDER_ID;
+        $update_orderDetail = "UPDATE order_music SET order_status=4,order_date=NOW() WHERE order_id=" . ORDER_ID;
         mysql_query($update_orderDetail);
     }
     echo "<script>location='http://localhost/Website_selling_musical_intrusment_PROJECT/order_pays.php?step=4'</script>";

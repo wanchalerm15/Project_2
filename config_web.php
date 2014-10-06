@@ -17,15 +17,15 @@
             <ul class="config_web_menu">
                 <li><a href="?manage=config_web&set=web_name">ชื่อร้านค้า</a></li>
                 <span>|</span>
-                <li><a href="?manage=config_web&set=logo_web">โลโก้ร้านค้า</a></li>
+                <li><a href="?manage=config_web&set=logo_web">โลโก้,บัญชีธนาคาร</a></li>
                 <span>|</span>
                 <li><a href="?manage=config_web&set=row_tax">จำนวนแถว,ภาษี</a></li>
                 <span>|</span>
-                <li><a href="?manage=config_web&set=how_to_pays">หน้าเพจ วิธีการสั่งซื้อ</a></li>
+                <li><a href="?manage=config_web&set=how_to_pays">เพจ วิธีการสั่งซื้อ</a></li>
                 <span>|</span>
-                <li><a href="?manage=config_web&set=about_me">หน้าเพจ เกี่ยวกับเรา</a></li>
+                <li><a href="?manage=config_web&set=about_me">เพจ เกี่ยวกับเรา</a></li>
                 <span>|</span>
-                <li><a href="?manage=config_web&set=contact_us">หน้าเพจ ติดต่อเรา</a></li>
+                <li><a href="?manage=config_web&set=contact_us">เพจ ติดต่อเรา</a></li>
             </ul>
         </div>
         <!---------------------------------------WEB NAME--------------------------------------->
@@ -60,7 +60,7 @@
                 <br />
                 <form class="edit_web_name" style="text-align: center;" id="logo_web" target="how_to_pays_ifm"
                       method="POST" enctype="multipart/form-data" action="web_server_script/website.php?logo_web=1">
-                    <img src="<?= $WEB_LOGO ?>" />
+                    <img src="<?= $WEB_LOGO ?>" class="logo_img_config_web"/>
                     <br /><br />
                     <p><u>เปลี่ยนภาพโลโก้ใหม่</u></p>
                     <br />
@@ -68,6 +68,26 @@
                         <img src="images/upload.png" height="14px"/> อัพโหลดใหม่
                     </button>
                     <input type="file" style="display: none;" id="file_logo" name="file_logo" onchange="$('#logo_web').submit()"/>
+                </form>
+                <br />
+            </div>
+            <!---------------------------------------img_bank_pays--------------------------------------->
+            <div class="inner-w border-inner" style="margin-top: 15px;">
+                <p class="title">
+                    <img class="add">
+                    <b><u>แก้ไข ภาพบัญชีธนาคาร</u></b>
+                </p>
+                <br />
+                <form class="edit_web_name" style="text-align: center;" id="img_bank_pays" target="how_to_pays_ifm"
+                      method="POST" enctype="multipart/form-data" action="web_server_script/website.php?img_bank_pays=1">
+                    <img src="images/bank_pays.jpg" class="logo_img_config_web"/>
+                    <br /><br />
+                    <p><u>เปลี่ยนภาพแสดงบัญชีธนาคารในการชำระเงิน</u></p>
+                    <br />
+                    <button type="button" class="bt_black" onclick="$('#file_img_bank_pays').click()">
+                        <img src="images/upload.png" height="14px"/> อัพโหลดใหม่
+                    </button>
+                    <input type="file" style="display: none;" id="file_img_bank_pays" name="file_img_bank_pays" onchange="$('#img_bank_pays').submit()"/>
                 </form>
                 <br />
             </div>

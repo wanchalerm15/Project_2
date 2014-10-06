@@ -91,7 +91,7 @@ $table.="</tr>";
 $table.="<tr>";
 $table.="<td width=300>&nbsp;</td>";
 $table.="<td width=90 align=center>&nbsp;</td>";
-$table.="<td width=170 align=center>" . "ภาษี 5%" . "</td>";
+$table.="<td width=170 align=center>" . "ภาษี $WEB_TAX%" . "</td>";
 $table.="<td width=200 align=center>" . number_format($order['order_tax'], 2) . "</td>";
 $table.="</tr>";
 $sumPriceALL_tax = $order['order_tax'] + $order['order_priceall'];

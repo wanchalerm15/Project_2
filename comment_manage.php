@@ -20,13 +20,26 @@
             $num_page = 1;
             $start_row = 0;
         }
-        $query = "SELECT * FROM comment ORDER BY comment_id AND comment_delete DESC LIMIT $start_row,$end_row";
+        if (isset($_POST['search_comment'])) {
+            $search_comment = $_POST['search_comment'];
+            $query = "SELECT * FROM comment WHERE comment_topic like('%$search_comment%') OR comment_id like('%$search_comment%') ORDER BY comment_delete DESC";
+            ?>
+            <p class="warning" id="top">
+                ผลการค้นหา ความเห็นต่อสินค้าเครื่องดนตรี  <?= $search_top ?> 
+                พบความเห็น  <?= mysql_num_rows(mysql_query($query)) ?> รายการ
+            </p>
+            <?php
+        } else {
+            $query = "SELECT * FROM comment ORDER BY comment_id DESC LIMIT $start_row,$end_row";
+            ?>
+            <p class="warning" id="top">
+                มีการแสดงความเห็นต่อ สินค้าเครื่องดนตรีภายในระบบทั้งหมด  <?= $mysql_numrow ?> รายการ
+                มีหน้าที่แสดงรายการแสดงความเห็นต่อ สินค้าเครื่องดนตรีทั้งหมด <?= $numrow ?> หน้า
+            </p>
+            <?php
+        }
         $result = mysql_query($query);
         ?>
-        <p class="warning" id="top">
-            มีการแสดงความเห็นต่อ สินค้าเครื่องดนตรีภายในระบบทั้งหมด  <?= $mysql_numrow ?> รายการ
-            มีหน้าที่แสดงรายการแสดงความเห็นต่อ สินค้าเครื่องดนตรีทั้งหมด <?= $numrow ?> หน้า
-        </p>
         <p class="title">
             <img class="add">
             รายการสินค้าเครื่องดนตรี
@@ -45,6 +58,10 @@
                 <tr>
                     <td colspan="4" style="text-align: left;">ไม่มีรายการในระบบ</td>
                 </tr>
+            <?php } elseif (mysql_num_rows($result) <= 0) { ?>
+                <tr>
+                    <td colspan="4" style="text-align: left;">ไม่มีรายการในระบบ</td>
+                </tr>
                 <?php
             } else {
                 while ($comment = mysql_fetch_array($result)) {
@@ -60,7 +77,7 @@
                             $comment_data = "";
                             if (strlen($comment['comment_topic']) > 70) {
                                 $comment_topic = $comment['comment_topic'];
-                                $comment_data = substr($comment_topic, 0, 70);
+                                $comment_data = substr($comment_topic, 0, 200);
                             } else {
                                 $comment_data = $comment['comment_topic'];
                             }
@@ -91,10 +108,10 @@
             <button class="button" id="delete_data">ลบที่เลือก</button>
         </p> 
         <script>
-            $(document).ready(function() {
-                $("#delete_data").click(function() {
+            $(document).ready(function () {
+                $("#delete_data").click(function () {
                     var data = " [ ";
-                    $(":checkbox.delete_check:checked").each(function(index) {
+                    $(":checkbox.delete_check:checked").each(function (index) {
                         if (($(":checkbox.delete_check:checked").length - 1) == index) {
                             data += "Comment : " + $(this).val();
                         } else {
@@ -104,29 +121,31 @@
                     data += " ] ";
 
                     if (confirm("คุณต้องการลบรายการที่" + data + "นี้จริงหรือ !")) {
-                      delete_comment_arrlay();
+                        delete_comment_arrlay();
                     }
                 });
             });</script>
-        <div class="part_row">
-            <a href="?manage=comment&row=<?= $_GET['row'] - ($r + 1) ?>#top" class="past">ก่อนหน้า</a>
-            <span>
-                |
-                <select onchange="change_row_Aftershop(this, 'comment')" class="select">
-                    <?php
-                    for ($i = 1; $i <= $numrow; $i++) {
-                        if ($i == $_GET['row']) {
-                            echo "<option value='$i' selected=''>$i</option>";
-                        } else {
-                            echo "<option value='$i'>$i</option>";
+        <?php if (!isset($_POST['search_comment'])) { ?>
+            <div class="part_row">
+                <a href="?manage=comment&row=<?= $_GET['row'] - ($r + 1) ?>#top" class="past">ก่อนหน้า</a>
+                <span>
+                    |
+                    <select onchange="change_row_Aftershop(this, 'comment')" class="select">
+                        <?php
+                        for ($i = 1; $i <= $numrow; $i++) {
+                            if ($i == $_GET['row']) {
+                                echo "<option value='$i' selected=''>$i</option>";
+                            } else {
+                                echo "<option value='$i'>$i</option>";
+                            }
                         }
-                    }
-                    ?>
-                </select>
-                |
-            </span>
-            <a href="?manage=comment&row=<?= $_GET['row'] + ($r + 1) ?>#top" class="past">ถัดไป</a>
-        </div>
+                        ?>
+                    </select>
+                    |
+                </span>
+                <a href="?manage=comment&row=<?= $_GET['row'] + ($r + 1) ?>#top" class="past">ถัดไป</a>
+            </div>
+        <?php } ?>
         <?php
         echo "<script>";
         echo "$(document).ready(function() {";

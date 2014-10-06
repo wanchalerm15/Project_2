@@ -16,13 +16,25 @@
             $num_page = 1;
             $start_row = 0;
         }
-        $query = "SELECT * FROM category ORDER BY category_id LIMIT $start_row,$end_row";
+        if (isset($_POST['search_category'])) {
+            $search_category = $_POST['search_category'];
+            $query = "SELECT * FROM category WHERE category_name like('%$search_category%') ORDER BY category_id";
+            ?>
+            <p class="warning" id="top">
+                ผลการค้นหา ประเภทสินค้าเครื่องดนตรี "<?= $search_category ?>"  <?= mysql_num_rows(mysql_query($query)) ?> ประเภท
+            </p>
+            <?php
+        } else {
+            $query = "SELECT * FROM category ORDER BY category_id LIMIT $start_row,$end_row";
+            ?>
+            <p class="warning" id="top">
+                มีรายการประเภทสินค้าเครื่องดนตรีทั้งหมด  <?= $mysql_numrow ?> ประเภท
+                มีหน้าที่แสดงทั้งหมด <?= $numrow ?> หน้า
+            </p>
+            <?php
+        }
         $result = mysql_query($query);
         ?>
-        <p class="warning" id="top">
-            มีรายการประเภทสินค้าเครื่องดนตรีทั้งหมด  <?= $mysql_numrow ?> ประเภท
-            มีหน้าที่แสดงทั้งหมด <?= $numrow ?> หน้า
-        </p>
         <p class="title">
             <img class="add">
             <span>รายการประเภทสินค้าเครื่องดนตรี</span>
@@ -35,6 +47,10 @@
                 <td>#ลบ</td>
             </tr>
             <?php if (mysql_num_rows(mysql_query("SELECT * FROM category")) <= 0) { ?>
+                <tr>
+                    <td colspan="4" style="text-align: left;">ไม่มีรายการในระบบ</td>
+                </tr>
+            <?php } elseif (mysql_num_rows(mysql_query($query)) <= 0) { ?>
                 <tr>
                     <td colspan="4" style="text-align: left;">ไม่มีรายการในระบบ</td>
                 </tr>
@@ -64,10 +80,10 @@
             <button class="button" id="delete_data">ลบที่เลือก</button>
         </p> 
         <script>
-            $(document).ready(function() {
-                $("#delete_data").click(function() {
+            $(document).ready(function () {
+                $("#delete_data").click(function () {
                     var data = " [ ";
-                    $(":checkbox.delete_check:checked").each(function(index) {
+                    $(":checkbox.delete_check:checked").each(function (index) {
                         if (($(":checkbox.delete_check:checked").length - 1) == index) {
                             data += "C" + $(this).val();
                         } else {
@@ -82,25 +98,27 @@
                 });
             });
         </script>
-        <div class="part_row">
-            <a href="?manage=category&row=<?= $_GET['row'] - ($r + 1) ?>#top" class="past">ก่อนหน้า</a>
-            <span>
-                |
-                <select class="select" onchange="change_row_Aftershop(this, 'category')">
-                    <?php
-                    for ($i = 1; $i <= $numrow; $i++) {
-                        if ($i == $_GET['row']) {
-                            echo "<option value='$i' selected=''>$i</option>";
-                        } else {
-                            echo "<option value='$i'>$i</option>";
+        <?php if (!isset($_POST['search_category'])) { ?>
+            <div class="part_row">
+                <a href="?manage=category&row=<?= $_GET['row'] - ($r + 1) ?>#top" class="past">ก่อนหน้า</a>
+                <span>
+                    |
+                    <select class="select" onchange="change_row_Aftershop(this, 'category')">
+                        <?php
+                        for ($i = 1; $i <= $numrow; $i++) {
+                            if ($i == $_GET['row']) {
+                                echo "<option value='$i' selected=''>$i</option>";
+                            } else {
+                                echo "<option value='$i'>$i</option>";
+                            }
                         }
-                    }
-                    ?>
-                </select>
-                |
-            </span>
-            <a href="?manage=category&row=<?= $_GET['row'] + ($r + 1) ?>#top" class="past">ถัดไป</a>
-        </div>
+                        ?>
+                    </select>
+                    |
+                </span>
+                <a href="?manage=category&row=<?= $_GET['row'] + ($r + 1) ?>#top" class="past">ถัดไป</a>
+            </div>
+        <?php } ?>
         <?php
         echo "<script>";
         echo "$(document).ready(function() {";
@@ -139,8 +157,8 @@
         </form>
     </div>
     <script>
-        $(document).ready(function() {
-            $('#add_category-bt').click(function() {
+        $(document).ready(function () {
+            $('#add_category-bt').click(function () {
                 if ($.trim($('#add_category .text').val()) != "") {
                     add_category();
                 } else {

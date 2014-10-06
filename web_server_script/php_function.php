@@ -438,3 +438,24 @@ function order_status($check) {
     }
     return $Payment;
 }
+
+function search_price_product($variable) {
+    switch ($variable) {
+        case 1:
+            $sql_search = "select * from product where product_price < 500";
+            break;
+        case 2:
+            $sql_search = "select * from product where product_price between 500 and 5000";
+            break;
+        case 3:
+            $sql_search = "select * from product where product_price between 5000 and 10000";
+            break;
+        case 4:
+            $sql_search = "select * from product where product_price between 10000 and 25000";
+            break;
+        case 5:
+            $sql_search = "select * from product where product_price > 25000";
+            break;
+    }
+    return $sql_search;
+}

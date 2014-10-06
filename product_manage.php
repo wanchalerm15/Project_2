@@ -19,13 +19,25 @@
             $num_page = 1;
             $start_row = 0;
         }
-        $query = "SELECT * FROM product ORDER BY product_id LIMIT $start_row,$end_row";
+        if (isset($_POST['search_product'])) {
+            $search_product = $_POST['search_product'];
+            $query = "SELECT * FROM product WHERE product_name like('%$search_product%') ORDER BY product_id";
+            ?>
+            <p class="warning" id="top">
+                ผลการค้นหา สินค้าเครื่องดนตรี "<?= $search_product ?>"  พบ <?= mysql_num_rows(mysql_query($query)) ?> รายการ
+            </p>
+            <?php
+        } else {
+            $query = "SELECT * FROM product ORDER BY product_id LIMIT $start_row,$end_row";
+            ?>
+            <p class="warning" id="top">
+                มีรายการสินค้าเครื่องดนตรีภายในระบบทั้งหมด  <?= $mysql_numrow ?> รายการ
+                มีหน้าที่แสดงรายการสินค้าเครื่องดนตรีทั้งหมด <?= $numrow ?> หน้า
+            </p>
+            <?php
+        }
         $result = mysql_query($query);
         ?>
-        <p class="warning" id="top">
-            มีรายการสินค้าเครื่องดนตรีภายในระบบทั้งหมด  <?= $mysql_numrow ?> รายการ
-            มีหน้าที่แสดงรายการสินค้าเครื่องดนตรีทั้งหมด <?= $numrow ?> หน้า
-        </p>
         <p class="title">
             <img class="add">
             รายการสินค้าเครื่องดนตรี
@@ -44,6 +56,10 @@
                 <td>#ลบ</td>
             </tr>
             <?php if (mysql_num_rows(mysql_query("SELECT * FROM product")) <= 0) { ?>
+                <tr>
+                    <td colspan="7" style="text-align: left;">ไม่มีรายการในระบบ</td>
+                </tr>
+            <?php } elseif (mysql_num_rows($result) <= 0) { ?>
                 <tr>
                     <td colspan="7" style="text-align: left;">ไม่มีรายการในระบบ</td>
                 </tr>
@@ -83,10 +99,10 @@
             <button class="button" id="delete_data">ลบที่เลือก</button>
         </p> 
         <script>
-            $(document).ready(function() {
-                $("#delete_data").click(function() {
+            $(document).ready(function () {
+                $("#delete_data").click(function () {
                     var data = " [ ";
-                    $(":checkbox.delete_check:checked").each(function(index) {
+                    $(":checkbox.delete_check:checked").each(function (index) {
                         if (($(":checkbox.delete_check:checked").length - 1) == index) {
                             data += "P" + $(this).val();
                         } else {
@@ -94,32 +110,32 @@
                         }
                     });
                     data += " ] ";
-
                     if (confirm("คุณต้องการลบรายการที่" + data + "นี้จริงหรือ !")) {
                         delete_product_array();
                     }
                 });
-            });
-        </script>
-        <div class="part_row">
-            <a href="?manage=product&row=<?= $_GET['row'] - ($r + 1) ?>#top" class="past">ก่อนหน้า</a>
-            <span>
-                |
-                <select onchange="change_row_Aftershop(this, 'product')" class="select">
-                    <?php
-                    for ($i = 1; $i <= $numrow; $i++) {
-                        if ($i == $_GET['row']) {
-                            echo "<option value='$i' selected=''>$i</option>";
-                        } else {
-                            echo "<option value='$i'>$i</option>";
+            });</script>
+        <?php if (!isset($_POST['search_product'])) { ?>
+            <div class="part_row">
+                <a href="?manage=product&row=<?= $_GET['row'] - ($r + 1) ?>#top" class="past">ก่อนหน้า</a>
+                <span>
+                    |
+                    <select onchange="change_row_Aftershop(this, 'product')" class="select">
+                        <?php
+                        for ($i = 1; $i <= $numrow; $i++) {
+                            if ($i == $_GET['row']) {
+                                echo "<option value='$i' selected=''>$i</option>";
+                            } else {
+                                echo "<option value='$i'>$i</option>";
+                            }
                         }
-                    }
-                    ?>
-                </select>
-                |
-            </span>
-            <a href="?manage=product&row=<?= $_GET['row'] + ($r + 1) ?>#top" class="past">ถัดไป</a>
-        </div>
+                        ?>
+                    </select>
+                    |
+                </span>
+                <a href="?manage=product&row=<?= $_GET['row'] + ($r + 1) ?>#top" class="past">ถัดไป</a>
+            </div>
+        <?php } ?>
         <?php
         echo "<script>";
         echo "$(document).ready(function() {";
@@ -207,6 +223,15 @@
             </p>
             <p>
                 <span>
+                    ค่าขนส่งสินค้าเครื่องดนตรี :
+                </span>
+                <span>
+                    <input type="text" placeholder="Enter Cost Product" class="text" name="product_cost" id="product_cost">
+                    <span id="important_Symbols"></span>
+                </span>
+            </p>
+            <p>
+                <span>
                     ภาพสินค้าเครื่องดนตรี :
                 </span>
                 <span>
@@ -235,40 +260,46 @@
                     showProduct_sound(product_id);
                 }
             }
-            $(document).ready(function() {
-                $("#product_name").keyup(function() {
+            $(document).ready(function () {
+                $("#product_name").keyup(function () {
                     check_code("#add_product_error", "product", "product_name", $(this).val(), "ชื่อสินค้าเครื่องดนตรี", 0);
                 });
-                $("#add_product-rs").click(function() {
+                $("#add_product-rs").click(function () {
                     var warning = "จะเพิ่มสินค้าเครื่องดนตรีเข้าสู่ระบบได้ จะต้องกรอกข้อมูลในส่วนที่มี ตราสัญลักษณ์ <span style='color: #F00;'> * </span> ด้านหลัง";
                     $("#add_product_error").removeAttr("class").addClass("warning").html(warning);
                 });
-                $("#add_product-bt").click(function() {
+                $("#add_product-bt").click(function () {
                     var category_id = $.trim($("#category_id").val());
                     var product_name = $.trim($("#product_name").val());
                     var product_price = $.trim($("#product_price").val());
                     var product_unit = $.trim($("#product_unit").val());
+                    var product_cost = $.trim($("#product_cost").val());
                     if (category_id != "" && product_name != "" && product_price != "" && product_unit != "") {
                         if (category_id != 0) {
-                            if ($.isNumeric(product_price)) {
-                                if ($.isNumeric(product_unit)) {
-                                    var upload_image = $("#product_image").val();
-                                    var upload_sound = $("#product_sound").val();
-                                    if (upload_image != "" || upload_sound != "") {
-                                        $(".iframe_crop").fadeIn();
-                                        $("#add_product_error").hide();
-                                        $("#add_product").hide();
-                                        return true;
+                            if (product_cost != "" && $.isNumeric(product_cost)) {
+                                if ($.isNumeric(product_price)) {
+                                    if ($.isNumeric(product_unit)) {
+                                        var upload_image = $("#product_image").val();
+                                        var upload_sound = $("#product_sound").val();
+                                        if (upload_image != "" || upload_sound != "") {
+                                            $(".iframe_crop").fadeIn();
+                                            $("#add_product_error").hide();
+                                            $("#add_product").hide();
+                                            return true;
+                                        } else {
+                                            var data = $("#add_product").serialize();
+                                            add_product(data);
+                                        }
                                     } else {
-                                        var data = $("#add_product").serialize();
-                                        add_product(data);
+                                        var warning = "จำนวนสินค้าเครื่องดนตรี ต้องเป็นตัวเลข";
+                                        $("#add_product_error").removeAttr("class").addClass("warning-problem").html(warning);
                                     }
                                 } else {
-                                    var warning = "จำนวนสินค้าเครื่องดนตรี ต้องเป็นตัวเลข";
+                                    var warning = "ราคาสินค้าเครื่องดนตรี ต้องเป็นตัวเลขหรือ ทศนิยม";
                                     $("#add_product_error").removeAttr("class").addClass("warning-problem").html(warning);
                                 }
                             } else {
-                                var warning = "ราคาสินค้าเครื่องดนตรี ต้องเป็นตัวเลขหรือ ทศนิยม";
+                                var warning = "กรุณากรอกค่าขนส่งสินค้า เป็นตัวเลขจำนวนเต็มหรือทศนิยม !";
                                 $("#add_product_error").removeAttr("class").addClass("warning-problem").html(warning);
                             }
                         } else {

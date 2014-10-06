@@ -32,6 +32,41 @@ INDEX
         </script>
     </head>
     <body>
+        <?php
+        if ($_GET["manage"] == "category") {
+            /* ----------------------------- category -------------------------------------------- */
+            $search_detail = " ค้นหาประเภทสินค้าเครื่องดนตรี !";
+            $search_top = 'search_category';
+        } elseif ($_GET["manage"] == "employee") {
+            /* ----------------------------- employee -------------------------------------------------- */
+            $search_detail = " ค้นหาพนักงาน !";
+            $search_top = 'search_employee';
+        } elseif ($_GET["manage"] == "member") {
+            /* ----------------------------- member --------------------------------------------------- */
+            $search_detail = " ค้นหาลูกค้าสมาชิก !";
+            $search_top = 'search_member';
+        } elseif ($_GET["manage"] == "product") {
+            /* ------------------------------ product ---------------------------------------------------- */
+            $search_top = 'search_product';
+            $search_detail = " ค้นหาสินค้าเครื่องดนตรี !";
+        } elseif ($_GET["manage"] == "order") {
+            /* ---------------------------- order --------------------------------------------------- */
+            $search_detail = " ค้นหารายการสั่งซื้อ !";
+            $search_top = 'search_order';
+        } elseif ($_GET["manage"] == "comment") {
+            /* ------------------------------ order ---------------------------------------------------- */
+            $search_detail = " ค้นหาความเห็น !";
+            $search_top = 'search_comment';
+        } elseif ($_GET["manage"] == "config_web") {
+            /* ------------------------------ config_web -------------------------------------------------- */
+            $search_detail = " ไม่สามารถค้นหาได้ !";
+            $no_search = 'onsubmit="return false;"';
+        } else {
+            /* -------------------------- category ---------------------------------------------------- */
+            $search_detail = " ค้นหาประเภทสินค้าเครื่องดนตรี !";
+            $search_top = 'search_category';
+        }
+        ?>
         <?php $after_shop = "active"; ?>
         <?php require './header.php'; ?>
         <div id="containur" class="after_shop">
@@ -61,7 +96,7 @@ INDEX
                 <!------------------------------ member -------------------------------------------->
                 <?php include './member_manage.php'; ?>
             <?php } elseif ($_GET["manage"] == "product") { ?>
-                <!------------------------------ member -------------------------------------------->
+                <!------------------------------ product -------------------------------------------->
                 <?php include './product_manage.php'; ?>
             <?php } elseif ($_GET["manage"] == "order") { ?>
                 <!------------------------------ order -------------------------------------------->
@@ -70,7 +105,7 @@ INDEX
                 <!------------------------------ order -------------------------------------------->
                 <?php include './comment_manage.php'; ?>
             <?php } elseif ($_GET["manage"] == "config_web") { ?>
-                <!------------------------------ order -------------------------------------------->
+                <!------------------------------ config_web -------------------------------------------->
                 <?php include './config_web.php'; ?>
             <?php } else { ?>
                 <!------------------------------ category -------------------------------------------->

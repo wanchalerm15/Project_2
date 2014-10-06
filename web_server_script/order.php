@@ -158,12 +158,12 @@ if ($_REQUEST['receive_order'] == 1) {
         </form>
     </div>
     <script>
-        $(function() {
-            $("#receive_order_employee").submit(function() {
+        $(function () {
+            $("#receive_order_employee").submit(function () {
                 receive_order_employee(this);
                 return false;
             });
-            $("#status_update").change(function() {
+            $("#status_update").change(function () {
                 if ($(this).val() == 2) {
                     $(".sent_product").show();
                     $(".error_order").hide();
@@ -183,6 +183,9 @@ if ($_REQUEST['receive_order_employee'] == 1) {
     $employee_id = $_REQUEST['employee_id'];
     $status_update = $_REQUEST['status_update'];
     $query_receive_order = "REPLACE INTO receive_order(order_id,employee_id,receive_status,receive_date) VALUES($order_id,$employee_id,$status_update,NOW())";
+    /* if ($status_update == 5) {
+      mysql_query("UPDATE order_music SET order_status=$status_update WHERE order_id=$order_id") or die('ERROR order_music ! : ' . mysql_error());
+      } */
     mysql_query($query_receive_order) or die('ERROR receive_order ! : ' . mysql_error());
     if (!empty($_REQUEST['warning'])) {
         $warning = $_REQUEST['warning'];

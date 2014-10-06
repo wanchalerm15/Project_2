@@ -28,10 +28,26 @@
     .hideTosmartPhoe{
         display: none !important;   
     }
+    .product_price{
+        width: 23%;
+    }
     /*-------------------------------------/Before shop ------------------------------*/
 }
 /*------------------------------------ SmartPhone ------------------------------------------*/
 @media screen and (max-width:810px){
+    /****************************************************************************-- Web Config shop --*/
+    ul.config_web_menu li{
+        display: block;
+        margin: 5px 0;
+    }
+    ul.config_web_menu li a{
+        padding: 10px 0;
+        font-size: 16px;
+    }
+    ul.config_web_menu span{
+        display: none;
+    }
+    /****************************************************************************-- /after shop --*/
     #containur{
         min-width: 320px;
     }
@@ -143,8 +159,6 @@
         max-width: 92%;
     }
     /*----------------------------------------------------------------- product -----------------------*/
-    #add_product{
-    }
     #add_product p{
         padding-bottom: 10px;
         border-bottom: solid 1px #f0f0f0;
@@ -202,6 +216,14 @@
         width: 134.5%;
         margin-left: -34.5%;
         margin-bottom: 10px;
+    }
+    #show_product_search{
+        margin-top: -8px;
+        width: 73.6%;
+        margin-left: 26%;
+    }
+    #show_product_search #show_product_sell {
+        text-align: left;
     }
     .product_price{
         margin: 5px .5%;
@@ -291,7 +313,6 @@
     div.nav_menu ul li ul.secon-navmenu{
         left: -1px;
     }
-    /****************************************************************************-- after shop --*/
     td.show_date{
         display: none;
     }
@@ -321,14 +342,12 @@
         opacity: 1;
     }
     #show_product_sell{
+        text-align: center;
         width: 100%;
         margin: auto;
     }
     .product_price{
         width: 95%;
-    }
-    #img_product{
-
     }
     #img_product img{
         height: 150px;
@@ -353,6 +372,11 @@
     img.show_imageProduct{
         height: 100px !important;
         overflow: hidden;
+    }
+    #show_product_search{
+        margin-top: auto;
+        width: auto;
+        margin-left: 0;
     }
     #show_product_sell h3.topic{
         font-size: 16px;

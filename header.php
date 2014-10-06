@@ -1,12 +1,12 @@
-<?php include './web_server_script/edit_website.php'; ?>
 <?php
 if ($_GET["Logout"] == "yes") {
     session_destroy();
     echo "<script>location='" . $_SERVER["PHP_SELF"] . "'</script>";
 }
 ?>
+<?php include './web_server_script/edit_website.php'; ?>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
     });
 </script>
 <div id="nev_header">
@@ -15,18 +15,50 @@ if ($_GET["Logout"] == "yes") {
             <img src="<?= $WEB_LOGO; ?>">
         </div>
         <div class="search-box">
-            <form>
-                <!--
-                <select id="search_select" name="">
-                    <option> ค้นหาจากชื่อสินค้า </option>
-                    <option> ค้นหาจากประเภทสินค้า </option>
-                    <option> ค้นหาจากราคาสินค้า </option>
-                </select>
-                -->
+            <form method="POST" id="search_top" <?= $no_search ?>>
                 <span class="search-tx">
-                    <input type="search" placeholder=" ค้นหาสินค้าเครื่องดนตรี ด่วน !" name="search_tx" class="search-tx"><button>
-                        <img src="images/search.png">
-                    </button>
+                    <?php if ($search_top == 'search_order') { ?>
+                        <select style="width: 90%;border:solid 1px #FFF;padding: .7% 1%;" name="<?= $search_top ?>" onchange="$('#search_top').submit()">
+                            <?php
+                            $ORDER_STATUS = array(
+                                "รายการสั่งซื้อใหม่",
+                                "กำลังตรวจสอบรายการสั่งซื้อ",
+                                "จัดส่งสินค้าไปแล้ว",
+                                "รายการสั่งซื้อใหม่ ชำระเงินแล้ว",
+                                "เกิดข้อขัดข้อง ลูกค้ายกเลิกการจ่ายเงิน",
+                                "รายการเสร็จสิ้น",
+                                "เกิดข้อขัดข้องอื่นๆ"
+                            );
+                            if (isset($_POST['search_order'])) {
+                                for ($index = 0; $index < count($ORDER_STATUS); $index++) {
+                                    if ($index == 0 || $index == 3 || $index == 4) {
+                                        if ($_POST['search_order'] == $index) {
+                                            echo "<option value='$index' selected=''>$ORDER_STATUS[$index]</option>";
+                                        } else {
+                                            echo "<option value='$index'>$ORDER_STATUS[$index]</option>";
+                                        }
+                                    }
+                                }
+                            } else {
+                                echo '<option value="false" selected="">ค้นหารายการสั่งซื้อ</option>';
+                                for ($index = 0; $index < count($ORDER_STATUS); $index++) {
+                                    if ($index == 0 || $index == 3 || $index == 4) {
+                                        echo "<option value='$index'>$ORDER_STATUS[$index]</option>";
+                                    }
+                                }
+                            }
+                            ?>
+                        </select>
+                    <?php } else { ?>
+                        <?php if (!empty($no_search)) { ?>
+                            <input type="search" placeholder="<?= $search_detail ?>" name="<?= $search_top ?>" class="search-tx" disabled="">
+                        <?php } else { ?>
+                            <input type="search" placeholder="<?= $search_detail ?>" name="<?= $search_top ?>" class="search-tx">
+                        <?php } ?>
+                        <button>
+                            <img src="images/search.png">
+                        </button>
+                    <?php } ?>
                 </span>
             </form>
         </div>
@@ -49,9 +81,9 @@ if ($_GET["Logout"] == "yes") {
                 <?php } else { ?>
                     <li><a href="login_singin.php" class="<?= $signin ?>"><img src="images/editUser_icon.png"> <span>สมัครสมาชิก</span></a></li>
                 <?php } ?>
-                <li><a href=""><img src="images/contact_icon.png"> <span>ติดต่อเรา</span></a></li>
-                <li><a href=""><img src="images/about_icon.png"> <span>เกี่ยวกับเรา</span></a></li>
-                <li><a href=""><img src="images/pay_icon.png"> <span>วิธีการสั่งซื้อ</span></a></li>
+                <li><a href="contact_us.php" class="<?= $contact_us ?>"><img src="images/contact_icon.png"> <span>ติดต่อเรา</span></a></li>
+                <li><a href="about_me.php" class="<?= $about_me ?>"><img src="images/about_icon.png"> <span>เกี่ยวกับเรา</span></a></li>
+                <li><a href="how_to_pays.php" class="<?= $how_to_pays ?>"><img src="images/pay_icon.png"> <span>วิธีการสั่งซื้อ</span></a></li>
                 <li><a href="index.php" class="<?= $home ?>"><img src="images/home_icon.png"> <span>หน้าแรก</span></a></li>
             </ul>
         </div>

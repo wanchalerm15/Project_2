@@ -7,6 +7,7 @@ if ($_REQUEST["add_product"] == 1) {
     $product_name = $_REQUEST['product_name'];
     $product_price = $_REQUEST['product_price'];
     $product_unit = $_REQUEST['product_unit'];
+    $product_cost = $_REQUEST['product_cost'];
     if ($_FILES) {
         $image_product = $_FILES["product_image"]['name'];
         $sound_product = $_FILES["product_sound"]['name'];
@@ -67,7 +68,8 @@ if ($_REQUEST["add_product"] == 1) {
             echo "</div>";
         }
     }
-    $query = "INSERT INTO product VALUES(0,$category_id,'$product_name',$product_price,$product_unit,'$image_DB','$sound_DB',NOW())";
+    $query = "INSERT INTO product(category_id,product_name,product_price,product_unit,product_image,product_sound,product_cost,date_input) ";
+    $query .= "VALUES($category_id,'$product_name',$product_price,$product_unit,'$image_DB','$sound_DB',$product_cost,NOW())";
     mysql_query($query) or die("ไม่สามารถเพิ่มรายการ $product_name ได้ เนื่องจาก : " . mysql_error());
 }
 
@@ -164,6 +166,10 @@ if ($_REQUEST['show_edit_product'] == 1) {
         <p>
             <span>จำนวนสินค้าเครื่องดนตรี : </span>
             <span><input type="text" value="<?= $product['product_unit'] ?>" class="text" name="product_unit"></span>
+        </p>
+        <p>
+            <span>ค่าขนส่งสินค้าเครื่องดนตรี : </span>
+            <span><input type="text" value="<?= $product['product_cost'] ?>" class="text" name="product_cost"></span>
         </p>
         <p>
             <span>ภาพสินค้าเครื่องดนตรี : </span>
@@ -510,12 +516,14 @@ if ($_REQUEST['edit_product_main'] == 1) {
     $product_name = $_REQUEST['product_name'];
     $product_price = $_REQUEST['product_price'];
     $product_unit = $_REQUEST['product_unit'];
+    $product_cost = $_REQUEST['product_cost'];
     if (empty($product_id)) {
         $product_id = $product_id_main;
     }
     $query = "update product set product_id=$product_id,"
             . "category_id=$category_id,product_name='$product_name',"
             . "product_price=$product_price,product_unit=$product_unit,"
+            . "product_cost=$product_cost,"
             . "date_input=NOW() where product_id=$product_id_main";
     mysql_query($query) or die("ไม่สามารถแก้ไขรายการนี้ได้ เนื่องจาก : " . mysql_error());
 }

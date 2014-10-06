@@ -16,13 +16,26 @@
             $num_page = 1;
             $start_row = 0;
         }
-        $query = "SELECT * FROM member ORDER BY member_id LIMIT $start_row,$end_row";
+        if (isset($_POST['search_member'])) {
+            $search_member = $_POST['search_member'];
+            $query = "SELECT * FROM member WHERE member_name like('%$search_member%') ORDER BY member_id";
+            ?>
+            <p class="warning" id="top">
+                ผลการค้นหาลูกค้าสมาชิก  "<?= $search_member ?>"
+                พบ <?= mysql_num_rows(mysql_query($query)) ?> รายการ
+            </p>
+            <?php
+        } else {
+            $query = "SELECT * FROM member ORDER BY member_id LIMIT $start_row,$end_row";
+            ?>
+            <p class="warning" id="top">
+                มีลูกค้าสมาชิกภายในระบบทั้งหมด  <?= $mysql_numrow ?> คน
+                มีหน้าที่แสดงรายการลูกค้าสมาชิกทั้งหมด <?= $numrow ?> หน้า
+            </p>
+            <?php
+        }
         $result = mysql_query($query);
         ?>
-        <p class="warning" id="top">
-            มีลูกค้าสมาชิกภายในระบบทั้งหมด  <?= $mysql_numrow ?> คน
-            มีหน้าที่แสดงรายการลูกค้าสมาชิกทั้งหมด <?= $numrow ?> หน้า
-        </p>
         <p class="title">
             <img class="add">
             <span>รายการข้อมูลลูกค้าสมาชิกในระบบ</span>
@@ -36,6 +49,10 @@
                 <td>#ลบ</td>
             </tr>
             <?php if (mysql_num_rows(mysql_query("SELECT * FROM member")) <= 0) { ?>
+                <tr>
+                    <td colspan="5" style="text-align: left;">ไม่มีรายการในระบบ</td>
+                </tr>
+            <?php } elseif (mysql_num_rows(mysql_query($query)) <= 0) { ?>
                 <tr>
                     <td colspan="5" style="text-align: left;">ไม่มีรายการในระบบ</td>
                 </tr>
@@ -68,10 +85,10 @@
             <button class="button" id="delete_data">ลบที่เลือก</button>
         </p> 
         <script>
-            $(document).ready(function() {
-                $("#delete_data").click(function() {
+            $(document).ready(function () {
+                $("#delete_data").click(function () {
                     var data = " [ ";
-                    $(":checkbox.delete_check:checked").each(function(index) {
+                    $(":checkbox.delete_check:checked").each(function (index) {
                         if (($(":checkbox.delete_check:checked").length - 1) == index) {
                             data += "M" + $(this).val();
                         } else {
@@ -86,25 +103,27 @@
                 });
             });
         </script>
-        <div class="part_row">
-            <a href="?manage=member&row=<?= $_GET['row'] - ($r + 1) ?>#top" class="past">ก่อนหน้า</a>
-            <span>
-                |
-                <select onchange="change_row_Aftershop(this, 'member')" class="select">
-                    <?php
-                    for ($i = 1; $i <= $numrow; $i++) {
-                        if ($i == $_GET['row']) {
-                            echo "<option value='$i' selected=''>$i</option>";
-                        } else {
-                            echo "<option value='$i'>$i</option>";
+        <?php if (isset($_POST['search_member'])) { ?>
+            <div class="part_row">
+                <a href="?manage=member&row=<?= $_GET['row'] - ($r + 1) ?>#top" class="past">ก่อนหน้า</a>
+                <span>
+                    |
+                    <select onchange="change_row_Aftershop(this, 'member')" class="select">
+                        <?php
+                        for ($i = 1; $i <= $numrow; $i++) {
+                            if ($i == $_GET['row']) {
+                                echo "<option value='$i' selected=''>$i</option>";
+                            } else {
+                                echo "<option value='$i'>$i</option>";
+                            }
                         }
-                    }
-                    ?>
-                </select>
-                |
-            </span>
-            <a href="?manage=member&row=<?= $_GET['row'] + ($r + 1) ?>#top" class="past">ถัดไป</a>
-        </div>
+                        ?>
+                    </select>
+                    |
+                </span>
+                <a href="?manage=member&row=<?= $_GET['row'] + ($r + 1) ?>#top" class="past">ถัดไป</a>
+            </div>
+        <?php } ?>
         <?php
         echo "<script>";
         echo "$(document).ready(function() {";
@@ -196,11 +215,11 @@
     </div>
 </div>
 <script>
-    $(document).ready(function() {
-        $("#member_user").keyup(function() {
+    $(document).ready(function () {
+        $("#member_user").keyup(function () {
             check_add_reg("#add_member_error", "member", "member_user", $(this).val(), "Username", 0);
         });
-        $("#member_identification").keyup(function() {
+        $("#member_identification").keyup(function () {
             if ($.isNumeric($(this).val())) {
                 if ($(this).val().length == 13) {
                     check_code("#add_member_error", "member", "member_identification", $(this).val(), "Username", 0);
@@ -209,9 +228,9 @@
                 $('#add_member_error').removeAttr('class').addClass('warning-problem').html("กรุณากรอกหมายเลขประจำตัวประชาชนเป็นตัวเลข");
             }
         });
-        $('#bt_add_member').click(function() {
+        $('#bt_add_member').click(function () {
             var data = "";
-            $("#add_member .text").each(function() {
+            $("#add_member .text").each(function () {
                 if ($.trim($(this).val()) == "") {
                     data += $(this).attr('placeholder') + " ว่าง <br />";
                 }
@@ -235,7 +254,7 @@
             }
             return false;
         });
-        $('#clearn_data_member').click(function() {
+        $('#clearn_data_member').click(function () {
             var data = "จะเพิ่มลูกค้าสมาชิกเข้าสู่ระบบได้ จะต้องกรอกข้อมูลในส่วนที่มี ตราสัญลักษณ์ <span style=\"color: #F00; \"> * </span> ด้านหลัง";
             $('#add_member_error').removeAttr('class').addClass('warning').html(data);
         });

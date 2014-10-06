@@ -57,7 +57,7 @@ if ($_GET['logo_web'] == 1) {
     }
     if (eregi("(.png)$", $_FILES["file_logo"]['name'])) {
         $img_logo_name = "logo.png";
-    } else {
+    } elseif (eregi("(.gif)$", $_FILES["file_logo"]['name'])) {
         $img_logo_name = "logo.gif";
     }
     $path_dir = "images/" . $img_logo_name;
@@ -69,5 +69,26 @@ if ($_GET['logo_web'] == 1) {
         exit("<script>window.top.upload_img_logo(1,'แก้ไขภาพสำเร็จ')</script>");
     } else {
         exit("<script>window.top.upload_img_logo(0,'แก้ไขภาพไม่สำเร็จ')</script>");
+    }
+}
+if ($_GET['img_bank_pays'] == 1) {
+    $img_logo_size = ($_FILES["file_img_bank_pays"]['size'] / 1024);
+    $img_logo_type = ($_FILES["file_img_bank_pays"]['type'] == "image/jpeg") ? 0 : 1;
+    /* ---------------------------------------------------------------------------- */
+    if ($img_logo_type) {
+        exit("<script>window.top.upload_img_logo(0,'ภาพ ต้องมีนามสกุลเป็น .jpg เท่านั้น')</script>");
+    }
+    if ($img_logo_size > 1024) {
+        exit("<script>window.top.upload_img_logo(0,'ภาพต้องมีขนาดไม่เกิน 1MB')</script>");
+    }
+    $img_logo_name = "bank_pays.jpg";
+    $path_dir = "images/" . $img_logo_name;
+    if (file_exists($path_dir)) {
+        unlink($path_dir);
+    }
+    if (copy($_FILES["file_img_bank_pays"]['tmp_name'], "../" . $path_dir)) {
+        exit("<script>window.top.upload_img_logo(1,'แก้ไขภาพสำเร็จ')</script>");
+    } else {
+        exit("<script>window.top.upload_img_logo(0,'แก้ไขภาพไม่สำเร็จ $path_dir')</script>");
     }
 }
