@@ -27,7 +27,7 @@ INDEX
         <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
         <script>
             $(document).ready(function () {
-                //alert($(window).width()+" - "+$(document).height());
+               // alert($(window).width()+" - "+$(document).height());
             });
         </script>
     </head>
@@ -61,11 +61,16 @@ INDEX
             /* ------------------------------ config_web -------------------------------------------------- */
             $search_detail = " ไม่สามารถค้นหาได้ !";
             $no_search = 'onsubmit="return false;"';
+        } elseif ($_GET["manage"] == "stock_product") {
+            /* ------------------------------ stock_product ------------------------------------------- */
+            $search_detail = " ไม่สามารถค้นหาได้ !";
+            $no_search = 'onsubmit="return false;"';
         } else {
             /* -------------------------- category ---------------------------------------------------- */
             $search_detail = " ค้นหาประเภทสินค้าเครื่องดนตรี !";
             $search_top = 'search_category';
         }
+        $method = "POST";
         ?>
         <?php $after_shop = "active"; ?>
         <?php require './header.php'; ?>
@@ -76,14 +81,20 @@ INDEX
                     <span>จัดการหลังร้าน</span>
                     <img src="images/up-arrow-icon.png" onclick="$('ul.nev_menuAftershop').slideToggle();" class="smart_phone_hide_icon">
                 </h3>
+                <?php $admin = (!empty($_SESSION['admin_id_session'])) ? TRUE : FALSE; ?>
                 <ul class="nev_menuAftershop">
                     <li><a href="?manage=category">จัดการประเภทเครื่องดนตรี</a></li>
                     <li><a href="?manage=product">จัดการสินค้าเครื่องดนตรี</a></li>
-                    <li><a href="?manage=employee">จัดการระบบพนักงาน</a></li>
+                    <?php if ($admin) { ?>
+                        <li><a href="?manage=employee">จัดการระบบพนักงาน</a></li>
+                    <?php } ?>
                     <li><a href="?manage=member">จัดการระบบลูกค้าสมาชิก</a></li>
                     <li><a href="?manage=order">จัดการระบบสั่งซื้อสินค้า</a></li>
                     <li><a href="?manage=comment">จัดการระบบแสดงความเห็น</a></li>
-                    <li><a href="?manage=config_web">แก้ไขร้านค้า</a></li>
+                    <?php if ($admin) { ?>
+                        <li><a href="?manage=config_web">แก้ไขร้านค้า</a></li>
+                        <li><a href="?manage=stock_product">สต็อกสินค้า</a></li>
+                    <?php } ?>
                 </ul>
             </div>
             <?php if ($_GET["manage"] == "category") { ?>
@@ -107,6 +118,9 @@ INDEX
             <?php } elseif ($_GET["manage"] == "config_web") { ?>
                 <!------------------------------ config_web -------------------------------------------->
                 <?php include './config_web.php'; ?>
+            <?php } elseif ($_GET["manage"] == "stock_product") { ?>
+                <!------------------------------ stock_product -------------------------------------------->
+                <?php include './stock_product.php'; ?>
             <?php } else { ?>
                 <!------------------------------ category -------------------------------------------->
                 <?php include './category_manage.php'; ?>

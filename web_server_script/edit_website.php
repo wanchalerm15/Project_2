@@ -22,3 +22,4 @@ $WEB_DATE = $website['date_input'];
 $WEB_HOW_TO_PAYS = $website['how_to_pays'];
 $WEB_ABOUT_ME = $website['about_me'];
 $WEB_CONTACT_US = $website['contact_us'];
+$WEB_CLOSE_SELL = $website['web_close_selling'];

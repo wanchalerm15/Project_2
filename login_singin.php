@@ -163,7 +163,7 @@ INDEX
                                     <div class="inner-w border-inner">
                                         <div class="warning" id="member_myselfError">
                                             แก้ไขข้อมูลส่วนตัวของ คุณ <?= $admin['admin_name'] ?> สถานะ : [ เจ้าของร้าน ]
-                                             <p class="disable">วันที่แก้ไขล่าสุด : <?= $admin['date_input'] ?></p>
+                                            <p class="disable">วันที่แก้ไขล่าสุด : <?= $admin['date_input'] ?></p>
                                         </div>
                                         <input type="hidden" name="input_id" value="<?= $admin['admin_id'] ?>" class="tx_signin" id="input_id">
                                         <p>ชื่อ-สกุล :</p>
@@ -173,7 +173,7 @@ INDEX
                                         <p>รหัสผ่าน :</p>
                                         <input type="password" name="input_pass"  value="<?= $admin['admin_pass'] ?>" maxlength="15" class="tx_signin" placeholder="รหัสผ่าน">
                                         <p>รหัสประจำตัวประชาชน :</p>
-                                        <input type="text" name="input_code" value="<?= $admin['admin_identification'] ?>" maxlength="13"  class="tx_signin">
+                                        <input type="text" name="input_code" value="<?= $admin['admin_identification'] ?>" maxlength="13"  class="tx_signin" placeholder="รหัสประจำตัวประชาชน">
                                         <p>ที่อยู่ :</p>
                                         <textarea name="input_address" class="tx_signin" placeholder="ที่อยู่"><?= $admin['admin_address'] ?></textarea>
                                         <p>เบอร์โทร :</p>
@@ -201,6 +201,9 @@ INDEX
                                                 } else {
                                                     if ($(this).attr('name') == "input_tel") {
                                                         error = ($.isNumeric($(this).val())) ? error += "" : error += "กรุณากรอก เบอร์โทรเป็นตัวเลข <br />";
+                                                    } else if ($(this).attr('name') == "input_code") {
+                                                        error = ($.isNumeric($(this).val())) ? error += "" : error += "กรุณากรอก รหัสประชาชนเป็นตัวเลข <br />";
+                                                        error = ($(this).val().length == 13) ? error += "" : error += "กรุณากรอก รหัสประชาชนให้ครับ 13 หลัก <br />";
                                                     }
                                                 }
                                             });

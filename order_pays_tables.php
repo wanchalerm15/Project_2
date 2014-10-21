@@ -1,6 +1,6 @@
 <table border="0" style="border-collapse: collapse;width: 100%;">
     <tr>
-        <td style="vertical-align: top;font-size: 14px;" colspan="3">
+        <td style="vertical-align: top;font-size: 14px;" colspan="4">
             <?php
             require './web_server_script/php_function.php';
             $query = "select member.member_id,member_name,member_address,member_tel,member_identification "
@@ -31,7 +31,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="3"></td>
+        <td colspan="4"></td>
         <td style="text-align: center;font-size: 14px;" colspan="2">
             <p><b>เลขที่ : <?= $order['order_id'] ?></b>/<?= $order['order_date'] ?></p>    
             <br />
@@ -42,10 +42,11 @@
         <td><p style="text-align: left;">รายการสินค้าเครื่องดนตรี</p> </td>
         <td> <p>จำนวน</p> </td>
         <td><p>ราคา/หน่วย</p></td>
+        <td><p>ค่นขนส่ง</p></td>
         <td><p>รวมเป็นเงิน(บาท)</p></td>
     </tr>
     <?php
-    $query_order = "select product_name,unit_price,product_price "
+    $query_order = "select product_name,unit_price,product_price,cost "
             . "from product,order_detail "
             . "where product.product_id=order_detail.product_id and order_id=" . ORDER_ID;
     $result_order = mysql_query($query_order);
@@ -58,9 +59,14 @@
             <td><p><?= $row['unit_price'] ?></p></td>
             <td><p><?= number_format($row['product_price'], 2) ?></p></td>
             <?php
-            $PriceAll = $row['unit_price'] * $row['product_price'];
+            $product_priceALL = $row['product_price'] + $product_priceALL;
+            $unit_priceALL = $row['unit_price'] + $unit_priceALL;
+            $costALL = $row['cost'] * $row['unit_price'];
+            $PriceAll = ($row['unit_price'] * $row['product_price']) + $costALL;
             $unit_ALL = $unit_ALL + $row['unit_price'];
+            $PriceAll_Cost = $PriceAll + $PriceAll_Cost;
             ?>
+            <td><p><?= number_format($costALL, 2) ?></p></td>
             <td>
                 <p><?= number_format($PriceAll, 2) ?></p>
             </td>
@@ -68,28 +74,31 @@
     <?php } ?>
     <tr class="product_tr_order">
         <td><p></p></td>
-        <td><p style="text-align: left;">รวม</p></td>
-        <td><p></p></td>
-        <td><p></p></td>
-        <td><p><?= number_format($order['order_priceall'], 2) ?></p></td>
+        <td><p style="text-align: left;" class="sum_order">รวม</p></td>
+        <td><p class="sum_order"><?= number_format($unit_priceALL) ?></p></td>
+        <td><p class="sum_order"><?= number_format($product_priceALL, 2) ?></p></td>
+        <td><p class="sum_order"><?= number_format($order['order_cost'], 2) ?></p></td>
+        <td><p class="sum_order"><?= number_format($PriceAll_Cost, 2) ?></p></td>
     </tr>
     <tr class="product_tr_order">
         <td><p></p></td>
         <td><p style="text-align: left;">ภาษี <?= $WEB_TAX ?>%</p></td>
         <td><p></p></td>
         <td><p></p></td>
+        <td><p></p></td>
         <td><p><?= number_format($order['order_tax'], 2) ?></p></td>
     </tr>
     <tr class="product_tr_orderTopic buttom">
-        <?php $sumPriceALL_Tax = $order['order_priceall'] + $order['order_tax'] ?>
+        <?php $sumPriceALL_Tax_Cost = $order['order_priceall'] + $order['order_tax'] + $order['order_cost'] ?>
         <td><p></p></td>
         <td><p style="text-align: left;">ราคารวมสุทธิ</p></td>
         <td><p></p></td>
         <td><p></p></td>
-        <td><p><?= number_format($sumPriceALL_Tax, 2) ?></p></td>
+        <td><p></p></td>
+        <td><p><?= number_format($sumPriceALL_Tax_Cost, 2) ?></p></td>
     </tr>
     <tr>
-        <td colspan="5">
+        <td colspan="6">
             <h4 style="margin-top: 10px;text-align: center;">
                 <?= $WEB_THAI_NAME ?> ขอบคุณที่ใช้บริการ
             </h4>

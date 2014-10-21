@@ -53,7 +53,7 @@ INDEX
                                         <td class="show_date">วันที่ซื้อ</td>
                                     </tr>
                                     <?php while ($order = mysql_fetch_array($result_ORDER)) { ?>
-                                        <?php $sumPriceALL_Tax = $order['order_priceall'] + $order['order_tax'] ?>
+                                        <?php $sumPriceALL_Tax = $order['order_priceall'] + $order['order_tax'] + $order['order_cost'] ?>
                                         <tr>
                                             <td>
                                                 <a href="show_order.php?ORDER=<?= $order['order_id'] ?>" class="link">
@@ -66,26 +66,76 @@ INDEX
                                                 $result_ORDER2 = mysql_query("select * from receive_order where order_id=" . $order['order_id']);
                                                 $receive_order = mysql_fetch_array($result_ORDER2);
                                                 ?>
-                                                <div style="background-color: rgba(0,0,0,.3);padding: 5px;border-radius: 5px;color: #FFF;">
-                                                    <?= order_status($order['order_status']) ?>
-                                                    <p>
-                                                        <?php if (!empty($receive_order['employee_id'])) { ?>
-                                                            <a class="FFF_link" style="font-size: 12px;"
-                                                               onclick="show_employee_receive_order(
-                                                               <?= $receive_order['employee_id'] ?>,
-                                                                               '<?= $receive_order['receive_date'] ?>',
-                                                               <?= $receive_order['receive_status'] ?>,
-                                                               <?= $order['order_id'] ?>
-                                                                       )">
-                                                                พนักงานรับ ORDER เเล้ว
-                                                            </a>
-                                                        <?php } else { ?>
-                                                            <a style="font-size: 12px;color: #FFF;">                                                 
-                                                                ยังไม่มีพนักงานรับ Order
-                                                            </a>
-                                                        <?php } ?>
-                                                    </p>
-                                                </div>
+
+                                                <?php if (!empty($receive_order['employee_id'])) { ?>
+                                                    <?php if ($receive_order["receive_status"] == 6) { ?>
+                                                        <div style="background-color: rgba(140,100,0,.5);padding: 5px;border-radius: 5px;color: #FFF;">
+                                                            <?= order_status($order['order_status']) ?> <br />
+                                                            เกิดข้อขัดข้องอื่นๆ
+                                                            <p>
+                                                                <a class="FFF_link" style="font-size: 12px;"
+                                                                   onclick="show_employee_receive_order(
+                                                                   <?= $receive_order['employee_id'] ?>,
+                                                                                                   '<?= $receive_order['receive_date'] ?>',
+                                                                   <?= $receive_order['receive_status'] ?>,
+                                                                   <?= $order['order_id'] ?>
+                                                                                           )">
+                                                                    พนักงานรับ ORDER เเล้ว
+                                                                </a>
+                                                            </p>
+                                                        </div>
+                                                    <?php } elseif ($receive_order["receive_status"] == 4) { ?>
+                                                        <div style="background-color: rgba(180,0,0,.5);padding: 5px;border-radius: 5px;color: #FFF;">
+                                                            <?= order_status($order['order_status']) ?> <br />
+                                                            <p>
+                                                                <a class="FFF_link" style="font-size: 12px;"
+                                                                   onclick="show_employee_receive_order(
+                                                                   <?= $receive_order['employee_id'] ?>,
+                                                                                                   '<?= $receive_order['receive_date'] ?>',
+                                                                   <?= $receive_order['receive_status'] ?>,
+                                                                   <?= $order['order_id'] ?>
+                                                                                           )">
+                                                                    พนักงานรับ ORDER เเล้ว
+                                                                </a>
+                                                            </p>
+                                                        </div>
+                                                    <?php } else { ?>
+                                                        <div style="background-color: rgba(0,150,0,.5);padding: 5px;border-radius: 5px;color: #FFF;">
+                                                            <?= order_status($order['order_status']) ?>
+                                                            <p>
+                                                                <a class="FFF_link" style="font-size: 12px;"
+                                                                   onclick="show_employee_receive_order(
+                                                                   <?= $receive_order['employee_id'] ?>,
+                                                                                                   '<?= $receive_order['receive_date'] ?>',
+                                                                   <?= $receive_order['receive_status'] ?>,
+                                                                   <?= $order['order_id'] ?>
+                                                                                           )">
+                                                                    พนักงานรับ ORDER เเล้ว
+                                                                </a>
+                                                            </p>
+                                                        </div>                                                       
+                                                    <?php } ?>
+                                                <?php } else { ?>
+                                                    <?php if ($order['order_status'] == 4 || $receive_order["receive_status"] == 4) { ?>
+                                                        <div style="background-color: rgba(180,0,0,.5);padding: 5px;border-radius: 5px;color: #FFF;">
+                                                            <?= order_status($order['order_status']) ?>
+                                                            <p>
+                                                                <a style="font-size: 12px;color: #FFF;">                                                 
+                                                                    ยังไม่มีพนักงานรับ Order
+                                                                </a>
+                                                            </p>
+                                                        </div>  
+                                                    <?php } else { ?>
+                                                        <div style="background-color: rgba(0,120,150,.5);padding: 5px;border-radius: 5px;color: #FFF;">
+                                                            <?= order_status($order['order_status']) ?>
+                                                            <p>
+                                                                <a style="font-size: 12px;color: #FFF;">                                                 
+                                                                    ยังไม่มีพนักงานรับ Order
+                                                                </a>
+                                                            </p>
+                                                        </div>  
+                                                    <?php } ?>
+                                                <?php } ?>
                                             </td>
                                             <td class="show_date"><?= $order['order_date'] ?></td>
                                         </tr>
@@ -111,11 +161,11 @@ INDEX
                             <div class="inner-w border-inner">
                                 <table class="tabale_order">
                                     <tr>
-                                        <td>#</td>
-                                        <td class="show_date">#ชื่อสินค้า</td>
-                                        <td class="show_date">#ราคา</td>
-                                        <td>#จำนวนที่ซื้อ</td>
-                                        <td>#</td>
+                                        <td>สินค้าเครื่องดนตรี</td>
+                                        <td class="show_date">ราคา</td>
+                                        <td>จำนวน</td>
+                                        <td>ค่าขนส่ง</td>
+                                        <td></td>
                                     </tr>
                                     <?php
                                     if ($session_add_product != 0) {
@@ -134,11 +184,14 @@ INDEX
                                                             <td>
                                                                 <div class="show_imgproduct">
                                                                     <div class="order_text">
-                                                                        <?= $row_product['product_name'] ?>
+                                                                        <b><?= $row_product['product_name'] ?></b>
                                                                     </div>
                                                                     <div class="order_product">
+                                                                        <?php
+                                                                        $img_order_cast = (empty($img_pro[0])) ? "images/no_image.jpg" : "image_product/thumbnail/thumbnails_$img_pro[0]";
+                                                                        ?>
                                                                         <div class="order_images"
-                                                                             style="background-image: url(image_product/thumbnail/thumbnails_<?= $img_pro[0] ?>);">
+                                                                             style="background-image: url(<?= $img_order_cast ?>);">
                                                                         </div>
                                                                     </div>
                                                                     <div class="order_text">
@@ -162,8 +215,7 @@ INDEX
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td class="show_date"><?= $row_product['product_name'] ?></td>
-                                                            <td class="show_date"><?= number_format($row_product['product_price']) ?> บาท </td>
+                                                            <td class="show_date">฿<?= number_format($row_product['product_price'], 2) ?> </td>
                                                             <?php
                                                             $sumUnit = $sumUnit + $_SESSION['session_unit_product'][$index];
                                                             $sumPriceALL = $sumPriceALL + ($row_product['product_price'] * $_SESSION['session_unit_product'][$index]);
@@ -189,11 +241,18 @@ INDEX
                                                                     });
                                                                 </script>
                                                             </td>
+                                                            <td>
+                                                                <?php
+                                                                $cost = $_SESSION['order_cost'][$index] * $_SESSION['session_unit_product'][$index];
+                                                                $product_cost = $product_cost + $cost;
+                                                                ?>
+                                                                ฿<?= $cost ?>
+                                                            </td>
                                                             <td class="bt_updateOrder">
-                                                                <input type="button" class="bt-beforeshop edit" value="แก้ไขจำนวน" 
+                                                                <input type="button" class="bt-beforeshop edit" value="แก้ไขจำนวน"
                                                                        onclick="update_orderUnit(this, $('#text_UpdateOrder-<?= $index ?>').val(),<?= $index ?>,<?= $row_product['product_id'] ?>)">
                                                                 <input type="button" class="bt-beforeshop remov" value="นำสินค้าออก"
-                                                                       onclick="remove_Order(<?= $index ?>)">  
+                                                                       onclick="remove_Order(<?= $index ?>)">
                                                             </td>
                                                         </tr>
                                                         <?php
@@ -211,9 +270,9 @@ INDEX
                                         $PriceAll_Tax = $sumPriceALL + $tax;
                                         ?>
                                         <td>รวม</td>
-                                        <td class="show_date"></td>
                                         <td class="show_date"><?= number_format($sumPriceALL, 2) ?> บาท</td>
                                         <td><?= $sumUnit ?> ชิ้น</td>
+                                        <td class="show_date"><?= number_format($product_cost, 2) ?> บาท</td>
                                         <td class="sum_priceAll">
                                             ฿<?= number_format($PriceAll_Tax, 3) ?><sup> +ภาษี <?= $WEB_TAX ?>%</sup>
                                         </td>
@@ -226,10 +285,14 @@ INDEX
                         <div class="inner-w border-inner">
                             <div style="float: left;" class="textconfirm">
                                 <div class="confirm_order">
-                                    ราคาที่ต้องชำระ รวมทั้งสิ้น <?= number_format($PriceAll_Tax, 3) ?> บาท
+                                    <?php $PriceAll_Tax_cost = ($PriceAll_Tax + $product_cost) ?>
+                                    ราคาที่ต้องชำระ รวมทั้งสิ้น <?= number_format($PriceAll_Tax_cost, 3) ?> บาท
+                                    <p style="font-size: 14px;">
+                                        [ ค่าขนส่งสินค้า <?= $product_cost ?> บาท ]
+                                    </p>
                                     <p>
                                         [ ภาษีหัก ณ. ที่จ่าย <?= $WEB_TAX ?>% = <?= $tax ?> บาท ]
-                                    </p> 
+                                    </p>
                                 </div>
                             </div>
                             <div style="float: right;" class="btconfirm">
@@ -237,6 +300,7 @@ INDEX
                                     <input type="hidden" id="member_id_session" value="<?= $member_id_session ?>">
                                     <input type="hidden" id="sumPriceALL" value="<?= $sumPriceALL ?>">
                                     <input type="hidden" id="tax" value="<?= $tax ?>">
+                                    <input type="hidden" id="order_cost" value="<?= $product_cost ?>" >
                                     <button class="bt_black Orback" type="button" onclick="location = 'index.php'"> กลับไปซื้อต่อ </button>
                                     <button class="bt_black OrClear" type="button"> ลบการสั่งซื้อทั้งหมด </button>
                                     <button class="bt_black" type="submit"> ยืนยันการสั่งซื้อ </button>
@@ -251,7 +315,7 @@ INDEX
                                 });
                                 $('#form_add_order').submit(function () {
                                     if (confirm('คุณต้องการซื้อสินค้าในตระกร้านี้จริงหรือ !')) {
-                                        add_order($('#member_id_session').val(), $('#sumPriceALL').val(), $('#tax').val());
+                                        add_order($('#member_id_session').val(), $('#sumPriceALL').val(), $('#tax').val(), $('#order_cost').val());
                                     }
                                     return false;
                                 });
@@ -290,3 +354,4 @@ INDEX
         <script type="text/javascript" src="script_before_shop.js"></script>
     </body>
 </html>
+

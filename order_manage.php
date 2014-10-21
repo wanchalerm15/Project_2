@@ -54,7 +54,11 @@
                 <td>#ผู้สั่งซื้อ</td>
                 <td class="show_date">#การชำระเงิน</td>
                 <td class="show_date">#วันที่สั่งซื้อ</td>
-                <td>#ลบ</td>
+                <td>
+                    <?php if (!empty($_SESSION['admin_id_session'])) { ?>
+                        #ลบ
+                    <?php } ?>
+                </td>
             </tr>
             <?php if (mysql_num_rows(mysql_query("SELECT * FROM order_music")) <= 0) { ?>
                 <tr>
@@ -107,7 +111,9 @@
                         <td class="show_date"><?= checkPayment($order['order_pays']) ?></td>
                         <td class="show_date"><?= $order['order_date'] ?></td>
                         <td>
-                            <input type="checkbox" class="delete_check" value="<?= $order['order_id'] ?>">
+                            <?php if (!empty($_SESSION['admin_id_session'])) { ?>
+                                <input type="checkbox" class="delete_check" value="<?= $order['order_id'] ?>">
+                            <?php } ?>
                         </td>
                     </tr>
                     <?php
@@ -115,10 +121,12 @@
             }
             ?>
         </table>
-        <p class="delete_data">
-            <button class="button" id="checkAll_data">เลือกทั้งหมด</button>
-            <button class="button" id="delete_data">ลบที่เลือก</button>
-        </p> 
+        <?php if (!empty($_SESSION['admin_id_session'])) { ?>
+            <p class="delete_data">
+                <button class="button" id="checkAll_data">เลือกทั้งหมด</button>
+                <button class="button" id="delete_data">ลบที่เลือก</button>
+            </p> 
+        <?php } ?>
         <script>
             $(document).ready(function () {
                 $("#delete_data").click(function () {

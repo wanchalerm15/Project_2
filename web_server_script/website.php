@@ -92,3 +92,8 @@ if ($_GET['img_bank_pays'] == 1) {
         exit("<script>window.top.upload_img_logo(0,'แก้ไขภาพไม่สำเร็จ $path_dir')</script>");
     }
 }
+if ($_REQUEST['update_web_close_selling'] == 1) {
+    $web_close_selling = $_REQUEST['web_close_selling'];
+    $query = "UPDATE website SET web_close_selling=$web_close_selling WHERE web_id=1";
+    mysql_query($query) or die("Error web_close_selling ! " . mysql_error());
+}

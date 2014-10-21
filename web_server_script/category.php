@@ -23,12 +23,14 @@ if ($_REQUEST['show_table_category'] == 1) {
         <?php while ($category = mysql_fetch_array($result)) {
             ?>
             <tr class="category_id_<?= $category['category_id'] ?>">
-                <td>C<?= $category['category_id'] ?></td>
                 <td>
                     <a title="ต้องการแก้ไข คลิ๊ก!"
                        onclick="update_category(<?= $category['category_id'] ?>, 50, 5,<?= $start_row ?>,<?= $end_row ?>);">
-                           <?= $category['category_name'] ?>
+                        C<?= $category['category_id'] ?>
                     </a>
+                </td>
+                <td>
+                    <?= $category['category_name'] ?>
                 </td>
                 <td class="show_date"><?= $category['date_input'] ?></td>
                 <td>
@@ -113,13 +115,13 @@ if ($_REQUEST['show_update_category'] == 1) {
         </div>
     </div>
     <script>
-        $(document).ready(function() {
-            $("#dialog .in_main,#dialog h3.topic").click(function(e) {
+        $(document).ready(function () {
+            $("#dialog .in_main,#dialog h3.topic").click(function (e) {
                 $("#dialog").fadeIn();
                 e.stopPropagation();
             });
             $("#close_dialog").click(dialog_eixt);
-            $("#bt_update_category").click(function() {
+            $("#bt_update_category").click(function () {
                 var id_confirm = $("#id_confirm").val();
                 var start_row = $("#start_row").val();
                 var end_row = $("#end_row").val();
@@ -134,10 +136,10 @@ if ($_REQUEST['show_update_category'] == 1) {
                         update_category: 1
                     },
                     type: 'POST',
-                    beforeSend: function(xhr) {
+                    beforeSend: function (xhr) {
 
                     },
-                    success: function(data, textStatus, jqXHR) {
+                    success: function (data, textStatus, jqXHR) {
                         if (!data) {
                             $("#dialog.dialog").fadeOut();
                             show_table_category(input_category_id, start_row, end_row);
@@ -147,15 +149,15 @@ if ($_REQUEST['show_update_category'] == 1) {
                     }
                 });
             });
-            $("#bt_delete_category").click(function() {
+            $("#bt_delete_category").click(function () {
                 if (confirm("คุณต้องการลบประเภทสินค้าเครื่องดนตรีนี้ จริงหรือ!")) {
                     $.ajax({
                         url: "web_server_script/category.php",
                         data: {category_id: $("#id_confirm").val(), delete_category: 1},
                         type: 'GET',
-                        beforeSend: function(xhr) {
+                        beforeSend: function (xhr) {
                         },
-                        success: function(data, textStatus, jqXHR) {
+                        success: function (data, textStatus, jqXHR) {
                             if (data) {
                                 $('#update_category_error').removeAttr('class').addClass('warning-error').html(data);
                             } else {
@@ -165,7 +167,7 @@ if ($_REQUEST['show_update_category'] == 1) {
                     });
                 }
             });
-            $("#dialog *").keyup(function(e) {
+            $("#dialog *").keyup(function (e) {
                 if (e.keyCode == 13) {
                     var id_confirm = $("#id_confirm").val();
                     var start_row = $("#start_row").val();
@@ -181,10 +183,10 @@ if ($_REQUEST['show_update_category'] == 1) {
                             update_category: 1
                         },
                         type: 'POST',
-                        beforeSend: function(xhr) {
+                        beforeSend: function (xhr) {
 
                         },
-                        success: function(data, textStatus, jqXHR) {
+                        success: function (data, textStatus, jqXHR) {
                             if (!data) {
                                 $("#dialog.dialog").fadeOut();
                                 show_table_category(input_category_id, start_row, end_row);
@@ -205,7 +207,9 @@ if ($_REQUEST['update_category'] == 1) {
     $input_category_id = $_REQUEST['input_category_id'];
     $input_category_name = $_REQUEST['input_category_name'];
     $id_confirm = $_REQUEST['id_confirm'];
-
+    if (trim($input_category_name) == "") {
+        exit("กรุณากรอกชื่อประเภทสินค้า !");
+    }
     $query = "UPDATE category SET category_id=$input_category_id";
     $query .= ",category_name='$input_category_name'";
     $query .= ",date_input=NOW() WHERE category_id=$id_confirm";

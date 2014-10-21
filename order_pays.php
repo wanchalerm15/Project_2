@@ -28,11 +28,11 @@ INDEX
             <?php
             $query_product = "select * from product";
             $result_product = mysql_query($query_product);
-            $query = "select order_id from order_music where member_id=$member_id_session order by order_id desc limit 0,1";
-            list($order_id) = mysql_fetch_row(mysql_query($query));
+            $query = "select order_id,order_date from order_music where member_id=$member_id_session order by order_id desc limit 0,1";
+            list($order_id, $order_date) = mysql_fetch_row(mysql_query($query));
 
             define(ORDER_ID, $order_id);
-
+            define(ORDER_DATE, $order_date);
             $order_index = 0;
             while ($rowProduct = mysql_fetch_array($result_product)) {
                 for ($index1 = 0; $index1 <= $_SESSION['count']; $index1++) {
@@ -42,6 +42,7 @@ INDEX
                                 'order_id' => $order_id,
                                 'order_product_id' => $_SESSION['session_add_product'][$index1],
                                 'unit_price' => $_SESSION['session_unit_product'][$index1],
+                                'cost' => $_SESSION['order_cost'][$index1]
                             );
                             $order_index++;
                         }
@@ -121,13 +122,12 @@ INDEX
                         $order_id = $orderDetail_array[$index2]['order_id'];
                         $order_product_id = $orderDetail_array[$index2]['order_product_id'];
                         $unit_price = $orderDetail_array[$index2]['unit_price'];
-                        $sub_priceall = $orderDetail_array[$index2]['sub_priceall'];
-
+                        $cost = $orderDetail_array[$index2]['cost'];
                         $seletc_product_unit = mysql_query("select product_unit from product where product_id=$order_product_id");
                         list($product_unit) = mysql_fetch_row($seletc_product_unit);
                         $new_product_unit = $product_unit - $unit_price;
-                        $query_orderDetail = "REPLACE INTO order_detail(order_id,product_id,unit_price) "
-                                . "VALUES($order_id,$order_product_id,$unit_price)";
+                        $query_orderDetail = "REPLACE INTO order_detail(order_id,product_id,unit_price,cost) "
+                                . "VALUES($order_id,$order_product_id,$unit_price,$cost)";
                         $query_updateUnitProduct = "UPDATE product SET product_unit=$new_product_unit WHERE product_id=$order_product_id";
 
                         mysql_query($query_orderDetail) or die("เพิ่มการสั่งซื้อสินค้ารหัส P$order_product_id ไม่ได้ :<br />" . mysql_error());
@@ -298,10 +298,10 @@ INDEX
                                         <input type="hidden" name="redirect_cmd" value="_xclick"> 
                                         <input type="hidden" name="business" value="ttvone-facilitator@hotmail.com">
                                         <input type="hidden" name="currency_code" value="THB"> 
-                                        <input type="hidden" name="item_name" value="<?= $WEB_ENG_NAME ?> [OrderNumber:<?= ORDER_ID ?>]"> 
+                                        <input type="hidden" name="item_name" value="<?= $WEB_ENG_NAME ?> [Order-Number:<?= ORDER_ID ?>/<?= ORDER_DATE ?>]"> 
                                         <input type="hidden" name="upload" value="<?= $unit_ALL ?>"> 
-                                        <input type="hidden" name="amount" value="<?= number_format($sumPriceALL_Tax, 2) ?>"> 
-                                        <input type="hidden" name="invoice" value="Order Number - <?= ORDER_ID ?>">
+                                        <input type="hidden" name="amount" value="<?= number_format($sumPriceALL_Tax_Cost, 2) ?>"> 
+                                        <input type="hidden" name="invoice" value="Order-Number:<?= ORDER_ID ?>/<?= ORDER_DATE ?>">
                                         <input type="hidden" name="return" value="http://localhost/Website_selling_musical_intrusment_PROJECT/order_pays.php?status=1"> 
                                         <input type="hidden" name="cancel_return" value="http://localhost/Website_selling_musical_intrusment_PROJECT/order_pays.php?status=2"> 
                                         <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">

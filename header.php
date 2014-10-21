@@ -15,7 +15,7 @@ if ($_GET["Logout"] == "yes") {
             <img src="<?= $WEB_LOGO; ?>">
         </div>
         <div class="search-box">
-            <form method="POST" id="search_top" <?= $no_search ?>>
+            <form method="<?= $method ?>" id="search_top" <?= $no_search ?>>
                 <span class="search-tx">
                     <?php if ($search_top == 'search_order') { ?>
                         <select style="width: 90%;border:solid 1px #FFF;padding: .7% 1%;" name="<?= $search_top ?>" onchange="$('#search_top').submit()">
@@ -27,11 +27,12 @@ if ($_GET["Logout"] == "yes") {
                                 "รายการสั่งซื้อใหม่ ชำระเงินแล้ว",
                                 "เกิดข้อขัดข้อง ลูกค้ายกเลิกการจ่ายเงิน",
                                 "รายการเสร็จสิ้น",
-                                "เกิดข้อขัดข้องอื่นๆ"
+                                "เกิดข้อขัดข้องอื่นๆ",
+                                "รับรายการเเล้ว"
                             );
                             if (isset($_POST['search_order'])) {
                                 for ($index = 0; $index < count($ORDER_STATUS); $index++) {
-                                    if ($index == 0 || $index == 3 || $index == 4) {
+                                    if ($index == 0 || $index == 3 || $index == 4 || $index == 7) {
                                         if ($_POST['search_order'] == $index) {
                                             echo "<option value='$index' selected=''>$ORDER_STATUS[$index]</option>";
                                         } else {
@@ -42,7 +43,7 @@ if ($_GET["Logout"] == "yes") {
                             } else {
                                 echo '<option value="false" selected="">ค้นหารายการสั่งซื้อ</option>';
                                 for ($index = 0; $index < count($ORDER_STATUS); $index++) {
-                                    if ($index == 0 || $index == 3 || $index == 4) {
+                                    if ($index == 0 || $index == 3 || $index == 4 || $index == 7) {
                                         echo "<option value='$index'>$ORDER_STATUS[$index]</option>";
                                     }
                                 }

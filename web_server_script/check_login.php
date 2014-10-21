@@ -3,8 +3,8 @@
 session_start();
 include './connect_DB.php';
 if (isset($_POST["username_login"], $_POST["password_login"])) {
-    $username_login = $_POST["username_login"];
-    $password_login = $_POST["password_login"];
+    $username_login = trim($_POST["username_login"]);
+    $password_login = trim($_POST["password_login"]);
     if ($username_login != "" && $password_login != "") {
         /* ------------------------------------------- admin -------------------------------------------------- */
         $query_admin = "SELECT * FROM admin WHERE admin_user='$username_login' AND admin_pass='$password_login'";
@@ -47,5 +47,10 @@ if (isset($_POST["username_login"], $_POST["password_login"])) {
             echo "history.back();";
             echo "</script>";
         }
+    } else {
+        echo "<script>";
+        echo "alert('กรุณากรอกข้อมูลให้ครบ !');";
+        echo "history.back();";
+        echo "</script>";
     }
 }

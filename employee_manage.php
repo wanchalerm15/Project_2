@@ -62,11 +62,13 @@
                     ?>
                     <?php $employee_id = "E" . $employee['employee_id']; ?>
                     <tr class="employee_id_<?= $employee['employee_id'] ?>">
-                        <td><?= $employee_id ?></td>
                         <td>
                             <a title="ต้องการแก้ไข คลิ๊ก!" onclick="show_update_employee(<?= $employee['employee_id'] ?>, 70, 0,<?= $start_row ?>,<?= $end_row ?>);">
-                                <?= $employee['employee_name'] ?>
+                                <?= $employee_id ?>
                             </a>
+                        </td>
+                        <td>
+                            <?= $employee['employee_name'] ?>
                         </td>
                         <td class="show_date"><?= $employee['employee_user'] ?></td>
                         <td class="show_date"><?= $employee['input_date'] ?></td>

@@ -7,6 +7,7 @@ if ($_REQUEST['add_product'] != 0) {
     if (!$_SESSION['session_add_product']) {
         $_SESSION['count'] = 0;
         $_SESSION['session_add_product'][$_SESSION['count']] = $_REQUEST['add_product'];
+        $_SESSION['order_cost'][$_SESSION['count']] = $_REQUEST['cost'];
         $_SESSION['session_unit_product'][$_SESSION['count']] = 1;
         $data['data'] = count($_SESSION['session_add_product']);
     } else {
@@ -15,6 +16,7 @@ if ($_REQUEST['add_product'] != 0) {
         } else {
             $_SESSION['count'] = $_SESSION['count'] + 1;
             $_SESSION['session_add_product'][$_SESSION['count']] = $_REQUEST['add_product'];
+            $_SESSION['order_cost'][$_SESSION['count']] = $_REQUEST['cost'];
             $_SESSION['session_unit_product'][$_SESSION['count']] = 1;
             $data['data'] = count($_SESSION['session_add_product']);
         }
@@ -25,11 +27,13 @@ if ($_REQUEST['remove_Order'] == 1) {
     $index_unit = $_REQUEST['index_unit'];
     unset($_SESSION['session_unit_product'][$index_unit]);
     unset($_SESSION['session_add_product'][$index_unit]);
+    unset($_SESSION['order_cost'][$index_unit]);
 }
 if (isset($_GET['clear_session'])) {
     unset($_SESSION['count']);
     unset($_SESSION['session_add_product']);
     unset($_SESSION['session_unit_product']);
+    unset($_SESSION['order_cost']);
 }
 if ($_REQUEST['update_orderUnit'] == 1) {
     $data_orderUpdate = $_REQUEST['data_orderUpdate'];
@@ -54,13 +58,14 @@ if ($_REQUEST['add_order'] == 1) {
         'order_member_id' => $_REQUEST['member_id'],
         'order_priceall' => $_REQUEST['price_all'],
         'order_tax' => $_REQUEST['tax'],
+        'order_order_cost' => $_REQUEST['order_cost']
     );
     if (empty($order_array['order_priceall'])) {
         exit("ยังไม่มีสินค้าในตระกร้า กรุณาสั่งซื้อสินค้าก่อน");
     }
-    $query_order_music = "INSERT INTO order_music(member_id,order_priceall,order_tax,order_status,order_date) "
+    $query_order_music = "INSERT INTO order_music(member_id,order_priceall,order_tax,order_cost,order_status,order_date) "
             . "VALUES(" . $order_array['order_member_id'] . "," . $order_array['order_priceall'] . ","
-            . $order_array['order_tax'] . ",0,NOW())";
+            . $order_array['order_tax'] . "," . $order_array['order_order_cost'] . ",0,NOW())";
     mysql_query($query_order_music) or die("เพิ่มรายการสั่งซื้อล้มเหลว เนื่องจาก :" . mysql_error());
 }
 if ($_REQUEST['update_member_to_pays'] == 1) {
@@ -104,6 +109,7 @@ if ($_REQUEST['receive_order'] == 1) {
     $order_status = $_REQUEST['order_status'];
     $result_receive_order = mysql_query("select * from receive_order where order_id=$order_id");
     $receive_order = mysql_fetch_array($result_receive_order);
+    $receive_status = $receive_order['receive_status'];
     ?>
     <h3 class="topic">
         รับรายการสั่งซื้อสินค้า
@@ -117,11 +123,11 @@ if ($_REQUEST['receive_order'] == 1) {
                 <select style="padding: 5px 0;width: 95%;" name="status_update" id="status_update">
                     <?php for ($index = 0; $index < count($ORDER_status); $index++) { ?>
                         <?php
-                        if ($index == 0) {
+                        if ($index == 0 || $index == 7) {
                             continue;
                         }
                         ?>
-                        <?php if ($order_status == $index) { ?>
+                        <?php if ($receive_status == $index) { ?>
                             <option selected="" value="<?= $index ?>"><?= $ORDER_status[$index] ?></option>
                         <?php } else { ?>
                             <option value="<?= $index ?>"><?= $ORDER_status[$index] ?></option>
@@ -183,9 +189,9 @@ if ($_REQUEST['receive_order_employee'] == 1) {
     $employee_id = $_REQUEST['employee_id'];
     $status_update = $_REQUEST['status_update'];
     $query_receive_order = "REPLACE INTO receive_order(order_id,employee_id,receive_status,receive_date) VALUES($order_id,$employee_id,$status_update,NOW())";
-    /* if ($status_update == 5) {
-      mysql_query("UPDATE order_music SET order_status=$status_update WHERE order_id=$order_id") or die('ERROR order_music ! : ' . mysql_error());
-      } */
+    $update_roder_status = ($status_update == 4) ? $status_update : 7;
+    
+    mysql_query("UPDATE order_music SET order_status=$update_roder_status WHERE order_id=$order_id") or die('ERROR order_music ! : ' . mysql_error());
     mysql_query($query_receive_order) or die('ERROR receive_order ! : ' . mysql_error());
     if (!empty($_REQUEST['warning'])) {
         $warning = $_REQUEST['warning'];
@@ -237,9 +243,11 @@ if ($_REQUEST['show_employee_receive_order'] == 1) {
                 ข้อมูลพนักงานผู้รับ Order
             </div>
             <div class="inner " id="show_employee_receive_order">
-                <p>
-                    <b>Username </b>: <?= $employee['employee_user'] ?>
-                </p>
+                <?php if ($_SESSION['employee_id_session'] || $_SESSION['admin_id_session']) { ?>
+                    <p>
+                        <b>Username </b>: <?= $employee['employee_user'] ?>
+                    </p>
+                <?php } ?>
                 <p>
                     <b>ชื่อผู้รับ Order </b>: <?= $employee['employee_name'] ?>
                 </p>

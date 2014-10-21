@@ -110,7 +110,7 @@ if ($_REQUEST['show_update_employee'] == 1) {
                 </p>
                 <p>
                     <span>รหัสประจำตัวประชาชน </span>
-                    <span>: <input type="text" value="<?= $employee['employee_identification'] ?>" class="text" name="employee_iden"></span>
+                    <span>: <input type="text" value="<?= $employee['employee_identification'] ?>" class="text" name="employee_iden" maxlength="13"></span>
                 </p>
                 <p>
                     <span>ที่อยู่ </span
@@ -150,16 +150,16 @@ if ($_REQUEST['show_update_employee'] == 1) {
         </div>
     </div>
     <script>
-        $(document).ready(function() {
-            $("#dialog .in_main,#dialog h3.topic").click(function(e) {
+        $(document).ready(function () {
+            $("#dialog .in_main,#dialog h3.topic").click(function (e) {
                 $("#dialog").fadeIn();
                 e.stopPropagation();
             });
             $("#close_dialog").click(dialog_eixt);
-            $("#bt_delete_emp").click(function() {
+            $("#bt_delete_emp").click(function () {
                 delete_employee();
             });
-            $("#bt_update_emp").click(function() {
+            $("#bt_update_emp").click(function () {
                 update_employee();
                 return false;
             });
@@ -174,20 +174,32 @@ if ($_REQUEST['delete_employee'] == 1) {
 }
 if ($_REQUEST['update_employee'] == 1) {
     $id_main = $_REQUEST['id_main'];
+    if (empty($_REQUEST['id_sub'])) {
+        exit("กรุณากรอก รหัสพนักงาน !");
+    }
     if ($_REQUEST['id_sub']) {
         $id_sub = $_REQUEST['id_sub'];
     } else {
         $id_sub = $_REQUEST['id_main'];
     }
-    $employee_name = $_REQUEST['employee_name'];
-    $employee_user = $_REQUEST['employee_user'];
-    $employee_pass = $_REQUEST['employee_pass'];
-    $employee_iden = $_REQUEST['employee_iden'];
-    $employee_address = $_REQUEST['employee_address'];
-    $employee_tel = $_REQUEST['employee_tel'];
-    $employee_email = $_REQUEST['employee_email'];
-    $employee_salary = $_REQUEST['employee_salary'];
-    $employee_edu = $_REQUEST['employee_edu'];
+    $employee_name = trim($_REQUEST['employee_name']);
+    $employee_user = trim($_REQUEST['employee_user']);
+    $employee_pass = trim($_REQUEST['employee_pass']);
+    $employee_iden = trim($_REQUEST['employee_iden']);
+    $employee_address = trim($_REQUEST['employee_address']);
+    $employee_tel = trim($_REQUEST['employee_tel']);
+    $employee_email = trim($_REQUEST['employee_email']);
+    $employee_salary = trim($_REQUEST['employee_salary']);
+    $employee_edu = trim($_REQUEST['employee_edu']);
+    if (empty($employee_name) || empty($employee_user) || empty($employee_pass) || empty($employee_iden) || empty($employee_address) || empty($employee_tel) || empty($employee_email) || empty($employee_edu)) {
+        exit("กรุณากรอกข้อมูลให้ครบ !");
+    }
+    if (!is_numeric($employee_tel)) {
+        exit("เบอร์โทรควร กรอกเป็นตัวเลข !");
+    }
+    if (!is_numeric($employee_iden)) {
+        exit("หมายเลขประชาชน ควรกรอกเป็นตัวเลข !");
+    }
     $query = "UPDATE employee SET ";
     $query .= "employee_id=$id_sub,employee_user='$employee_user',employee_pass='$employee_pass',";
     $query .= "employee_name='$employee_name',employee_identification='$employee_iden',employee_address='$employee_address',";
@@ -218,11 +230,13 @@ if ($_REQUEST['show_table_employee'] == 1) {
             ?>
             <?php $employee_id = "E" . $employee['employee_id']; ?>
             <tr class="employee_id_<?= $employee['employee_id'] ?>">
-                <td><?= $employee_id ?></td>
                 <td>
                     <a title="ต้องการแก้ไข คลิ๊ก!" onclick="show_update_employee(<?= $employee['employee_id'] ?>, 70, 0,<?= $start_row ?>,<?= $end_row ?>);">
-                        <?= $employee['employee_name'] ?>
+                        <?= $employee_id ?>
                     </a>
+                </td>
+                <td>
+                    <?= $employee['employee_name'] ?>
                 </td>
                 <td><?= $employee['employee_user'] ?></td>
                 <td class="show_date"><?= $employee['input_date'] ?></td>

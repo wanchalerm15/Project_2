@@ -135,18 +135,24 @@ INDEX
                                 </p>
                             </div>   
                             <div class="inner-w border-inner add_cast" style="text-align: center;margin-top: 5px;">
-                                <?php if ($product['product_unit'] > 0) { ?>
-                                    <?php if ($member_id_session) { ?>
-                                        <a onclick="session_add_product(<?= $product['product_id'] ?>)">
-                                            ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
-                                        </a>
+                                <?php if ($WEB_CLOSE_SELL) { ?>
+                                    <?php if ($product['product_unit'] > 0) { ?>
+                                        <?php if ($member_id_session) { ?>
+                                            <a onclick="session_add_product(<?= $product['product_id'] ?>)">
+                                                ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
+                                            </a>
+                                        <?php } else { ?>
+                                            <a onclick="alert('กรุณาเข้าสู่ระบบของลูกค้าสมาชิก')">
+                                                ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
+                                            </a>
+                                        <?php } ?>
                                     <?php } else { ?>
-                                        <a onclick="alert('กรุณาเข้าสู่ระบบของลูกค้าสมาชิก')">
-                                            ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
-                                        </a>
+                                        <span style="color: #f00;">สินค้าหมด !</span>
                                     <?php } ?>
                                 <?php } else { ?>
-                                    <span style="color: #f00;">สินค้าหมด !</span>
+                                    <a onclick="alert('ร้านค้ายังไม่พร้อมขายสินค้า !')" >
+                                        แสดงสินค้าเท่านั้น
+                                    </a>
                                 <?php } ?>
                             </div>
                             <!---------------------------------------------- comment -------------------------------------------->

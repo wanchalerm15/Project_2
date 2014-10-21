@@ -513,10 +513,13 @@ if ($_REQUEST['edit_product_main'] == 1) {
     $product_id_main = $_REQUEST['product_id_main'];
     $product_id = $_REQUEST['product_id'];
     $category_id = $_REQUEST['category_id'];
-    $product_name = $_REQUEST['product_name'];
+    $product_name = trim($_REQUEST['product_name']);
     $product_price = $_REQUEST['product_price'];
     $product_unit = $_REQUEST['product_unit'];
     $product_cost = $_REQUEST['product_cost'];
+    if (empty($category_id) || empty($product_name) || empty($product_price) || empty($product_unit) || empty($product_cost)) {
+        exit('ข้อมูลว่าง กรุณากรอกข้อมูลให้ครบ !');
+    }
     if (empty($product_id)) {
         $product_id = $product_id_main;
     }

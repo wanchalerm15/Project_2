@@ -35,6 +35,7 @@ INDEX
         $search_detail = " ค้นหาสินค้าเครื่องดนตรี ด่วน !";
         $home = "active";
         $search_top = "search_top_product";
+        $method = "GET";
         require './web_server_script/php_function.php';
         ?>
         <?php require './header.php'; ?>
@@ -43,9 +44,9 @@ INDEX
                 <div class="inner cast_shoping" style="margin-top: 4px;">
                     <a href="order_cast.php">
                         <?php if ($session_add_product != 0) { ?>
-                            ตระกร้าสินค้า :<img src="images/shopping_cast_icon.png"><sup>@</sup> [ <?= count($session_add_product) ?> ] ชิ้น
+                            ตระกร้าสินค้า :<img src="images/shopping_cast_icon.png"><sup>@</sup> [ <?= count($session_add_product) ?> ]
                         <?php } else { ?>
-                            ตระกร้าสินค้า :<img src="images/shopping_cast_icon.png"> [ 0 ] ชิ้น
+                            ตระกร้าสินค้า :<img src="images/shopping_cast_icon.png"><sup>@</sup> [ <?= count($session_add_product) ?> ]
                         <?php } ?>    
                     </a>
                 </div>
@@ -59,26 +60,28 @@ INDEX
             <div id="artical" class="container before_shop-sidebar">
                 <div class="inner_border sidebarMenu bg_img">
                     <!---------------- category --------------------------------------------------------------------->
-                    <div class="inner" style="color: #fff;">
-                        <ul class="category_nav">
-                            <?php
-                            $resultcat = mysql_query("select * from category");
-                            $i = 0;
-                            while ($category = mysql_fetch_array($resultcat)) {
-                                if ($i >= 5) {
-                                    $i = 1;
-                                } else {
-                                    $i++;
-                                }
-                                ?>
-                                <li>
-                                    <a href="?product_category=<?= $category['category_id'] ?>">
-                                        <img src="images/Music-icon-<?= $i ?>.png" style="vertical-align: middle;"/>
-                                        <?= $category['category_name'] ?>
-                                    </a>
-                                </li>
-                            <?php } ?>
-                        </ul>
+                    <div>
+                        <div class="inner" style="color: #fff;">
+                            <ul class="category_nav">
+                                <?php
+                                $resultcat = mysql_query("select * from category");
+                                $i = 0;
+                                while ($category = mysql_fetch_array($resultcat)) {
+                                    if ($i >= 5) {
+                                        $i = 1;
+                                    } else {
+                                        $i++;
+                                    }
+                                    ?>
+                                    <li>
+                                        <a href="?product_category=<?= $category['category_id'] ?>">
+                                            <img src="images/Music-icon-<?= $i ?>.png" style="vertical-align: middle;" class="icon_cate"/>
+                                            <?= $category['category_name'] ?>
+                                        </a>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <!---------------- login --------------------------------------------------------------------->
@@ -121,7 +124,10 @@ INDEX
                                     <b>ชื่อผู้ใช้ :</b> <?= $admin['admin_user'] ?><br/>
                                     <b>ชื่อ :</b> <?= $admin['admin_name'] ?><br/>
                                     <b>ติดต่อ :</b> <?= $admin['admin_tel'] ?><br/>
-                                    <b>สถานะ : เจ้าของร้าน </b>
+                                    <b>สถานะ : เจ้าของร้าน </b><br />
+                                    <a href="login_singin.php" class="link" style="font-size: 13px;">
+                                        แก้ไขข้อมูลส่วนตัว
+                                    </a>
                                 <?php } elseif ($employee_id_session) { ?>
                                     <?php
                                     $query = mysql_query("select * from employee where employee_id=" . $employee_id_session);
@@ -131,7 +137,10 @@ INDEX
                                     <b>ชื่อผู้ใช้ :</b> <?= $employee['employee_user'] ?><br/>
                                     <b>ชื่อ :</b> <?= $employee['employee_name'] ?><br/>
                                     <b>ติดต่อ :</b> <?= $employee['employee_tel'] ?><br/>
-                                    <b>สถานะ : พนักงาน </b>
+                                    <b>สถานะ : พนักงาน </b><br />
+                                    <a href="login_singin.php" class="link" style="font-size: 13px;">
+                                        แก้ไขข้อมูลส่วนตัว
+                                    </a>
                                 <?php } else { ?>
                                     <?php
                                     $query = mysql_query("select * from member where member_id=" . $member_id_session);
@@ -199,7 +208,7 @@ INDEX
                 </div>
             </div>
             <div id="artical" class="container before_shop-mainContainer" style="margin-top:5px;">
-                <?php if (!isset($_GET['product_category']) && !isset($_POST['search_top_product']) && empty($_GET["search_hard"])) { ?>
+                <?php if (!isset($_GET['product_category']) && !isset($_GET['search_top_product']) && empty($_GET["search_hard"])) { ?>
                     <!----------------------------------------------- IMG Slide show ------------------------------------->
                     <div class="frame_img">
                         <div class="img_slide">
@@ -241,13 +250,13 @@ INDEX
                     <div style="clear: both;"></div>
                     <div class="inner_border bottom_main" style="margin-top: 10px;" id="show_product_sell">
                         <h3 class="topic bg_img" style="text-align: left;">
-                            สินค้าเครื่องดนตรีในร้าน <span class="hideTosmartPhoe"><?= $WEB_ENG_NAME ?></span>
+                            สินค้าเครื่องดนตรี <span class="hideTosmartPhoe"><?= $WEB_ENG_NAME ?></span>
                             <div class="inner cast_shoping">
                                 <a href="order_cast.php">
                                     <?php if ($session_add_product != 0) { ?>
-                                        ตระกร้าสินค้า :<img src="images/shopping_cast_icon.png"><sup>@</sup> [ <?= count($session_add_product) ?> ] ชิ้น
+                                        ตระกร้าสินค้า :<img src="images/shopping_cast_icon.png"><sup>@</sup> [ <?= count($session_add_product) ?> ]
                                     <?php } else { ?>
-                                        ตระกร้าสินค้า :<img src="images/shopping_cast_icon.png"> [ 0 ] ชิ้น
+                                        ตระกร้าสินค้า :<img src="images/shopping_cast_icon.png"><sup>@</sup> [ <?= count($session_add_product) ?> ]
                                     <?php } ?>   
                                 </a>
                             </div>
@@ -266,18 +275,24 @@ INDEX
                                         <p> <a href="showProduct_and_comment.php?product_id=<?= $product['product_id'] ?>"><?= $product['product_name'] ?></a> </p>
                                         <p>ราคา :  ฿<span><?= number_format($product['product_price'], 2) ?></span></p>
                                         <div class="add_cast">
-                                            <?php if ($product['product_unit'] > 0) { ?>
-                                                <?php if ($member_id_session) { ?>
-                                                    <a onclick="session_add_product(<?= $product['product_id'] ?>)">
-                                                        ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
-                                                    </a>
+                                            <?php if ($WEB_CLOSE_SELL) { ?>
+                                                <?php if ($product['product_unit'] > 0) { ?>
+                                                    <?php if ($member_id_session) { ?>
+                                                        <a onclick="session_add_product(<?= $product['product_id'] ?>,<?= $product['product_cost'] ?>)">
+                                                            ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
+                                                        </a>
+                                                    <?php } else { ?>
+                                                        <a onclick="alert('กรุณาเข้าสู่ระบบขอลลูกค้าสมาชิก')">
+                                                            ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
+                                                        </a>
+                                                    <?php } ?>
                                                 <?php } else { ?>
-                                                    <a onclick="alert('กรุณาเข้าสู่ระบบขอลลูกค้าสมาชิก')">
-                                                        ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
-                                                    </a>
+                                                    <span>สินค้าหมด !</span>
                                                 <?php } ?>
                                             <?php } else { ?>
-                                                <span>สินค้าหมด !</span>
+                                                <a onclick="alert('ร้านค้ายังไม่พร้อมขายสินค้า !')" >
+                                                    แสดงสินค้าเท่านั้น
+                                                </a>
                                             <?php } ?>
                                         </div>
                                     </div>
@@ -309,18 +324,24 @@ INDEX
                                                 <p> <a href="showProduct_and_comment.php?product_id=<?= $product['product_id'] ?>"><?= $product['product_name'] ?></a> </p>
                                                 <p>ราคา :  ฿<span><?= number_format($product['product_price'], 2) ?></span></p>
                                                 <div class="add_cast">
-                                                    <?php if ($product['product_unit'] > 0) { ?>
-                                                        <?php if ($member_id_session) { ?>
-                                                            <a onclick="session_add_product(<?= $product['product_id'] ?>)">
-                                                                ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
-                                                            </a>
+                                                    <?php if ($WEB_CLOSE_SELL) { ?>
+                                                        <?php if ($product['product_unit'] > 0) { ?>
+                                                            <?php if ($member_id_session) { ?>
+                                                                <a onclick="session_add_product(<?= $product['product_id'] ?>,<?= $product['product_cost'] ?>)">
+                                                                    ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
+                                                                </a>
+                                                            <?php } else { ?>
+                                                                <a onclick="alert('กรุณาเข้าสู่ระบบขอลลูกค้าสมาชิก')">
+                                                                    ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
+                                                                </a>
+                                                            <?php } ?>
                                                         <?php } else { ?>
-                                                            <a onclick="alert('กรุณาเข้าสู่ระบบขอลลูกค้าสมาชิก')">
-                                                                ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
-                                                            </a>
+                                                            <span>สินค้าหมด !</span>
                                                         <?php } ?>
                                                     <?php } else { ?>
-                                                        <span>สินค้าหมด !</span>
+                                                        <a onclick="alert('ร้านค้ายังไม่พร้อมขายสินค้า !')" >
+                                                            แสดงสินค้าเท่านั้น
+                                                        </a>
                                                     <?php } ?>
                                                 </div>
                                             </div>
@@ -334,18 +355,24 @@ INDEX
                                                 <p> <a href="showProduct_and_comment.php?product_id=<?= $product['product_id'] ?>"><?= $product['product_name'] ?></a> </p>
                                                 <p>ราคา :  ฿<span><?= number_format($product['product_price'], 2) ?></span></p>
                                                 <div class="add_cast">
-                                                    <?php if ($product['product_unit'] > 0) { ?>
-                                                        <?php if ($member_id_session) { ?>
-                                                            <a onclick="session_add_product(<?= $product['product_id'] ?>)">
-                                                                ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
-                                                            </a>
+                                                    <?php if ($WEB_CLOSE_SELL) { ?>
+                                                        <?php if ($product['product_unit'] > 0) { ?>
+                                                            <?php if ($member_id_session) { ?>
+                                                                <a onclick="session_add_product(<?= $product['product_id'] ?>,<?= $product['product_cost'] ?>)">
+                                                                    ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
+                                                                </a>
+                                                            <?php } else { ?>
+                                                                <a onclick="alert('กรุณาเข้าสู่ระบบขอลลูกค้าสมาชิก')">
+                                                                    ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
+                                                                </a>
+                                                            <?php } ?>
                                                         <?php } else { ?>
-                                                            <a onclick="alert('กรุณาเข้าสู่ระบบขอลลูกค้าสมาชิก')">
-                                                                ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
-                                                            </a>
+                                                            <span>สินค้าหมด !</span>
                                                         <?php } ?>
                                                     <?php } else { ?>
-                                                        <span>สินค้าหมด !</span>
+                                                        <a onclick="alert('ร้านค้ายังไม่พร้อมขายสินค้า !')" >
+                                                            แสดงสินค้าเท่านั้น
+                                                        </a>
                                                     <?php } ?>
                                                 </div>
                                             </div>
@@ -353,13 +380,13 @@ INDEX
                                     <?php } ?>
                                 <?php } ?>
                             </div>
-                        <?php } elseif (isset($_POST['search_top_product']) && !empty($_POST["search_top_product"])) { ?>
+                        <?php } elseif (isset($_GET['search_top_product']) && !empty($_GET["search_top_product"])) { ?>
                             <div class="inner_border bottom_main" style="margin-top: 10px;" id="show_product_sell">
                                 <h3 class="topic" style="text-align: left;margin-bottom: 10px;">
-                                    <u>ผลการค้นหาสินค้า <?= $_POST['search_top_product'] ?></u>
+                                    <u>ผลการค้นหาสินค้า <?= $_GET['search_top_product'] ?></u>
                                 </h3>
                                 <?php
-                                $resultProduct = mysql_query("select * from product where product_name like('%" . $_POST["search_top_product"] . "%')");
+                                $resultProduct = mysql_query("select * from product where product_name like('%" . $_GET["search_top_product"] . "%')");
                                 if (mysql_num_rows($resultProduct) == 0) {
                                     echo "<div class=\"inner\">ไม่มีสินค้าเครื่องดนตรีนี้</div>";
                                 } else {
@@ -375,18 +402,24 @@ INDEX
                                                     <p> <a href="showProduct_and_comment.php?product_id=<?= $product['product_id'] ?>"><?= $product['product_name'] ?></a> </p>
                                                     <p>ราคา :  ฿<span><?= number_format($product['product_price'], 2) ?></span></p>
                                                     <div class="add_cast">
-                                                        <?php if ($product['product_unit'] > 0) { ?>
-                                                            <?php if ($member_id_session) { ?>
-                                                                <a onclick="session_add_product(<?= $product['product_id'] ?>)">
-                                                                    ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
-                                                                </a>
+                                                        <?php if ($WEB_CLOSE_SELL) { ?>
+                                                            <?php if ($product['product_unit'] > 0) { ?>
+                                                                <?php if ($member_id_session) { ?>
+                                                                    <a onclick="session_add_product(<?= $product['product_id'] ?>,<?= $product['product_cost'] ?>)">
+                                                                        ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
+                                                                    </a>
+                                                                <?php } else { ?>
+                                                                    <a onclick="alert('กรุณาเข้าสู่ระบบขอลลูกค้าสมาชิก')">
+                                                                        ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
+                                                                    </a>
+                                                                <?php } ?>
                                                             <?php } else { ?>
-                                                                <a onclick="alert('กรุณาเข้าสู่ระบบขอลลูกค้าสมาชิก')">
-                                                                    ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
-                                                                </a>
+                                                                <span>สินค้าหมด !</span>
                                                             <?php } ?>
                                                         <?php } else { ?>
-                                                            <span>สินค้าหมด !</span>
+                                                            <a onclick="alert('ร้านค้ายังไม่พร้อมขายสินค้า !')" >
+                                                                แสดงสินค้าเท่านั้น
+                                                            </a>
                                                         <?php } ?>
                                                     </div>
                                                 </div>
@@ -400,18 +433,24 @@ INDEX
                                                     <p> <a href="showProduct_and_comment.php?product_id=<?= $product['product_id'] ?>"><?= $product['product_name'] ?></a> </p>
                                                     <p>ราคา :  ฿<span><?= number_format($product['product_price'], 2) ?></span></p>
                                                     <div class="add_cast">
-                                                        <?php if ($product['product_unit'] > 0) { ?>
-                                                            <?php if ($member_id_session) { ?>
-                                                                <a onclick="session_add_product(<?= $product['product_id'] ?>)">
-                                                                    ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
-                                                                </a>
+                                                        <?php if ($WEB_CLOSE_SELL) { ?>
+                                                            <?php if ($product['product_unit'] > 0) { ?>
+                                                                <?php if ($member_id_session) { ?>
+                                                                    <a onclick="session_add_product(<?= $product['product_id'] ?>,<?= $product['product_cost'] ?>)">
+                                                                        ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
+                                                                    </a>
+                                                                <?php } else { ?>
+                                                                    <a onclick="alert('กรุณาเข้าสู่ระบบขอลลูกค้าสมาชิก')">
+                                                                        ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
+                                                                    </a>
+                                                                <?php } ?>
                                                             <?php } else { ?>
-                                                                <a onclick="alert('กรุณาเข้าสู่ระบบขอลลูกค้าสมาชิก')">
-                                                                    ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
-                                                                </a>
+                                                                <span>สินค้าหมด !</span>
                                                             <?php } ?>
                                                         <?php } else { ?>
-                                                            <span>สินค้าหมด !</span>
+                                                            <a onclick="alert('ร้านค้ายังไม่พร้อมขายสินค้า !')" >
+                                                                แสดงสินค้าเท่านั้น
+                                                            </a>
                                                         <?php } ?>
                                                     </div>
                                                 </div>
@@ -516,18 +555,24 @@ INDEX
                                                     <p> <a href="showProduct_and_comment.php?product_id=<?= $product['product_id'] ?>"><?= $product['product_name'] ?></a> </p>
                                                     <p>ราคา :  ฿<span><?= number_format($product['product_price'], 2) ?></span></p>
                                                     <div class="add_cast">
-                                                        <?php if ($product['product_unit'] > 0) { ?>
-                                                            <?php if ($member_id_session) { ?>
-                                                                <a onclick="session_add_product(<?= $product['product_id'] ?>)">
-                                                                    ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
-                                                                </a>
+                                                        <?php if ($WEB_CLOSE_SELL) { ?>
+                                                            <?php if ($product['product_unit'] > 0) { ?>
+                                                                <?php if ($member_id_session) { ?>
+                                                                    <a onclick="session_add_product(<?= $product['product_id'] ?>,<?= $product['product_cost'] ?>)">
+                                                                        ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
+                                                                    </a>
+                                                                <?php } else { ?>
+                                                                    <a onclick="alert('กรุณาเข้าสู่ระบบขอลลูกค้าสมาชิก')">
+                                                                        ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
+                                                                    </a>
+                                                                <?php } ?>
                                                             <?php } else { ?>
-                                                                <a onclick="alert('กรุณาเข้าสู่ระบบขอลลูกค้าสมาชิก')">
-                                                                    ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
-                                                                </a>
+                                                                <span>สินค้าหมด !</span>
                                                             <?php } ?>
                                                         <?php } else { ?>
-                                                            <span>สินค้าหมด !</span>
+                                                            <a onclick="alert('ร้านค้ายังไม่พร้อมขายสินค้า !')" >
+                                                                แสดงสินค้าเท่านั้น
+                                                            </a>
                                                         <?php } ?>
                                                     </div>
                                                 </div>
@@ -541,18 +586,24 @@ INDEX
                                                     <p> <a href="showProduct_and_comment.php?product_id=<?= $product['product_id'] ?>"><?= $product['product_name'] ?></a> </p>
                                                     <p>ราคา :  ฿<span><?= number_format($product['product_price'], 2) ?></span></p>
                                                     <div class="add_cast">
-                                                        <?php if ($product['product_unit'] > 0) { ?>
-                                                            <?php if ($member_id_session) { ?>
-                                                                <a onclick="session_add_product(<?= $product['product_id'] ?>)">
-                                                                    ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
-                                                                </a>
+                                                        <?php if ($WEB_CLOSE_SELL) { ?>
+                                                            <?php if ($product['product_unit'] > 0) { ?>
+                                                                <?php if ($member_id_session) { ?>
+                                                                    <a onclick="session_add_product(<?= $product['product_id'] ?>,<?= $product['product_cost'] ?>)">
+                                                                        ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
+                                                                    </a>
+                                                                <?php } else { ?>
+                                                                    <a onclick="alert('กรุณาเข้าสู่ระบบขอลลูกค้าสมาชิก')">
+                                                                        ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
+                                                                    </a>
+                                                                <?php } ?>
                                                             <?php } else { ?>
-                                                                <a onclick="alert('กรุณาเข้าสู่ระบบขอลลูกค้าสมาชิก')">
-                                                                    ใส่ตระกร้า <img src="images/shopping_cast_icon.png">
-                                                                </a>
+                                                                <span>สินค้าหมด !</span>
                                                             <?php } ?>
                                                         <?php } else { ?>
-                                                            <span>สินค้าหมด !</span>
+                                                            <a onclick="alert('ร้านค้ายังไม่พร้อมขายสินค้า !')" >
+                                                                แสดงสินค้าเท่านั้น
+                                                            </a>
                                                         <?php } ?>
                                                     </div>
                                                 </div>

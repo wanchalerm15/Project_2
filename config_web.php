@@ -7,7 +7,7 @@
     <div class="in_main">
         <div class="warning">
             คุณสามารถแก้ไขเว็บไซด์ เพจ วิธีการสั่งซื้อ 
-            เกี่ยวกับเรา ติดต่อเรา ได้ที่หน้านี้ครับ
+            เกี่ยวกับเรา ติดต่อเรา และรายละเอียดอื่นๆ ได้ที่หน้านี้
         </div>
         <div>
             <p class="title">
@@ -37,7 +37,7 @@
                 </p>
                 <br />
                 <form class="edit_web_name" onsubmit="update_web_name(this);
-                        return false;" id="web_name">
+                            return false;" id="web_name">
                     <div class="warning-inline" id="web_name_error"></div>
                     <p><b>ชื่อเว็บไซด์ ภาษาไทย</b></p>
                     <input type="text" value="<?= $WEB_THAI_NAME ?>" name="web_thai_name" class="text" data-web_name="ชื่อเว็บไซด์ ภาษาไทย"/>
@@ -100,7 +100,7 @@
                 </p>
                 <br />
                 <form class="edit_web_name" id="numrow_tax" onsubmit="update_numrow_tax(this);
-                        return false;">
+                            return false;">
                     <div class="warning-inline" id="numrow_tax_error"></div>
                     <p><b>จำนวนแถวข้อมูลที่แสดง (แถว)</b></p>
                     <input type="text" value="<?= $WEB_AFTERSHOP_NUMROW ?>" name="aftershop_numrow" class="text" data-numrow_tax="จำนวนแถวข้อมูลที่แสดง (แถว)"/>
@@ -186,20 +186,37 @@
             <div class="inner-w border-inner" style="margin-top: 15px;">
                 <p class="title">
                     <img class="add">
-                    <b><u>แก้ไข ชื่อร้านค้า</u></b>
+                    <b><u>เปิด-เปิดระบบขายสินค้า</u></b>
                 </p>
                 <br />
-                <form class="edit_web_name" onsubmit="update_web_name(this);
-                        return false;" id="web_name">
-                    <div class="warning-inline" id="web_name_error"></div>
-                    <p><b>ชื่อเว็บไซด์ ภาษาไทย</b></p>
-                    <input type="text" value="<?= $WEB_THAI_NAME ?>" name="web_thai_name" class="text" data-web_name="ชื่อเว็บไซด์ ภาษาไทย"/>
-                    <p><b>ชื่อเว็บไซด์ อังกฤษ</b></p>
-                    <input type="text" value="<?= $WEB_ENG_NAME ?>" name="web_eng_name" class="text" data-web_name="ชื่อเว็บไซด์ อังกฤษ"/>
-                    <p class="btn">
-                        <input type="submit" value="แก้ไข" class="bt_black"/>
-                        <input type="reset" value="คืนค่าข้อความ" class="bt_black"/>
+                <form class="edit_web_name" onsubmit="return false;">
+                    <div class="warning">
+                        คุณสามารถ <span style='color:#00CC00;'>เปิดระบบขาย</span> เพื่อขายสินค้าเครื่องดนตรีได้ 
+                        หรือ <span style='color:#CC0000;'>ปิดระบบขาย</span> เพื่อแสดงสินค้าเท่านั้น ได้
+                    </div>
+                    <p>
+                        <?php
+                        if ($WEB_CLOSE_SELL) {
+                            $color = "#00CC00";
+                            echo "<b>สภานะตอนนี้คือ <u style='color:#00CC00;'>เปิดการขาย</u> ตามปกติ</b>";
+                        } else {
+                            $color = "#CC0000";
+                            echo "<b>สภานะตอนนี้คือ <u style='color:#CC0000;'>ปิดการขาย</u> แสดงสินค้าเท่านั้น</b>";
+                        }
+                        ?>
                     </p>
+                    <select class="text" style="width:100%;margin-top:25px;color:<?= $color ?>;" 
+                            name='web_close_selling' onchange="update_web_close_selling(this)">
+                                <?php
+                                if ($WEB_CLOSE_SELL) {
+                                    echo "<option style='color:#00CC00;' selected='' value='1'>เปิดระบบขาย</option>";
+                                    echo "<option style='color:#CC0000;' value='0'>ปิดระบบขาย</option>";
+                                } else {
+                                    echo "<option style='color:#00CC00;' value='1'>เปิดระบบขาย</option>";
+                                    echo "<option style='color:#CC0000;' selected='' value='0'>ปิดระบบขาย</option>";
+                                }
+                                ?>                       
+                    </select>
                 </form>
                 <br />
             </div>

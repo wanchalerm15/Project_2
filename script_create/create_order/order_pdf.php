@@ -17,6 +17,7 @@ $orderDate = $order['order_date'];
 require '../../web_server_script/php_function.php';
 $order_pays = checkPayment($order['order_pays']);
 $orderStatus = order_status($order['order_status']);
+$order_cost = $order['order_cost'];
 
 $memberName = $member['member_name'];
 $memberAddress = $member['member_address'];
@@ -39,7 +40,7 @@ $PDF->SetFont("angsana", "I", 15);
 $PDF->Image("../../images/pdf-logo.gif", 10, 10, 65, 15);
 $PDF->SetXY(100, 20);
 $PDF->SetDrawColor(220, 220, 220);
-$PDF->MultiCell(100, 6, iconv("utf-8", "cp874", $WEB_ENG_NAME . " / order_id : " . ORDER_ID), 0, "R");
+$PDF->MultiCell(100, 6, iconv("utf-8", "cp874","Order-Number:" . ORDER_ID."/".$orderDate), 0, "R");
 $PDF->Line(10, 28, 200, 28);
 $PDF->SetFont("angsana", "B", 17);
 $PDF->Write(17, iconv("utf-8", "cp874", "$WEB_THAI_NAME ( $WEB_ENG_NAME )"));
@@ -57,7 +58,7 @@ $table = "<u>วันที่สั่งซื้อ : $orderDate</u>
        เบอร์โทร : $memberTel <br /><br />
        หมายเลขประจำตัวประชาชน : $memberIdentification <br />
 <br />
-<b><u>รายการสั่งซื้อ เลขที่ $orderID</u></b>
+<b><u>รายการสั่งซื้อ เลขที่ $orderID/$orderDate</u></b>
 <p />
     <table border=1 bordercolor=#000;>
     <tr>
@@ -91,6 +92,12 @@ $table.="</tr>";
 $table.="<tr>";
 $table.="<td width=300>&nbsp;</td>";
 $table.="<td width=90 align=center>&nbsp;</td>";
+$table.="<td width=170 align=center>" . "ค่าขนส่ง" . "</td>";
+$table.="<td width=200 align=center>" . number_format($order_cost, 2) . "</td>";
+$table.="</tr>";
+$table.="<tr>";
+$table.="<td width=300>&nbsp;</td>";
+$table.="<td width=90 align=center>&nbsp;</td>";
 $table.="<td width=170 align=center>" . "ภาษี $WEB_TAX%" . "</td>";
 $table.="<td width=200 align=center>" . number_format($order['order_tax'], 2) . "</td>";
 $table.="</tr>";
@@ -99,7 +106,7 @@ $table.="<tr>";
 $table.="<td width=300 bgcolor=#e0e0e0><b>ราคารวมสุทธิ</b></td>";
 $table.="<td width=90 align=center bgcolor=#e0e0e0>&nbsp;</td>";
 $table.="<td width=170 align=center bgcolor=#e0e0e0>&nbsp;</td>";
-$table.="<td width=200 align=center bgcolor=#e0e0e0><b>" . number_format($sumPriceALL_tax, 2) . " บาท </b></td>";
+$table.="<td width=200 align=center bgcolor=#e0e0e0><b>" . number_format(($sumPriceALL_tax + $order_cost), 2) . " บาท </b></td>";
 $table.="</tr>";
 $table.="</table>";
 $table.="<br />";

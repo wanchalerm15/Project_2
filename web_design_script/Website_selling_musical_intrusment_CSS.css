@@ -577,7 +577,6 @@ ul.config_web_menu li:hover{
 }
 ul.config_web_menu li a:hover{color: #FFF;}
 ul.config_web_menu li a{
-    font-size: 14px;
     padding: 5px;
     display: block;
     color: #633a10;
@@ -612,6 +611,41 @@ ul.config_web_menu span{
 .logo_img_config_web{
     width: 50%;
 }
+/*---------------------------------------------------stock_product--------------------------------------------------------*/
+.stock_product{
+    border: solid 1px #633a10;
+    margin: 5px 0;
+    padding: 5px;
+}
+.stock_product_product{
+    font-size: 14px;
+}
+.stock_product_ALL{
+    border: solid 1px #d0d0d0;
+    background-color: #f4f4f4;
+    margin: 5px 0;
+    padding: 5px;
+    color: #707070;
+}
+p.show_stock{
+    margin-top: 5px;
+    color: #808080;
+    background-color: #f0f0f0;
+    padding: 1%;
+    display: none;
+}
+p.show_stock img{
+    float: left;
+    height: 90px;
+    display: block;
+    border:solid 1px #50a050;
+    margin-right: 1.5%;
+}
+span.date_stock{
+    font-size: 10px;
+    color: #a0a0a0;
+}
+/*---------------------------------------------------/stock_product---------------------------------------------------------*/
 /*-----------------------------------------------------  /After Shop  -----------------------------------------------------*/
 /*-----------------------------------------------------  Before Shop  -----------------------------------------------------*/
 #artical.container{
@@ -711,6 +745,8 @@ h3.topic.bg_img img{
     float: right;
 }
 .sidebarMenu{
+    height: 485px;
+    overflow-y: auto;
     border: none;border-radius: 0 0 20px 20px;
     background-color: #404040;
 }
@@ -791,6 +827,9 @@ table.table_signin_beforeshop tr td h3 img{height: 20px;}
 }
 .cast_shoping a div#cast_count{
     display: inline;
+}
+u.unit_cast{
+    text-decoration: none;
 }
 
 /*---------------------------------------- product price --------------------------------------------*/
@@ -941,7 +980,7 @@ h3.topic span.hideTosmartPhoe{
 }
 .order_text{
     margin: 3px;
-    font-size: 12px;
+    font-size: 13px;
 }
 .order_text span{
     color: red;
@@ -1103,6 +1142,13 @@ tr.product_tr_order td{
     font-size: 14px;
     text-align: center;
     padding: 3px 0;
+    color: #909090;
+}
+tr.product_tr_order .sum_order{
+    color: #000000;
+}
+td.order_member_detail p{
+    padding: 3px 0;
 }
 /*------------------------------------------------show product and comment ----------------------------------------------------*/
 #smartphone{
@@ -1250,7 +1296,7 @@ button.bt_back:hover{background-color: #ffa700;}
     overflow-x: auto;
 }
 #date_peple_delete_com{
-    margin-top: 5px;
+    margin-top: 7px;
     text-align: right;
 }
 #date_peple_delete_com .inner-w{
@@ -1259,7 +1305,9 @@ button.bt_back:hover{background-color: #ffa700;}
     display: inline-block;
     background-image: url(../images/bg_navB.jpg);
     color: #FFF;
-    font-size: 14px;
+    font-size: 12px;
+    font-weight: bold;
+    overflow-x: visible;
 }
 #date_peple_delete_com .inner-w a{
     cursor: pointer;
@@ -1468,12 +1516,12 @@ a.download_pdf:hover{color: #F00;}
 .left{
     text-align: left;
 }
-a.link{
+a.link,.link{
     cursor: pointer;
     color: #00F;
     text-decoration: underline;
 }
-a.link:hover{
+a.link:hover,.link:hover{
     color: #F00;
 }
 a.FFF_link{

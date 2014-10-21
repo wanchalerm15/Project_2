@@ -5,6 +5,10 @@
 */
 @media screen and (max-width:1080px){
     /******************************   after shop  */
+    ul.config_web_menu li a{
+        font-size: 12px;
+        font-weight:bold;
+    }
     #artical.slidebar_aftershop{
         width: 24.8%;
     }
@@ -230,6 +234,15 @@
         margin-bottom: 10px;
         width: 30%;
     }
+    ul.category_nav{
+        font-size: 14px;
+    }
+    .category_nav li a{
+        padding: 5px 2px;
+    }
+    img.icon_cate{
+        height: 25px;
+    }
     /*---------------------- order_manage.php--------------------*/
     .order_main,.order_sidebar{
         float: none;
@@ -310,6 +323,9 @@
         padding: 0 1%;
         border-bottom: solid 1px #4a2403;
     }
+    div.search-box input.search-tx{
+        width: 70%;
+    }
     div.nav_menu ul li ul.secon-navmenu{
         left: -1px;
     }
@@ -348,6 +364,12 @@
     }
     .product_price{
         width: 95%;
+    }
+    .category_nav li a{
+        padding: 7px 2px;
+    }
+    img.icon_cate{
+        height: auto;
     }
     #img_product img{
         height: 150px;
@@ -393,10 +415,18 @@
         padding: 1.5%;
         margin-bottom: 5px;
     }
+    #footer #containur{
+        text-align: center;
+    }
 }
 @media screen and (max-width:490px){
     #comment .toolbar2,#comment .toolbar1{
         display: none;
+    }
+}
+@media screen and (max-width:360px){
+    body{
+        width: 360px;
     }
 }
 /*------------------------------------ /SmartPhone ------------------------------------------*/

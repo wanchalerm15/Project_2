@@ -58,12 +58,14 @@
                 <?php while ($category = mysql_fetch_array($result)) {
                     ?>
                     <tr class="category_id_<?= $category['category_id'] ?>">
-                        <td>C<?= $category['category_id'] ?></td>
                         <td>
                             <a title="ต้องการแก้ไข คลิ๊ก!"
                                onclick="update_category(<?= $category['category_id'] ?>, 50, 5,<?= $start_row ?>,<?= $end_row ?>);">
-                                   <?= $category['category_name'] ?>
+                                C<?= $category['category_id'] ?>
                             </a>
+                        </td>
+                        <td>
+                            <?= $category['category_name'] ?>
                         </td>
                         <td class="show_date"><?= $category['date_input'] ?></td>
                         <td>

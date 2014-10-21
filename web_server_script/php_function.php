@@ -408,32 +408,36 @@ $ORDER_status = array(
     "รายการสั่งซื้อใหม่ ชำระเงินแล้ว",
     "เกิดข้อขัดข้อง ลูกค้ายกเลิกการจ่ายเงิน",
     "รายการเสร็จสิ้น",
-    "เกิดข้อขัดข้องอื่นๆ"
+    "เกิดข้อขัดข้องอื่นๆ",
+    "รับรายการเเล้ว"
 );
 
 function order_status($check) {
     global $ORDER_status;
     switch ($check) {
         case 0:
-            $Payment = $ORDER_status[0];
+            $Payment = $ORDER_status[$check];
             break;
         case 1:
-            $Payment = $ORDER_status[1];
+            $Payment = $ORDER_status[$check];
             break;
         case 2:
-            $Payment = $ORDER_status[2];
+            $Payment = $ORDER_status[$check];
             break;
         case 3:
-            $Payment = $ORDER_status[3];
+            $Payment = $ORDER_status[$check];
             break;
-        case 4:
-            $Payment = $ORDER_status[4];
+        case 4://error
+            $Payment = $ORDER_status[$check];
             break;
         case 5:
-            $Payment = $ORDER_status[5];
+            $Payment = $ORDER_status[$check];
             break;
-        case 6:
-            $Payment = $ORDER_status[6];
+        case 6://error
+            $Payment = $ORDER_status[$check];
+            break;
+        case 7:
+            $Payment = $ORDER_status[$check];
             break;
     }
     return $Payment;

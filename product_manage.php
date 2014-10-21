@@ -69,13 +69,15 @@
                     ?>
                     <?php $product_id = "P" . $product['product_id']; ?>
                     <tr class="product_id_<?= $product['product_id'] ?>">
-                        <td><?= $product_id ?></td>
                         <td>
                             <a title="ต้องการแก้ไข คลิ๊ก!" onclick="show_edit_product('<?= $product['product_name'] ?>',<?= $product['product_id'] ?>);">
-                                <?= $product['product_name'] ?>
+                                <?= $product_id ?>
                             </a>
                         </td>
-                        <td class="show_date"><?= $product['product_price'] ?></td>
+                        <td>
+                            <?= $product['product_name'] ?>
+                        </td>
+                        <td class="show_date"><?= number_format($product['product_price'], 2) ?></td>
                         <td><?= $product['product_unit'] ?></td>
                         <td class="show_date">
                             <?php
@@ -291,19 +293,19 @@
                                             add_product(data);
                                         }
                                     } else {
-                                        var warning = "จำนวนสินค้าเครื่องดนตรี ต้องเป็นตัวเลข";
+                                        var warning = "กรุณาจำนวนสินค้าเครื่องดนตรี เป็นตัวเลข !";
                                         $("#add_product_error").removeAttr("class").addClass("warning-problem").html(warning);
                                     }
                                 } else {
-                                    var warning = "ราคาสินค้าเครื่องดนตรี ต้องเป็นตัวเลขหรือ ทศนิยม";
+                                    var warning = "กรุณาราคาสินค้าเครื่องดนตรี เป็นตัวเลขหรือ ทศนิยม !";
                                     $("#add_product_error").removeAttr("class").addClass("warning-problem").html(warning);
                                 }
                             } else {
-                                var warning = "กรุณากรอกค่าขนส่งสินค้า เป็นตัวเลขจำนวนเต็มหรือทศนิยม !";
+                                var warning = "กรุณากรอกค่าขนส่งสินค้า เป็นตัวเลขหรือ ทศนิยม !";
                                 $("#add_product_error").removeAttr("class").addClass("warning-problem").html(warning);
                             }
                         } else {
-                            var warning = "กรุณาเลือกประเภทสินค้า";
+                            var warning = "กรุณาเลือกประเภทสินค้า  !";
                             $("#add_product_error").removeAttr("class").addClass("warning-problem").html(warning);
                         }
                     } else {

@@ -62,11 +62,13 @@
                     ?>
                     <?php $member_id = "M" . $member['member_id']; ?>
                     <tr class="member_id_<?= $member['member_id'] ?>">
-                        <td><?= $member_id ?></td>
                         <td>
                             <a title="ต้องการแก้ไข คลิ๊ก!" onclick="show_update_member(<?= $member['member_id'] ?>, 70, 0,<?= $start_row ?>,<?= $end_row ?>);">
-                                <?= $member['member_name'] ?>
+                                <?= $member_id ?>
                             </a>
+                        </td>
+                        <td>
+                            <?= $member['member_name'] ?>
                         </td>
                         <td class="show_date"><?= $member['member_user'] ?></td>
                         <td class="show_date"><?= $member['input_date'] ?></td>
@@ -232,7 +234,7 @@
             var data = "";
             $("#add_member .text").each(function () {
                 if ($.trim($(this).val()) == "") {
-                    data += $(this).attr('placeholder') + " ว่าง <br />";
+                    data += $(this).attr('placeholder') + "<br />";
                 }
             });
             if (data == "") {

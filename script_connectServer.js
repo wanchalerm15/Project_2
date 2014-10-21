@@ -852,7 +852,7 @@ function update_web_name(form_id) {
     var error = "";
     $("#web_name .text").each(function () {
         if ($.trim($(this).val()) == "") {
-            error += $(this).attr("data-web_name") + "เป็นค่าว่าง<br />";
+            error += "กรุณากรอก "+$(this).attr("data-web_name") + "<br />";
         }
     });
     if (error == "") {
@@ -931,5 +931,22 @@ function upload_img_logo(code, status) {
     } else {
         alert(status);
     }
+}
+function update_web_close_selling(id) {
+    $.ajax({
+        url: "web_server_script/website.php?update_web_close_selling=1",
+        data: $(id).serialize(),
+        type: "POST",
+        beforeSend: function (xhr) {
+
+        },
+        success: function (data, textStatus, jqXHR) {
+            if (data) {
+                alert(data);
+            } else {
+                location.reload();
+            }
+        }
+    });
 }
 /*----------------------------------------------------- /WEBSITE----------------------------------------------------------*/

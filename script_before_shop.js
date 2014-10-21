@@ -1,17 +1,17 @@
 /*------------------------------------------------------------------------------ product */
 $(document).ready(function () {
-    $(window).resize(function () {
-        if ($(".sidebarMenu").height() <= $('.frame_img').height()) {
-            if ($(window).width() > 640) {
-                $(".sidebarMenu").css("height", $('.frame_img').height() + 70 + "px");
-            }
-        }
-    });
-    if ($(".sidebarMenu").height() <= $('.frame_img').height()) {
-        if ($(window).width() > 640) {
-            $(".sidebarMenu").css("height", $('.frame_img').height() + 70 + "px");
-        }
-    }
+    /* $(window).resize(function () {
+     if ($(".sidebarMenu").height() <= $('.frame_img').height()) {
+     if ($(window).width() > 640) {
+     $(".sidebarMenu").css("height", $('.frame_img').height() + 70 + "px");
+     }
+     }
+     });
+     if ($(".sidebarMenu").height() <= $('.frame_img').height()) {
+     if ($(window).width() > 640) {
+     $(".sidebarMenu").css("height", $('.frame_img').height() + 70 + "px");
+     }
+     }*/
     /*------------------------- warning close -*/
     $(".warning span.close").attr("title", "ปิดการแจ้งแตือนนี้").html("&times;");
 });
@@ -22,14 +22,14 @@ function setsizeIMG(id) {
         }
     }
 }
-function session_add_product(pro_id) {
-    $.get("web_server_script/order.php", {add_product: pro_id}, function (data) {
+function session_add_product(pro_id, cost) {
+    $.get("web_server_script/order.php", {add_product: pro_id, cost: cost}, function (data) {
         if (data.error == 1) {
             alert("! สินค้านี้มีในตระกร้าแล้ว");
         }
         if (data.data) {
             if (confirm("เพิ่มสำเร็จ คุณต้องการซื้อต่อหรือไม่")) {
-                var update = "ตระกร้าสินค้า :<img src='images/shopping_cast_icon.png'><sup>@</sup> [ " + data.data + " ] ชิ้น";
+                var update = "ตระกร้าสินค้า :<img src='images/shopping_cast_icon.png'><sup>@</sup> [ " + data.data + " ]";
                 $('.cast_shoping a').html(update);
             } else {
                 location = 'order_cast.php';
@@ -73,11 +73,12 @@ function clear_session() {
         location.reload();
     });
 }
-function add_order(member_id, price_all, tax) {
+function add_order(member_id, price_all, tax, order_cost) {
     $.post("web_server_script/order.php", {
         member_id: member_id,
         price_all: price_all,
         tax: tax,
+        order_cost: order_cost,
         add_order: 1
     },
     function (data) {

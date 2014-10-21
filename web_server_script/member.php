@@ -43,11 +43,11 @@ if ($_REQUEST['show_member_employee'] == 1) {
     <div class="in_main">
         <div id="artical">
             <div class="warning" id="dialog_emp_error">
-                แก้ไขข้อมูลพนักงาน ของคุณ <?= $member['member_name'] ?> รหัสพนักงาน M<?= $employee['member_id'] ?>
+                แก้ไขข้อมูลลูกค้าสมาชิก ของคุณ <?= $member['member_name'] ?> รหัสลูกค้าสมาชิก M<?= $employee['member_id'] ?>
             </div>
             <form class="update_dialog_employee" method="POST" id="update_dialog_employee">
                 <p> 
-                    <span>รหัสพนักงาน</span>
+                    <span>รหัสลูกค้าสมาชิก</span>
                     <?php if ($admin_id_session) { ?>
                         <span>: <input type="text" class="text" value="<?= $member['member_id'] ?>" name="id_sub" id="id_sub"></span>
                     <?php } else { ?>
@@ -103,16 +103,16 @@ if ($_REQUEST['show_member_employee'] == 1) {
         </div>
     </div>
     <script>
-        $(document).ready(function() {
-            $("#dialog .in_main,#dialog h3.topic").click(function(e) {
+        $(document).ready(function () {
+            $("#dialog .in_main,#dialog h3.topic").click(function (e) {
                 $("#dialog").fadeIn();
                 e.stopPropagation();
             });
             $("#close_dialog").click(dialog_eixt);
-            $("#bt_delete_emp").click(function() {
+            $("#bt_delete_emp").click(function () {
                 delete_member();
             });
-            $("#bt_update_emp").click(function() {
+            $("#bt_update_emp").click(function () {
                 update_member();
                 return false;
             });
@@ -128,19 +128,33 @@ if ($_REQUEST['delete_member'] == 1) {
 
 if ($_REQUEST['update_member'] == 1) {
     $id_main = $_REQUEST['id_main'];
+    if (empty($_REQUEST['id_sub'])) {
+        exit("กรุณากรอก รหัสลูกค้าสมาชิก !");
+    }
     if ($_REQUEST['id_sub']) {
         $id_sub = $_REQUEST['id_sub'];
     } else {
         $id_sub = $_REQUEST['id_main'];
     }
-    $member_name = $_REQUEST['member_name'];
-    $member_user = $_REQUEST['member_user'];
-    $member_pass = $_REQUEST['member_pass'];
-    $member_identification = $_REQUEST['member_identification'];
-    $member_address = $_REQUEST['member_address'];
-    $member_tel = $_REQUEST['member_tel'];
-    $member_email = $_REQUEST['member_email'];
-
+    $member_name = trim($_REQUEST['member_name']);
+    $member_user = trim($_REQUEST['member_user']);
+    $member_pass = trim($_REQUEST['member_pass']);
+    $member_identification = trim($_REQUEST['member_identification']);
+    $member_address = trim($_REQUEST['member_address']);
+    $member_tel = trim($_REQUEST['member_tel']);
+    $member_email = trim($_REQUEST['member_email']);
+    if (trim($_REQUEST['id_sub']) == "" || empty($member_name) || empty($member_user) || empty($member_pass) || empty($member_identification) || empty($member_address) || empty($member_tel) || empty($member_email)) {
+        exit("กรุณากรอก ข้อมูลให้ครบ !");
+    }
+    if (!is_numeric($member_identification)) {
+        exit("กรุณากรอกหมายเลขประชาชนเป็นตัวเลข !");
+    }
+    if (strlen((string) $member_identification) != 13) {
+        exit("กรุณากรอกหมายเลขประชาชนให้ครบ 13 หลัก !");
+    }
+    if (!is_numeric($member_tel)) {
+        exit("กรุณากรอกเบอร์โทรเป็นตัวเลข !");
+    }
     $query = "UPDATE member SET ";
     $query .= "member_id=$id_sub,member_user='$member_user',member_pass='$member_pass',";
     $query .= "member_name='$member_name',member_identification='$member_identification',member_address='$member_address',";
@@ -172,11 +186,13 @@ if ($_REQUEST['show_table_member'] == 1) {
             ?>
             <?php $member_id = "M" . $member['member_id']; ?>
             <tr class="member_id_<?= $member['member_id'] ?>">
-                <td><?= $member_id ?></td>
                 <td>
                     <a title="ต้องการแก้ไข คลิ๊ก!" onclick="show_update_member(<?= $member['member_id'] ?>, 70, 0,<?= $start_row ?>,<?= $end_row ?>);">
-                        <?= $member['member_name'] ?>
+                        <?= $member_id ?>
                     </a>
+                </td>
+                <td>
+                    <?= $member['member_name'] ?>
                 </td>
                 <td class="show_date"><?= $member['member_user'] ?></td>
                 <td class="show_date"><?= $member['input_date'] ?></td>
