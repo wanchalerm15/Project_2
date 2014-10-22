@@ -125,6 +125,15 @@ INDEX
                                                                 </a>
                                                             </p>
                                                         </div>  
+                                                    <?php } elseif ($order['order_status'] == 3) { ?>
+                                                        <div style="background-color: rgba(0,150,0,.5);padding: 5px;border-radius: 5px;color: #FFF;">
+                                                            <?= order_status($order['order_status']) ?> <br />
+                                                            <p>
+                                                                <a style="font-size: 12px;color: #FFF;">                                                 
+                                                                    ยังไม่มีพนักงานรับ Order
+                                                                </a>
+                                                            </p>
+                                                        </div>
                                                     <?php } else { ?>
                                                         <div style="background-color: rgba(0,120,150,.5);padding: 5px;border-radius: 5px;color: #FFF;">
                                                             <?= order_status($order['order_status']) ?>

@@ -28,9 +28,10 @@ INDEX
             <?php
             $query_product = "select * from product";
             $result_product = mysql_query($query_product);
-            $query = "select order_id,order_date from order_music where member_id=$member_id_session order by order_id desc limit 0,1";
-            list($order_id, $order_date) = mysql_fetch_row(mysql_query($query));
-
+            $query = "select max(order_id) from order_music where member_id=$member_id_session";
+            list($order_id) = mysql_fetch_row(mysql_query($query));
+            $queryDate = "select order_date from order_music where order_id=$order_id";
+            list($order_date) = mysql_fetch_array(mysql_query($queryDate));
             define(ORDER_ID, $order_id);
             define(ORDER_DATE, $order_date);
             $order_index = 0;
@@ -39,7 +40,7 @@ INDEX
                     if (!empty($_SESSION['session_unit_product'][$index1])) {
                         if ($_SESSION['session_add_product'][$index1] == $rowProduct['product_id']) {
                             $orderDetail_array[$order_index] = array(
-                                'order_id' => $order_id,
+                                'order_id' => ORDER_ID,
                                 'order_product_id' => $_SESSION['session_add_product'][$index1],
                                 'unit_price' => $_SESSION['session_unit_product'][$index1],
                                 'cost' => $_SESSION['order_cost'][$index1]
@@ -302,8 +303,8 @@ INDEX
                                         <input type="hidden" name="upload" value="<?= $unit_ALL ?>"> 
                                         <input type="hidden" name="amount" value="<?= number_format($sumPriceALL_Tax_Cost, 2) ?>"> 
                                         <input type="hidden" name="invoice" value="Order-Number:<?= ORDER_ID ?>/<?= ORDER_DATE ?>">
-                                        <input type="hidden" name="return" value="http://localhost/Website_selling_musical_intrusment_PROJECT/order_pays.php?status=1"> 
-                                        <input type="hidden" name="cancel_return" value="http://localhost/Website_selling_musical_intrusment_PROJECT/order_pays.php?status=2"> 
+                                        <input type="hidden" name="return" value="http://localhost/Website_selling_musical_intrusment_PROJECT/order_pays.php?status=1&order_id_requet=<?= ORDER_ID ?>"> 
+                                        <input type="hidden" name="cancel_return" value="http://localhost/Website_selling_musical_intrusment_PROJECT/order_pays.php?status=2&order_id_requet=<?= ORDER_ID ?>"> 
                                         <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
                                         <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
                                     </form>
@@ -355,10 +356,10 @@ INDEX
 <?php
 if (isset($_GET['status'])) {
     if ($_GET['status'] == 1) {
-        $update_orderDetail = "UPDATE order_music SET order_status=3,order_date=NOW() WHERE order_id=" . ORDER_ID;
+        $update_orderDetail = "UPDATE order_music SET order_status=3,order_date=NOW() WHERE order_id=" . $_GET['order_id_requet'];
         mysql_query($update_orderDetail);
     } elseif ($_GET['status'] == 2) {
-        $update_orderDetail = "UPDATE order_music SET order_status=4,order_date=NOW() WHERE order_id=" . ORDER_ID;
+        $update_orderDetail = "UPDATE order_music SET order_status=4,order_date=NOW() WHERE order_id=" . $_GET['order_id_requet'];
         mysql_query($update_orderDetail);
     }
     echo "<script>location='http://localhost/Website_selling_musical_intrusment_PROJECT/order_pays.php?step=4'</script>";
